@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_blank">
+
+    <fragment
+        android:id="@+id/nav_main"
+        android:name="com.maxcropdata.maxcropemployee.view.MainMenuFragment"
+        android:label="@string/menu_main"
+        tools:layout="@layout/fragment_main_menu" />
+
+    <fragment
+        android:id="@+id/nav_account"
+        android:name="com.maxcropdata.maxcropemployee.view.AccountSettingsFragment"
+        android:label="@string/menu_account"
+        tools:layout="@layout/fragment_account_settings" />
+
+    <fragment
+        android:id="@+id/nav_server"
+        android:name="com.maxcropdata.maxcropemployee.view.ServerSettingsFragment"
+        android:label="@string/menu_server"
+        tools:layout="@layout/fragment_server_settings" />
+
+    <fragment
+        android:id="@+id/nav_filter_data"
+        android:name="com.maxcropdata.maxcropemployee.view.ShowDataFilterFragment"
+        android:label="@string/menu_filter_data"
+        tools:layout="@layout/fragment_show_data_filter" />
+
+    <fragment
+        android:id="@+id/nav_issue"
+        android:name="com.maxcropdata.maxcropemployee.view.ShowIssuesFragment"
+        android:label="@string/menu_issues"
+        tools:layout="@layout/fragment_show_issues" />
+
+    <fragment
+        android:id="@+id/nav_blank"
+        android:name="com.maxcropdata.maxcropemployee.view.BlankFragment"
+        android:label="@string/menu_main"
+        tools:layout="@layout/fragment_blank" />
+
+</navigation>

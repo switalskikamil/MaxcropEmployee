@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Maxcrop Mobile Employee</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_main">Main menu</string>
+    <string name="menu_filter_data">Generate reports</string>
+    <string name="menu_account">Account settings</string>
+    <string name="menu_server">Server settings</string>
+    <string name="menu_issues">Show reported issues</string>
+    <string name="label_version">version:</string>
+</resources>
