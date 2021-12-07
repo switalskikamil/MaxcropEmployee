@@ -1,12 +1,17 @@
 package com.maxcropdata.maxcropemployee.shared.utils;
 
+import com.maxcropdata.maxcropemployee.model.issue.Issue;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class JSONService {
 
@@ -22,8 +27,8 @@ public class JSONService {
 
             sb.append(
                     JSONService.formatAsJSONNode(f.getName(), f.get(o))
-            );
 
+            );
             isAtLeastOneElement = true;
         }
         if (isAtLeastOneElement) sb.setLength(sb.length()-1);
@@ -56,6 +61,7 @@ public class JSONService {
 
         sb.append(",");
         return sb.toString();
+
     }
 
 
@@ -77,4 +83,34 @@ public class JSONService {
         }
     }
 
+    public static String listToJSON(List<?> list) throws IllegalAccessException {
+        StringBuilder sb = new StringBuilder();
+        boolean isAtLeastOneElement = false;
+
+        sb.append("[");
+
+        for (Object i : list) {
+            sb.append(formatAsJSON(i));
+            sb.append(",");
+            isAtLeastOneElement = true;
+        }
+
+        if (isAtLeastOneElement) sb.setLength(sb.length()-1);
+        sb.append("]");
+
+        return sb.toString();
+    }
+
+    public static List<?> readJSONArrayIntoList(JSONArray jsonArray, Class recordType) throws InstantiationException, IllegalAccessException, JSONException {
+        List<Object> list = new ArrayList<>();
+        for (int i = 0; i < jsonArray.length(); i++ ) {
+            Object o = recordType.newInstance();
+
+            readJSONIntoObject(jsonArray.getJSONObject(i), o);
+
+            list.add(o);
+        }
+        return list;
+
+    }
 }

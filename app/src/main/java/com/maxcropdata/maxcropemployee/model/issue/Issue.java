@@ -15,13 +15,6 @@ public class Issue {
 
     }
 
-    public Issue(long issueDbId, String fieldCode, String issueDetails, long idAccount, Date reportedDay) {
-        this.issueDbId = issueDbId;
-        this.fieldCode = fieldCode;
-        this.issueDetails = issueDetails;
-        this.idAccount = idAccount;
-        this.reportedDay = reportedDay;
-    }
 
     private Issue(Builder builder) {
         this.issueDbId = builder.issueDbId;

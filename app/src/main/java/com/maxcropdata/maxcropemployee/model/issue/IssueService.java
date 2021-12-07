@@ -3,8 +3,11 @@ package com.maxcropdata.maxcropemployee.model.issue;
 import com.maxcropdata.maxcropemployee.shared.interfaces.JSONAble;
 import com.maxcropdata.maxcropemployee.shared.utils.JSONService;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.List;
 
 public class IssueService implements JSONAble<Issue> {
     @Override
@@ -19,5 +22,13 @@ public class IssueService implements JSONAble<Issue> {
         JSONService.readJSONIntoObject(json, issue);
 
         return issue;
+    }
+
+    public String allToJSON(List<Issue> issues) throws IllegalAccessException {
+        return JSONService.listToJSON(issues);
+    }
+
+    public  List<Issue> allFromJSON(JSONArray jsonArray) throws IllegalAccessException, JSONException, InstantiationException {
+        return (List<Issue>) JSONService.readJSONArrayIntoList(jsonArray, Issue.class);
     }
 }
