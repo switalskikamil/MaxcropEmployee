@@ -16,17 +16,20 @@ public class RegistrationFormServiceTest {
 
     final RegistrationFormService underTest = new RegistrationFormService();
 
+    final RegistrationForm registrationForm = new RegistrationForm.Builder()
+            .dateOfBirth(Helper.DATE_FORMAT.parse("2021-01-01"))
+            .desiredPlainPassword("cojest123")
+            .name("Kamil")
+            .lastName("Świtalski")
+            .employerCode(301)
+            .build();
+
+    public RegistrationFormServiceTest() throws ParseException {
+    }
+
     @Test
     public void isGeneratingValidSalt() throws ParseException {
         // given
-        final RegistrationForm registrationForm = new RegistrationForm.Builder()
-                .dateOfBirth(Helper.DATE_FORMAT.parse("2021-01-01"))
-                .desiredPlainPassword("cojest123")
-                .name("Kamil")
-                .lastName("Świtalski")
-                .employerCode(301)
-                .build();
-
         String expectedSalt = "-1707259816";
 
 
@@ -41,14 +44,6 @@ public class RegistrationFormServiceTest {
     @Test
     public void isProducingProperHash() throws ParseException {
         // given
-        final RegistrationForm registrationForm = new RegistrationForm.Builder()
-                .dateOfBirth(Helper.DATE_FORMAT.parse("2021-01-01"))
-                .desiredPlainPassword("cojest123")
-                .name("Kamil")
-                .lastName("Świtalski")
-                .employerCode(301)
-                .build();
-
         String expectedHash = "b0515cfefdc4fd9077a2bfa8d417e3027b1f8378aab5b435db6442c459bfeff1";
 
 
@@ -70,14 +65,6 @@ public class RegistrationFormServiceTest {
     @Test
     public void isGeneratingAsProperJSON() throws ParseException {
         // given
-        final RegistrationForm registrationForm = new RegistrationForm.Builder()
-                .dateOfBirth(Helper.DATE_FORMAT.parse("2021-01-01"))
-                .desiredPlainPassword("cojest123")
-                .name("Kamil")
-                .lastName("Świtalski")
-                .employerCode(301)
-                .build();
-
         String expectedJSON = "{\"name\":\"Kamil\",\"lastName\":\"Świtalski\",\"employerCode\":301,\"dateOfBirth\":1609455600000,\"desiredHashedPassword\":\"b0515cfefdc4fd9077a2bfa8d417e3027b1f8378aab5b435db6442c459bfeff1\"}";
 
         try {
@@ -98,14 +85,6 @@ public class RegistrationFormServiceTest {
     @Test
     public void isReadingFromJSON() throws ParseException, UnsupportedEncodingException, NoSuchAlgorithmException, NoSuchFieldException, IllegalAccessException, JSONException {
         // given
-        final RegistrationForm registrationForm = new RegistrationForm.Builder()
-                .dateOfBirth(Helper.DATE_FORMAT.parse("2021-01-01"))
-                .desiredPlainPassword("cojest123")
-                .name("Kamil")
-                .lastName("Świtalski")
-                .employerCode(301)
-                .build();
-
 
 
         // when
