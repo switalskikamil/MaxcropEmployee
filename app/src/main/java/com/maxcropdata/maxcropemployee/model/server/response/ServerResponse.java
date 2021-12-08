@@ -40,4 +40,6 @@ public abstract class ServerResponse {
     public int getResponseCode() {
         return responseCode;
     }
+
+
 }

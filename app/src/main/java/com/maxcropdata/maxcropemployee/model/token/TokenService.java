@@ -7,6 +7,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class TokenService implements JSONAble<Token> {
+
+    private static TokenService instance = new TokenService();
+
+    public static TokenService getInstance() {
+        return instance;
+    }
+
     @Override
     public String toJSON(Token s) throws IllegalAccessException {
         return JSONService.formatAsJSON(s);

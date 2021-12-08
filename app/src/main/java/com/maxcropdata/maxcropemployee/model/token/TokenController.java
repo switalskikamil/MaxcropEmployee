@@ -16,6 +16,8 @@ public class TokenController {
 
         token.setIdAccount(account.getAccountId());
 
+        token.setLogin(account.getLogin());
+
         token.setAuthorizationString(TokenController.authorizeToken(token, account));
 
         return token;

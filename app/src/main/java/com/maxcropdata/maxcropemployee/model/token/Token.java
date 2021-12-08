@@ -10,16 +10,12 @@ public class Token {
     private Date requestDate;
     private String authorizationString;
     private long idAccount;
+    private String login;
 
     public Token() {
 
     }
 
-    public Token(Date requestDate, String authorizationString, long idAccount) {
-        this.requestDate = requestDate;
-        this.authorizationString = authorizationString;
-        this.idAccount = idAccount;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -28,12 +24,21 @@ public class Token {
         Token token = (Token) o;
         return idAccount == token.idAccount &&
                 Objects.equals(requestDate, token.requestDate) &&
-                Objects.equals(authorizationString, token.authorizationString);
+                Objects.equals(authorizationString, token.authorizationString) &&
+                Objects.equals(login, token.login);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(requestDate, authorizationString, idAccount);
+        return Objects.hash(requestDate, authorizationString, idAccount, login);
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public Date getRequestDate() {
