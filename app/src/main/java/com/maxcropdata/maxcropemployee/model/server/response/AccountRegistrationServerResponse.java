@@ -15,7 +15,11 @@ public class AccountRegistrationServerResponse extends ServerResponse {
     }
 
     @Override
-    public void readResponse() throws RequestUnathorizedException, ResponseMalformedException, UexpectedResponseStatusException {
+    public void readResponse() throws
+            RequestUnathorizedException,
+            ResponseMalformedException,
+            UexpectedResponseStatusException,
+            AccountAlreadyExistsException {
 
         if (super.processResponse()) {
             this.account = new Account();

@@ -32,7 +32,7 @@ public class IssueController {
         return readIssuesFromFileSystem(context, FILE_NAME);
     }
 
-    private static List<Issue> readIssuesFromFileSystem(Context context, String fileName) throws IllegalAccessException, JSONException, InstantiationException {
+    public static List<Issue> readIssuesFromFileSystem(Context context, String fileName) throws IllegalAccessException, JSONException, InstantiationException {
         IssueService service = new IssueService();
 
         String file = FileManager.readFileFromStorage(context, fileName);

@@ -13,7 +13,7 @@ public class AccountRegistrationServerRequest extends ServerRequest {
 
 
     public AccountRegistrationServerRequest(Token authToken, String payload, Server server, AsyncResponseProcessor delegatedProcessor) {
-        super(authToken, payload, server, delegatedProcessor, MethodType.POST, END_POINT);
+        super(authToken, payload, server, delegatedProcessor, MethodType.GET, END_POINT);
     }
 
     @Override

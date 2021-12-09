@@ -14,13 +14,20 @@ public abstract class ServerResponse {
         this.jsonResponse = jsonResponse;
     }
 
-    public boolean processResponse() throws RequestUnathorizedException, UexpectedResponseStatusException {
+    public boolean processResponse() throws
+            RequestUnathorizedException,
+            UexpectedResponseStatusException,
+            ResponseMalformedException,
+            AccountAlreadyExistsException {
+
         if (getResponseCode() == HttpsURLConnection.HTTP_OK) {
-
             return true;
-
         } else if (getResponseCode() == HttpsURLConnection.HTTP_UNAUTHORIZED) {
             throw new RequestUnathorizedException("Request has not been authorized");
+        } else if (getResponseCode() == HttpsURLConnection.HTTP_INTERNAL_ERROR) {
+            throw new ResponseMalformedException("Server could not read the request");
+        } else if (getResponseCode() == HttpsURLConnection.HTTP_CONFLICT) {
+            throw new AccountAlreadyExistsException("Account for this user already exists");
         } else {
             throw new UexpectedResponseStatusException("Unexpected response status code: " + getResponseCode());
         }
@@ -29,7 +36,7 @@ public abstract class ServerResponse {
     /**
      * Reads the json response into response specific fields
      */
-    public abstract void readResponse() throws RequestUnathorizedException, ResponseMalformedException, UexpectedResponseStatusException;
+    public abstract void readResponse() throws RequestUnathorizedException, ResponseMalformedException, UexpectedResponseStatusException, AccountAlreadyExistsException;
 
 
     public String getJsonResponse() {

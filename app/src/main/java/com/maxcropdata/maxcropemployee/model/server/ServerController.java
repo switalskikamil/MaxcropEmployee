@@ -2,14 +2,20 @@ package com.maxcropdata.maxcropemployee.model.server;
 
 import android.content.Context;
 
+import com.maxcropdata.maxcropemployee.model.server.request.ServerRequest;
 import com.maxcropdata.maxcropemployee.shared.utils.FileManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ServerController {
-    public static final String FILE_NAME = "server_config.json";
+    static final String FILE_NAME = "server_config.json";
 
+    private static ServerController instance = new ServerController();
+
+    public static ServerController getInstance() {
+        return instance;
+    }
 
     /**
      * @param context Application context
@@ -44,15 +50,17 @@ public class ServerController {
             String fileName
     ) throws JSONException, IllegalAccessException {
 
-        ServerService service = new ServerService();
-
         String file = FileManager.readFileFromStorage(context, fileName);
 
         if (file != null) {
-            return service.fromJSON(new JSONObject(file));
+            return ServerService.getInstance().fromJSON(new JSONObject(file));
         } else {
             return ServerService.getDefaultServer();
         }
+    }
+
+    public void executeServerRequest(ServerRequest serverRequest) {
+        ServerService.getInstance().executeServerRequest(serverRequest);
     }
 
 }

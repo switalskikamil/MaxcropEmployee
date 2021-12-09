@@ -9,6 +9,7 @@ public class Server {
     private String webserviceAddress;
     private String database;
 
+
     public Server() {
 
     }

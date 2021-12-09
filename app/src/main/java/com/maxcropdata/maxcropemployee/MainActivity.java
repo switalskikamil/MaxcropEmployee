@@ -5,11 +5,27 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
+import com.maxcropdata.maxcropemployee.model.account.Account;
+import com.maxcropdata.maxcropemployee.model.account.AccountController;
+import com.maxcropdata.maxcropemployee.model.issue.Issue;
+import com.maxcropdata.maxcropemployee.model.report.Report;
+import com.maxcropdata.maxcropemployee.model.server.Server;
+import com.maxcropdata.maxcropemployee.model.server.response.AccountAlreadyExistsException;
+import com.maxcropdata.maxcropemployee.model.server.response.AccountRegistrationServerResponse;
+import com.maxcropdata.maxcropemployee.model.server.response.ReportsForDatesServerResponse;
+import com.maxcropdata.maxcropemployee.model.server.response.RequestUnathorizedException;
+import com.maxcropdata.maxcropemployee.model.server.response.ResponseMalformedException;
+import com.maxcropdata.maxcropemployee.model.server.response.ServerResponse;
+import com.maxcropdata.maxcropemployee.model.server.response.UexpectedResponseStatusException;
+import com.maxcropdata.maxcropemployee.shared.interfaces.AsyncResponseProcessor;
 import com.maxcropdata.maxcropemployee.view.AccountSettingsFragment;
 import com.maxcropdata.maxcropemployee.view.MainMenuFragment;
 import com.maxcropdata.maxcropemployee.view.ServerSettingsFragment;
 import com.maxcropdata.maxcropemployee.view.ShowDataFilterFragment;
 import com.maxcropdata.maxcropemployee.view.ShowIssuesFragment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -20,8 +36,14 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener,
+        AsyncResponseProcessor {
 
+    private Account userAccount;
+    private Server server;
+    private List<Issue> savedIssues;
+    private List<Report> savedReports;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,5 +119,45 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+    @Override
+    public void processFinish(ServerResponse response) {
+        try {
+            if (response instanceof ReportsForDatesServerResponse)
+                processReportsForDatesServerResponse((ReportsForDatesServerResponse) response);
+            else if (response instanceof AccountRegistrationServerResponse)
+                processAccountRegistrationServerResponse((AccountRegistrationServerResponse) response);
+
+        } catch (UexpectedResponseStatusException | ResponseMalformedException | RequestUnathorizedException | AccountAlreadyExistsException e) {
+            e.printStackTrace();
+            //TODO: dialogs for each type of errors
+        }
+    }
+
+    private void processReportsForDatesServerResponse(ReportsForDatesServerResponse response)
+            throws UexpectedResponseStatusException,
+            ResponseMalformedException,
+            RequestUnathorizedException,
+            AccountAlreadyExistsException {
+        response.readResponse();
+
+        List<Report> reports = response.getReportsList();
+
+        savedReports = new ArrayList<>();
+        savedReports.addAll(reports);
+        //TODO: we could just add reports to existing list, but we need to first remove some by date
+        //TODO: open ShowDataByDayFilter and pass reports as argument
+    }
+
+    private void processAccountRegistrationServerResponse(AccountRegistrationServerResponse response)
+            throws UexpectedResponseStatusException,
+            ResponseMalformedException,
+            RequestUnathorizedException,
+            AccountAlreadyExistsException {
+        response.readResponse();
+
+        AccountController.mergeWithRegistrationResponse(userAccount, response);
     }
 }
