@@ -105,6 +105,12 @@ public class Account {
         return Objects.hash(workerId, password, login, accountId, expirationDate, name, lastName);
     }
 
+    public String toShortString() {
+        if (this.getName() != null
+        && this.getLastName() != null) return this.getName() + " " + this.getLastName();
+        return "---";
+    }
+
     public static class Builder {
         private long workerId;
         private String password;

@@ -23,8 +23,8 @@ public class RegistrationFormControllerTest {
                 .employerCode(301)
                 .build();
 
-        String expectedSalt = "-1707259816";
-        String expectedPasswordHash = "b0515cfefdc4fd9077a2bfa8d417e3027b1f8378aab5b435db6442c459bfeff1";
+        String expectedSalt = "810sdk10di21332455691";
+        String expectedPasswordHash = "e989e070abc0e1d5b0fba29881ef4c9db34765fbaf57c148553a19fa5e490db7";
 
         // when
         RegistrationFormController.processRegistrationForm(registrationForm);

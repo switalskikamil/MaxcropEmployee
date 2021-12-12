@@ -1,5 +1,8 @@
 package com.maxcropdata.maxcropemployee.shared.utils;
 
+import com.maxcropdata.maxcropemployee.model.account.Account;
+import com.maxcropdata.maxcropemployee.model.registrationform.RegistrationForm;
+
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -9,6 +12,8 @@ import java.security.NoSuchAlgorithmException;
  */
 
 public class PasswordUtils {
+
+    private static final String SALT_PREF = "810sdk10di2";
 
     public static String plainPasswordToPasswordHash(final String password) throws NoSuchAlgorithmException,
             UnsupportedEncodingException {
@@ -31,5 +36,13 @@ public class PasswordUtils {
             hexChars[j * 2 + 1] = hexArray[v & 0x0F];
         }
         return new String(hexChars);
+    }
+
+    public static String generateSaltForLogin(String login) {
+        return SALT_PREF + (login.substring(0, login.lastIndexOf("#"))).hashCode();
+    }
+
+    public static String generateSaltForRegistrationForm(RegistrationForm registrationForm) {
+        return SALT_PREF + (registrationForm.getName() + "." + registrationForm.getLastName()).toLowerCase().hashCode();
     }
 }

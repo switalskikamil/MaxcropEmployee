@@ -35,7 +35,11 @@ public class AccountRegistrationServerResponseTest {
     }
 
     @Test(expected = RequestUnathorizedException.class)
-    public void isReadingStatusUnauthorizedResponseProperly() throws RequestUnathorizedException, ResponseMalformedException, UexpectedResponseStatusException {
+    public void isReadingStatusUnauthorizedResponseProperly()
+            throws RequestUnathorizedException,
+            ResponseMalformedException,
+            UexpectedResponseStatusException,
+            AccountAlreadyExistsException {
         // given
         underTest = new AccountRegistrationServerResponse(HttpURLConnection.HTTP_UNAUTHORIZED, testResponse);
 
@@ -47,7 +51,11 @@ public class AccountRegistrationServerResponseTest {
     }
 
     @Test(expected = UexpectedResponseStatusException.class)
-    public void isReadingStatusUnknownResponseProperly() throws UexpectedResponseStatusException, ResponseMalformedException, RequestUnathorizedException {
+    public void isReadingStatusUnknownResponseProperly()
+            throws UexpectedResponseStatusException,
+            ResponseMalformedException,
+            RequestUnathorizedException,
+            AccountAlreadyExistsException {
         // given
         underTest = new AccountRegistrationServerResponse(HttpURLConnection.HTTP_BAD_GATEWAY, testResponse);
 

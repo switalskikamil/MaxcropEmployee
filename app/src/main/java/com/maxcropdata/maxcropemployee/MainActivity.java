@@ -160,4 +160,8 @@ public class MainActivity extends AppCompatActivity
 
         AccountController.mergeWithRegistrationResponse(userAccount, response);
     }
+
+    public Account getUserAccount() {
+        return this.userAccount;
+    }
 }

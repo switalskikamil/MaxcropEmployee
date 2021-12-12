@@ -50,10 +50,6 @@ public class RegistrationForm {
         return Objects.hash(name, lastName, employerCode, desiredHashedPassword, desiredPlainPassword, generatedSalt, dateOfBirth);
     }
 
-    public String getBaseDataForSalt() {
-        return (name + ":" + lastName +":" + Helper.DATE_FORMAT.format(dateOfBirth)).toLowerCase();
-    }
-
     public String getName() {
         return name;
     }

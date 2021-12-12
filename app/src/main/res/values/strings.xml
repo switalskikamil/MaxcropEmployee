@@ -13,4 +13,8 @@
     <string name="menu_server">Server settings</string>
     <string name="menu_issues">Show reported issues</string>
     <string name="label_version">version:</string>
+    <string name="already_have_acc">I already have account</string>
+    <string name="want_to_register">I want to register new account</string>
+    <string name="welcome_info">If You already have account You can proceed to login. Otherwise You have to register account first (providing Your Employer Code will be required).</string>
+    <string name="logged_as">Logged as:</string>
 </resources>

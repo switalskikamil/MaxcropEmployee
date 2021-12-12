@@ -14,6 +14,7 @@ import java.security.NoSuchAlgorithmException;
 public class RegistrationFormService implements JSONAble<RegistrationForm> {
 
 
+
     /**
      * Generating salt based on name, last name and date of birth
      * method of generating must be identical on all devices as
@@ -21,13 +22,14 @@ public class RegistrationFormService implements JSONAble<RegistrationForm> {
      * @param registrationForm registration form that will have its salt filled
      */
     static void generateSalt(RegistrationForm registrationForm) {
-        String base = registrationForm.getBaseDataForSalt();
-        registrationForm.setGeneratedSalt(String.valueOf(base.hashCode()));
+        registrationForm.setGeneratedSalt(PasswordUtils.generateSaltForRegistrationForm(registrationForm));
     }
 
     static void hashPassword(RegistrationForm registrationForm) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         registrationForm.setDesiredHashedPassword(PasswordUtils.plainPasswordToPasswordHash(registrationForm.getDesiredPlainPassword() + registrationForm.getGeneratedSalt()));
     }
+
+
 
 
     public String toJSON(RegistrationForm registrationForm) throws IllegalAccessException, NoSuchFieldException {

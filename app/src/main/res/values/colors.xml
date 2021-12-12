@@ -3,4 +3,17 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="blueTileBg">#1847FF</color>
+    <color name="whiteFont">#F1F1F1</color>
+    <color name="orangeFont">#C22902</color>
+    <color name="orangeLight">#F58040</color>
+    <color name="selecterBg">#FFDC80</color>
+    <color name="inputBg">#E5FFCD</color>
+    <color name="workerSelectBg">#9ED8FF</color>
+    <color name="workerNameText">#0077DF</color>
+    <color name="greenBg">#06810B</color>
+    <color name="goBackFont">#706463</color>
+    <color name="black">#000</color>
+    <color name="dark">#222222</color>
+    <color name="red">#B10202</color>
 </resources>

@@ -7,6 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class IssueService implements JSONAble<Issue> {
@@ -24,11 +25,11 @@ public class IssueService implements JSONAble<Issue> {
         return issue;
     }
 
-    public String allToJSON(List<Issue> issues) throws IllegalAccessException {
+    String allToJSON(List<Issue> issues) throws IllegalAccessException {
         return JSONService.listToJSON(issues);
     }
 
-    public  List<Issue> allFromJSON(JSONArray jsonArray) throws IllegalAccessException, JSONException, InstantiationException {
-        return (List<Issue>) JSONService.readJSONArrayIntoList(jsonArray, Issue.class);
+    List<Issue> allFromJSON(JSONArray jsonArray) throws IllegalAccessException, JSONException, InstantiationException {
+        return (ArrayList<Issue>) JSONService.readJSONArrayIntoList(jsonArray, Issue.class);
     }
 }
