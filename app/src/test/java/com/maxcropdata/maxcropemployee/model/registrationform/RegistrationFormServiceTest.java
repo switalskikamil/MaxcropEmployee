@@ -28,20 +28,6 @@ public class RegistrationFormServiceTest {
     }
 
     @Test
-    public void isGeneratingValidSalt() throws ParseException {
-        // given
-        String expectedSalt = "810sdk10di21332455691";
-
-
-        // when
-        RegistrationFormService.generateSalt(registrationForm);
-
-
-        // then
-        assertEquals(expectedSalt, registrationForm.getGeneratedSalt());
-    }
-
-    @Test
     public void isProducingProperHash() throws ParseException {
         // given
         String expectedHash = "e989e070abc0e1d5b0fba29881ef4c9db34765fbaf57c148553a19fa5e490db7";
@@ -49,8 +35,6 @@ public class RegistrationFormServiceTest {
 
         try {
             // when
-            RegistrationFormService.generateSalt(registrationForm);
-
             RegistrationFormService.hashPassword(registrationForm);
 
 
@@ -88,8 +72,6 @@ public class RegistrationFormServiceTest {
 
 
         // when
-        RegistrationFormService.generateSalt(registrationForm);
-
         RegistrationFormService.hashPassword(registrationForm);
 
 

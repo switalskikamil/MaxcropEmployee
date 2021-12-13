@@ -6,6 +6,8 @@ import com.maxcropdata.maxcropemployee.model.registrationform.RegistrationForm;
 import com.maxcropdata.maxcropemployee.model.registrationform.RegistrationFormController;
 import com.maxcropdata.maxcropemployee.model.server.response.AccountRegistrationServerResponse;
 import com.maxcropdata.maxcropemployee.shared.utils.FileManager;
+import com.maxcropdata.maxcropemployee.shared.utils.PasswordUtils;
+import com.maxcropdata.maxcropemployee.view.AccountSettingsFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,6 +17,8 @@ import java.security.NoSuchAlgorithmException;
 
 public class AccountController {
     public static final String FILE_NAME = "account.json";
+    public static final int MIN_PASSWORD_LENGTH = 8;
+    public static final int MIN_LOGIN_LENGTH = 5;
 
 
     public static Account prepareAccount(RegistrationForm registrationForm) throws UnsupportedEncodingException, NoSuchAlgorithmException {
@@ -76,4 +80,20 @@ public class AccountController {
     }
 
 
+    public static boolean loginAccount(String login, String plainPassword, Account account)
+            throws UnsupportedEncodingException, NoSuchAlgorithmException {
+
+        if (account == null) account = new Account();
+
+        if (login != null && login.length() > MIN_LOGIN_LENGTH) account.setLogin(login);
+        else return false;
+
+        if (plainPassword != null &&
+            plainPassword != AccountSettingsFragment.PSWD_PLACEHOLDER &&
+            plainPassword.length() > MIN_PASSWORD_LENGTH) {
+            account.setPassword(PasswordUtils.generatePassword(account.getLogin(), plainPassword));
+        } else return false;
+
+        return true;
+    }
 }

@@ -17,4 +17,17 @@
     <string name="want_to_register">I want to register new account</string>
     <string name="welcome_info">If You already have account You can proceed to login. Otherwise You have to register account first (providing Your Employer Code will be required).</string>
     <string name="logged_as">Logged as:</string>
+    <string name="hint_login">Enter your login</string>
+    <string name="hint_password">Enter password</string>
+    <string name="label_save">Save</string>
+    <string name="label_cancel">Cancel</string>
+    <string name="login_or_password_too_short">Login or password too short!</string>
+    <string name="user_name">Name</string>
+    <string name="user_last_name">Last name</string>
+    <string name="user_birth_date">Birthdate</string>
+    <string name="user_password">Password</string>
+    <string name="user_repeat_password">Repeat password</string>
+    <string name="hint_repeat_password">Repeat password</string>
+    <string name="user_employer_code">Employer code</string>
+    <string name="label_verify">Verify</string>
 </resources>

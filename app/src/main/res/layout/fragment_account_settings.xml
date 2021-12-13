@@ -4,16 +4,121 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/text_home"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent"
+
+        >
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="match_parent"
+            android:layout_height="156dp"
+            android:layout_gravity="end|center_vertical"
+            android:background="#fff"
+            app:srcCompat="@drawable/logo_340" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp">
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp">
+
+            <ImageView
+                app:srcCompat="@drawable/user"
+                android:id="@+id/imageView6"
+                android:layout_weight="1"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="end|center_vertical"/>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:ems="10"
+                android:id="@+id/loginEdit"
+                android:layout_weight="1"
+                android:textSize="16sp"
+                android:hint="@string/hint_login"
+                android:gravity="center"
+                android:layout_gravity="center_vertical"
+                android:inputType="text" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:srcCompat="@drawable/key"
+                android:id="@+id/imageView7"
+                android:layout_weight="1" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:inputType="textPassword"
+                android:ems="10"
+                android:id="@+id/passwordEdit"
+                android:layout_weight="1"
+                android:hint="@string/hint_password"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:layout_gravity="center_vertical"/>
+
+        </LinearLayout>
+
+
+        <Button
+            android:text="@string/label_save"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:id="@+id/btn_save_acc"
+            android:layout_marginLeft="14dp"
+            android:layout_marginRight="14dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="10dp"
+
+            />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:layout_marginBottom="12dp"
+            android:layout_marginLeft="14dp"
+            android:layout_marginRight="14dp"
+            >
+            <Button
+                android:text="@string/label_cancel"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:id="@+id/btn_cancel_acc"
+                android:layout_marginTop="0dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"/>
+
+            <Button
+                android:text="@string/menu_server"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:id="@+id/btn_server_settings"
+                android:layout_marginTop="0dp"
+                android:layout_weight="1"/>
+        </LinearLayout>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,7 +7,7 @@ public class RegistrationFormController {
 
     public static RegistrationForm processRegistrationForm(RegistrationForm registrationForm) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         // generate salt
-        RegistrationFormService.generateSalt(registrationForm);
+        //RegistrationFormService.generateSalt(registrationForm);
 
         // generate password
         RegistrationFormService.hashPassword(registrationForm);

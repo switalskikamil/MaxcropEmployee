@@ -15,7 +15,7 @@ public class PasswordUtils {
 
     private static final String SALT_PREF = "810sdk10di2";
 
-    public static String plainPasswordToPasswordHash(final String password) throws NoSuchAlgorithmException,
+    public static String toSHA256(final String password) throws NoSuchAlgorithmException,
             UnsupportedEncodingException {
         if (password == null || "".equals(password)) {
             throw new IllegalArgumentException("password cannot be null or empty");
@@ -38,11 +38,26 @@ public class PasswordUtils {
         return new String(hexChars);
     }
 
-    public static String generateSaltForLogin(String login) {
+    private static String generateSaltForLogin(String login) {
         return SALT_PREF + (login.substring(0, login.lastIndexOf("#"))).hashCode();
     }
 
-    public static String generateSaltForRegistrationForm(RegistrationForm registrationForm) {
+    private static String generateSaltForRegistrationForm(RegistrationForm registrationForm) {
         return SALT_PREF + (registrationForm.getName() + "." + registrationForm.getLastName()).toLowerCase().hashCode();
+    }
+
+    public static String generatePassword(String login, String plainPassword)
+            throws UnsupportedEncodingException, NoSuchAlgorithmException {
+        return PasswordUtils.toSHA256(plainPassword + generateSaltForLogin(login));
+    }
+
+    public static String generatePassword(RegistrationForm registrationForm)
+            throws UnsupportedEncodingException, NoSuchAlgorithmException {
+
+        registrationForm.setGeneratedSalt(PasswordUtils.generateSaltForRegistrationForm(registrationForm));
+
+        return PasswordUtils.toSHA256(
+                registrationForm.getDesiredPlainPassword() +
+                        registrationForm.getGeneratedSalt());
     }
 }

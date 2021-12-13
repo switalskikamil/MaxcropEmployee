@@ -26,8 +26,5 @@ public class AccountService implements JSONAble<Account> {
         return account;
     }
 
-    static String getSaltFromLogin(String login) {
-        return PasswordUtils.generateSaltForLogin(login);
-    }
 
 }

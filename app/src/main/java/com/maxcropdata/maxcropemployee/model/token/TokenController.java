@@ -29,6 +29,6 @@ public class TokenController {
         it can be easly verfied on the server
      */
     private static String authorizeToken(Token token, Account account) throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        return PasswordUtils.plainPasswordToPasswordHash(account.getPassword() + token.getRequestDate().getTime());
+        return PasswordUtils.toSHA256(account.getPassword() + token.getRequestDate().getTime());
     }
 }

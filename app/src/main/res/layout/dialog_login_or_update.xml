@@ -27,7 +27,7 @@
             android:layout_marginRight="3dp"
             android:layout_marginTop="12dp"
             android:text="@string/already_have_acc"
-            android:id="@+id/skip_update"
+            android:id="@+id/do_login_btn"
             />
 
         <Button
@@ -37,7 +37,7 @@
             android:layout_marginRight="3dp"
             android:layout_marginTop="12dp"
             android:text="@string/want_to_register"
-            android:id="@+id/gdo_update"
+            android:id="@+id/do_register_btn"
             />
     </LinearLayout>
 

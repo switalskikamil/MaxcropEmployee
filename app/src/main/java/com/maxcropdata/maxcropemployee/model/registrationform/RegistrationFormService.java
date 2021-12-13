@@ -21,12 +21,12 @@ public class RegistrationFormService implements JSONAble<RegistrationForm> {
      * the salt wont be stored on the server
      * @param registrationForm registration form that will have its salt filled
      */
-    static void generateSalt(RegistrationForm registrationForm) {
+    /*static void generateSalt(RegistrationForm registrationForm) {
         registrationForm.setGeneratedSalt(PasswordUtils.generateSaltForRegistrationForm(registrationForm));
-    }
+    }*/
 
     static void hashPassword(RegistrationForm registrationForm) throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        registrationForm.setDesiredHashedPassword(PasswordUtils.plainPasswordToPasswordHash(registrationForm.getDesiredPlainPassword() + registrationForm.getGeneratedSalt()));
+        registrationForm.setDesiredHashedPassword(PasswordUtils.generatePassword(registrationForm));
     }
 
 
