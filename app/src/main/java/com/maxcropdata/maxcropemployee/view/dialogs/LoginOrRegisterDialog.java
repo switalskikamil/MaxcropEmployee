@@ -16,12 +16,9 @@ public class LoginOrRegisterDialog extends AppDialog {
     private static final int LAYOUT_ID = R.layout.dialog_login_or_update;
     private Button loginBtn;
     private Button registerBtn;
-    private MainActivity activity;
 
     public LoginOrRegisterDialog(@NonNull MainActivity activity) {
         super(activity, LAYOUT_ID);
-
-        this.activity = activity;
 
         loginBtn = this.findViewById(R.id.do_login_btn);
         registerBtn = this.findViewById(R.id.do_register_btn);

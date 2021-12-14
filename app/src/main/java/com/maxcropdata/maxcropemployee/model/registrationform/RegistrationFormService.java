@@ -13,7 +13,8 @@ import java.security.NoSuchAlgorithmException;
 
 public class RegistrationFormService implements JSONAble<RegistrationForm> {
 
-
+    private static RegistrationFormService instance = new RegistrationFormService();
+    public static RegistrationFormService getInstance() {return instance;}
 
     /**
      * Generating salt based on name, last name and date of birth

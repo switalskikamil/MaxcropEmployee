@@ -2,8 +2,6 @@
     <string name="app_name">Maxcrop Mobile Employee</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
@@ -30,4 +28,7 @@
     <string name="hint_repeat_password">Repeat password</string>
     <string name="user_employer_code">Employer code</string>
     <string name="label_verify">Verify</string>
+    <string name="warning_password_not_match">Password and it\'s confirmation do not match.</string>
+    <string name="warning_password_too_short">Password too short, use min. 8 characters.</string>
+    <string name="warning_wrong_birth_date">You must be full of age to register.</string>
 </resources>

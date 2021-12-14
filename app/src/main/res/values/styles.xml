@@ -6,7 +6,8 @@
         <item name="buttonStyle">@style/ButtonDefault</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="android:datePickerStyle">@style/MyDatePickerStyle</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -29,5 +30,14 @@
         <item name="android:shadowRadius">5</item>
         <item name="android:gravity">center</item>
 
+    </style>
+
+    <style name="MyDatePickerStyle" >
+        <item name="android:headerBackground">@color/colorPrimary</item>
+        <item name="android:calendarTextColor">@color/colorPrimaryDark</item>
+        <item name="android:dayOfWeekBackground">@color/colorPrimaryDark</item>
+        <item name="android:yearListSelectorColor">@color/colorPrimaryDark</item>
+        <item name="android:datePickerMode">calendar</item>
+        <item name="android:colorControlActivated">@color/colorPrimaryDark</item>
     </style>
 </resources>

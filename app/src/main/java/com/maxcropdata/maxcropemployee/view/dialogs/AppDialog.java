@@ -4,15 +4,24 @@ import android.app.Dialog;
 import android.content.Context;
 import android.view.Window;
 
+import com.maxcropdata.maxcropemployee.MainActivity;
+
 import androidx.annotation.NonNull;
 
 public class AppDialog extends Dialog {
 
-    public AppDialog(@NonNull Context context, int themeResId) {
-        super(context, themeResId);
+    private MainActivity activity;
 
+    public AppDialog(@NonNull MainActivity activity, int themeResId) {
+        super(activity, themeResId);
+
+        this.activity = activity;
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setCancelable(false);
+    }
+
+    public MainActivity getActivity() {
+        return activity;
     }
 }

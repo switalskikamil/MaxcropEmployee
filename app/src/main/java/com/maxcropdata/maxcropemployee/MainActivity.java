@@ -164,4 +164,8 @@ public class MainActivity extends AppCompatActivity
     public Account getUserAccount() {
         return this.userAccount;
     }
+
+    public Server getServer() {
+        return this.server;
+    }
 }

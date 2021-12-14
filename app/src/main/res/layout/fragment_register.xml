@@ -135,6 +135,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="22sp"
                 android:id="@+id/register_employer_code"
+                android:inputType="number"
                 />
         </LinearLayout>
 
