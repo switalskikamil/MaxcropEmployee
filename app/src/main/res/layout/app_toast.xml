@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="1dp"
             android:text="Message"
-            android:textColor="#29245C"
+            android:textColor="@color/logoDark"
             android:textSize="22sp" />
 
 

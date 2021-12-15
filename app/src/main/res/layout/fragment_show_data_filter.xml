@@ -4,16 +4,141 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/text_home"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="5dp">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/maxcrop_icon_mid"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="0dp"
+                android:layout_gravity="top"
+                android:id="@+id/status"
+                />
+
+            <TextView
+                android:id="@+id/toast_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:text="@string/data_filter_disclaimer"
+                android:textColor="@color/logoDark"
+                android:textSize="22sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp">
+
+            <TextView
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/dark"
+                android:textSize="22sp"
+                android:text="@string/data_filter_date_from"
+                android:layout_marginEnd="20dp"/>
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/calendar"
+                android:tint="@color/colorPrimary"
+                android:layout_marginEnd="5dp"
+                android:layout_marginTop="0dp"
+                android:layout_gravity="top"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimary"
+                android:text="____-__-__"
+                android:id="@+id/data_filter_datefrom"
+                android:layout_gravity="center_vertical"
+                android:textSize="22sp"
+
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp">
+
+            <TextView
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/dark"
+                android:textSize="22sp"
+                android:text="@string/data_filter_date_to"
+                android:layout_marginEnd="20dp"/>
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/calendar"
+                android:tint="@color/colorPrimary"
+                android:layout_marginEnd="5dp"
+                android:layout_marginTop="0dp"
+                android:layout_gravity="top"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimary"
+                android:text="____-__-__"
+                android:id="@+id/data_filter_dateto"
+                android:layout_gravity="center_vertical"
+                android:textSize="22sp"
+
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            >
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="5dp">
+            <Button
+                android:text="@string/label_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="90dp"
+                android:id="@+id/btn_cancel_data_filter"
+                android:layout_weight="1"
+                android:layout_margin="2dp"
+                />
+
+            <Button
+                android:text="@string/label_download_report"
+                android:layout_width="wrap_content"
+                android:layout_height="90dp"
+                android:id="@+id/btn_request_data_filter"
+                android:layout_weight="1"
+                android:layout_margin="2dp"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

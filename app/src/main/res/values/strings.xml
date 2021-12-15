@@ -31,4 +31,11 @@
     <string name="warning_password_not_match">Password and it\'s confirmation do not match.</string>
     <string name="warning_password_too_short">Password too short, use min. 8 characters.</string>
     <string name="warning_wrong_birth_date">You must be full of age to register.</string>
+    <string name="data_filter_disclaimer">Selected up to 3 days for which You want to request report for.</string>
+    <string name="data_filter_date_from">Date from:</string>
+    <string name="data_filter_date_to">Date to:</string>
+    <string name="label_download_report">Download report</string>
+    <string name="label_ok">Ok</string>
+    <string name="date_from_cant_be_older">\'Date to\' can\'t be older than \'Date from\'.</string>
+    <string name="too_long_time_span">Selected date range is too large.</string>
 </resources>

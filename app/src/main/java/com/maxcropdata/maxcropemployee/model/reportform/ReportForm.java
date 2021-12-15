@@ -14,6 +14,10 @@ public class ReportForm {
         this.dateTo = dateTo;
     }
 
+    public ReportForm() {
+
+    }
+
     public long getWorkerId() {
         return workerId;
     }

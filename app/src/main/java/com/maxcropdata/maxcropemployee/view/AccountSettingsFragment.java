@@ -23,65 +23,65 @@ import androidx.fragment.app.Fragment;
 
 public class AccountSettingsFragment extends Fragment {
 
-    private static AccountSettingsFragment instance = new AccountSettingsFragment();
+    public static final String PSWD_PLACEHOLDER = "*******";
 
     public static AccountSettingsFragment getInstance() {
-        instance.refreshData();
-        return instance;
+        return new AccountSettingsFragment();
     }
-public static final String PSWD_PLACEHOLDER = "*******";
 
-    private Account userAccount;
+    private MainActivity activity;
     private EditText loginEdit;
     private EditText passwordEdit;
-    private Button cancelBtn;
-    private Button saveBtn;
-    private Button serverSettingsBtn;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_account_settings, container, false);
+        this.activity = ((MainActivity)getActivity());
 
         loginEdit = root.findViewById(R.id.loginEdit);
         passwordEdit = root.findViewById(R.id.passwordEdit);
 
-        cancelBtn = root.findViewById(R.id.btn_cancel_acc);
-        saveBtn = root.findViewById(R.id.btn_save_acc);
-        serverSettingsBtn = root.findViewById(R.id.btn_server_settings);
+        final Button cancelBtn = root.findViewById(R.id.btn_cancel_acc);
+        final Button saveBtn = root.findViewById(R.id.btn_save_acc);
+        final Button serverSettingsBtn = root.findViewById(R.id.btn_server_settings);
 
         cancelBtn.setOnClickListener(v -> {
-            ((MainActivity)getActivity()).loadFragment(MainMenuFragment.getInstance());
+            activity.loadFragment(MainMenuFragment.getInstance());
         });
 
         saveBtn.setOnClickListener(v -> {
-            try {
-                if (AccountController.loginAccount(
-                        loginEdit.getText().toString(),
-                        passwordEdit.getText().toString(),
-                        this.userAccount)) {
-                    AccountController.saveAccountToFileSystem(getContext(), this.userAccount);
-                } else {
-                    MCToast.displayText((MainActivity)getActivity(), Toast.LENGTH_SHORT, getActivity().getString(R.string.login_or_password_too_short));
-                }
-            } catch (UnsupportedEncodingException | NoSuchAlgorithmException | IllegalAccessException e) {
-                e.printStackTrace();
-            }
+            saveChanges();
         });
 
         serverSettingsBtn.setOnClickListener(v -> {
-            ((MainActivity)getActivity()).loadFragment(ServerSettingsFragment.getInstance());
+            activity.loadFragment(ServerSettingsFragment.getInstance());
         });
 
 
-        this.userAccount = ((MainActivity)getActivity()).getUserAccount();
+        refreshData();
 
         return root;
     }
 
+    private void saveChanges() {
+        try {
+            if (AccountController.loginAccount(
+                    loginEdit.getText().toString(),
+                    passwordEdit.getText().toString(),
+                    activity.getUserAccount())) {
+                AccountController.saveAccountToFileSystem(getContext(), activity.getUserAccount());
+            } else {
+                MCToast.displayText(activity, Toast.LENGTH_SHORT, getString(R.string.login_or_password_too_short));
+            }
+        } catch (UnsupportedEncodingException | NoSuchAlgorithmException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void refreshData() {
-        if (this.userAccount != null) {
-            loginEdit.setText(this.userAccount.getLogin());
+        if (activity.getUserAccount() != null) {
+            loginEdit.setText(activity.getUserAccount().getLogin());
             passwordEdit.setText(PSWD_PLACEHOLDER);
         } else {
             loginEdit.setText("");

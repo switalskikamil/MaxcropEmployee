@@ -4,15 +4,19 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.maxcropdata.maxcropemployee.MainActivity;
 import com.maxcropdata.maxcropemployee.R;
 import com.maxcropdata.maxcropemployee.model.account.Account;
 import com.maxcropdata.maxcropemployee.model.report.Report;
+import com.maxcropdata.maxcropemployee.model.reportform.DateFromOlderThanDateToException;
 import com.maxcropdata.maxcropemployee.model.reportform.ReportForm;
 import com.maxcropdata.maxcropemployee.model.reportform.ReportFormController;
 import com.maxcropdata.maxcropemployee.model.reportform.ReportFormService;
+import com.maxcropdata.maxcropemployee.model.reportform.TooLongTimeSpanRequested;
 import com.maxcropdata.maxcropemployee.model.server.Server;
 import com.maxcropdata.maxcropemployee.model.server.ServerController;
 import com.maxcropdata.maxcropemployee.model.server.request.ReportsForDatesServerRequest;
@@ -22,6 +26,9 @@ import com.maxcropdata.maxcropemployee.model.server.response.ResponseMalformedEx
 import com.maxcropdata.maxcropemployee.model.server.response.ServerResponse;
 import com.maxcropdata.maxcropemployee.model.server.response.UexpectedResponseStatusException;
 import com.maxcropdata.maxcropemployee.model.token.TokenController;
+import com.maxcropdata.maxcropemployee.shared.utils.Helper;
+import com.maxcropdata.maxcropemployee.view.dialogs.AppDatePickerDialog;
+import com.maxcropdata.maxcropemployee.view.mctoast.MCToast;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
@@ -33,45 +40,97 @@ import androidx.fragment.app.Fragment;
 
 public class ShowDataFilterFragment extends Fragment {
 
-    private static ShowDataFilterFragment instance = new ShowDataFilterFragment();
-
     public static ShowDataFilterFragment getInstance() {
-        return instance;
+        return new ShowDataFilterFragment();
     }
+
+    private MainActivity activity;
+    private TextView dateFromText;
+    private TextView dateToText;
+    private Date dateFrom = new Date();
+    private Date dateTo = new Date();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_show_data_filter, container, false);
-        final TextView textView = root.findViewById(R.id.text_home);
-        textView.setText("data filter");
+
+        activity = (MainActivity)getActivity();
+
+        final Button requestReportBtn = root.findViewById(R.id.btn_request_data_filter);
+        final Button cancelBtn = root.findViewById(R.id.btn_cancel_data_filter);
+        dateFromText = root.findViewById(R.id.data_filter_datefrom);
+        dateToText = root.findViewById(R.id.data_filter_dateto);
+
+        dateFromText.setOnClickListener(v -> AppDatePickerDialog.popDialog(
+                activity,
+                dateFrom,
+                () -> dateFromText.setText(Helper.DATE_FORMAT.format(dateFrom)))
+        );
+
+        dateToText.setOnClickListener(v -> AppDatePickerDialog.popDialog(
+                activity,
+                dateTo,
+                () -> dateToText.setText(Helper.DATE_FORMAT.format(dateTo)))
+        );
+
+        cancelBtn.setOnClickListener(v -> {
+            activity.loadFragment(MainMenuFragment.getInstance());
+        });
+
+        requestReportBtn.setOnClickListener(v -> {
+            verifyReportRequest();
+        });
+
         return root;
     }
 
+    private void verifyReportRequest() {
+        final ReportForm form = new ReportForm();
+        form.setWorkerId(activity.getUserAccount().getWorkerId());
+        form.setDateFrom(dateFrom);
+        form.setDateTo(dateTo);
 
+        try {
+            if (ReportFormController.verify(form)) {
+                requestReportsForDates(
+                        form,
+                        activity.getUserAccount(),
+                        activity.getServer());
+            }
+        } catch (DateFromOlderThanDateToException e) {
+            MCToast.displayText(
+                    activity,
+                    Toast.LENGTH_SHORT,
+                    getString(R.string.date_from_cant_be_older)
+            );
+        } catch (TooLongTimeSpanRequested tooLongTimeSpanRequested) {
+            MCToast.displayText(
+                    activity,
+                    Toast.LENGTH_SHORT,
+                    getString(R.string.too_long_time_span)
+            );
+        }
+    }
 
-    public void requestReportsForDates(
+    private void requestReportsForDates(
+            ReportForm form,
             Account account,
-            Date dateFrom,
-            Date dateTo,
-            Server server)
-            throws
-            UnsupportedEncodingException, NoSuchAlgorithmException,
-            NoSuchFieldException, IllegalAccessException {
+            Server server) {
+        try {
+            final ReportsForDatesServerRequest request = new ReportsForDatesServerRequest(
+                    TokenController.generateToken(account),
+                    ReportFormController.generateReportRequest(form),
+                    server,
+                    ((MainActivity) getActivity())
+            );
 
-        ReportForm form = new ReportForm(
-                account.getWorkerId(),
-                dateFrom,
-                dateTo
-        );
+            ServerController.getInstance().executeServerRequest(request);
 
-        final ReportsForDatesServerRequest request = new ReportsForDatesServerRequest(
-                TokenController.generateToken(account),
-                ReportFormController.generateReportRequest(form),
-                server,
-                ((MainActivity)getActivity())
-        );
+        } catch (Exception e) {
+            MCToast.displayText((MainActivity) getActivity(), Toast.LENGTH_SHORT, e.getMessage());
+        }
 
-        ServerController.getInstance().executeServerRequest(request);
+
     }
 }

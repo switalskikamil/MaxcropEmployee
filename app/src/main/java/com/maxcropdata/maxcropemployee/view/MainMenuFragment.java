@@ -17,55 +17,51 @@ import com.maxcropdata.maxcropemployee.view.dialogs.LoginOrRegisterDialog;
 
 public class MainMenuFragment extends Fragment {
 
-    private static MainMenuFragment instance = new MainMenuFragment();
-
     public static MainMenuFragment getInstance() {
-        instance.refreshData();
-        return instance;
+        return new MainMenuFragment();
     }
-    private Account userAccount;
     private TextView loginText;
     private TextView nameText;
-    private Button gotoAccBtn;
-    private Button gotoIssuesBtn;
-    private Button gotoReportsBtn;
+    private MainActivity activity;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_main_menu, container, false);
 
-        this.userAccount = ((MainActivity)getActivity()).getUserAccount();
+        this.activity = ((MainActivity)getActivity());
 
         loginText = root.findViewById(R.id.user_login_txt);
         nameText = root.findViewById(R.id.user_name_txt);
 
-        gotoAccBtn = root.findViewById(R.id.goto_account);
-        gotoIssuesBtn = root.findViewById(R.id.goto_issues);
-        gotoReportsBtn = root.findViewById(R.id.goto_reports);
+        final Button gotoAccBtn = root.findViewById(R.id.goto_account);
+        final Button gotoIssuesBtn = root.findViewById(R.id.goto_issues);
+        final Button gotoReportsBtn = root.findViewById(R.id.goto_reports);
 
         gotoAccBtn.setOnClickListener(v -> {
-            ((MainActivity)getActivity()).loadFragment(AccountSettingsFragment.getInstance());
+            activity.loadFragment(AccountSettingsFragment.getInstance());
         });
 
         gotoIssuesBtn.setOnClickListener(v -> {
-            ((MainActivity)getActivity()).loadFragment(ShowIssuesFragment.getInstance());
+            activity.loadFragment(ShowIssuesFragment.getInstance());
         });
 
         gotoReportsBtn.setOnClickListener(v -> {
-            ((MainActivity)getActivity()).loadFragment(ShowDataFilterFragment.getInstance());
+            activity.loadFragment(ShowDataFilterFragment.getInstance());
         });
+
+        refreshData();
 
         return root;
     }
 
 
     public void refreshData() {
-        if (userAccount != null) {
-            nameText.setText(userAccount.toShortString() );
-            loginText.setText(userAccount.getLogin());
+        if (activity.getUserAccount() != null) {
+            nameText.setText(activity.getUserAccount().toShortString() );
+            loginText.setText(activity.getUserAccount().getLogin());
         } else {
-            LoginOrRegisterDialog.popDialog((MainActivity) getActivity());
+            LoginOrRegisterDialog.popDialog(activity);
         }
     }
 }

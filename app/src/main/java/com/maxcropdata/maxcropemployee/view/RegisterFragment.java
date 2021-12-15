@@ -31,11 +31,8 @@ import androidx.fragment.app.Fragment;
 
 
 public class RegisterFragment extends Fragment {
-
-    private static RegisterFragment instance = new RegisterFragment();
-
     public static RegisterFragment getInstance() {
-        return instance;
+        return new RegisterFragment();
     }
 
     private EditText nameEdit;
