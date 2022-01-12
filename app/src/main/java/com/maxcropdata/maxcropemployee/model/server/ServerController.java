@@ -52,11 +52,28 @@ public class ServerController {
 
         String file = FileManager.readFileFromStorage(context, fileName);
 
-        if (file != null) {
+        if (file != null && file.length() > 0) {
             return ServerService.getInstance().fromJSON(new JSONObject(file));
         } else {
             return ServerService.getDefaultServer();
         }
+    }
+
+    public static void validate(Server server) {
+        //if some value are null - restore them to defaults
+        Server defaultServer = ServerService.getDefaultServer();
+
+        if (server.getAddress() == null || server.getAddress().length() == 0)
+            server.setAddress(defaultServer.getAddress());
+
+        if (server.getDatabase() == null || server.getDatabase().length() == 0)
+            server.setDatabase(defaultServer.getDatabase());
+
+        if (server.getWebserviceAddress() == null || server.getWebserviceAddress().length() == 0)
+            server.setWebserviceAddress(defaultServer.getWebserviceAddress());
+
+        if (server.getProtocol() == null || server.getProtocol().length() == 0)
+            server.setProtocol(defaultServer.getProtocol());
     }
 
     public void executeServerRequest(ServerRequest serverRequest) {

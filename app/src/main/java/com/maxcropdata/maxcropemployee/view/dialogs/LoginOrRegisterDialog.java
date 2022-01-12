@@ -20,6 +20,7 @@ public class LoginOrRegisterDialog extends AppDialog {
     public LoginOrRegisterDialog(@NonNull MainActivity activity) {
         super(activity, LAYOUT_ID);
 
+
         loginBtn = this.findViewById(R.id.do_login_btn);
         registerBtn = this.findViewById(R.id.do_register_btn);
 

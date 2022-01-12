@@ -40,7 +40,7 @@ public class RegisterFragment extends Fragment {
     private EditText employerCodeEdit;
     private EditText passwordEdit;
     private EditText repeatPasswordEdit;
-    private Date birthDate = null;
+    private Date birthDate = new Date();
     private TextView birthDateText;
     private MainActivity activity;
 
@@ -80,7 +80,7 @@ public class RegisterFragment extends Fragment {
         birthDateText.setOnClickListener(v -> AppDatePickerDialog.popDialog(
                 (MainActivity) getActivity(),
                 birthDate,
-                () -> birthDateText.setText(Helper.DATE_FORMAT.format(birthDate))
+                (date) -> birthDateText.setText(Helper.DATE_FORMAT.format(date))
         ));
 
 

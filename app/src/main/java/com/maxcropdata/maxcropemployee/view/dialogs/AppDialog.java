@@ -19,6 +19,7 @@ public class AppDialog extends Dialog {
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setCancelable(false);
+        this.setContentView(themeResId);
     }
 
     public MainActivity getActivity() {

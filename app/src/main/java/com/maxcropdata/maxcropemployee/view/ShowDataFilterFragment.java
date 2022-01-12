@@ -65,13 +65,13 @@ public class ShowDataFilterFragment extends Fragment {
         dateFromText.setOnClickListener(v -> AppDatePickerDialog.popDialog(
                 activity,
                 dateFrom,
-                () -> dateFromText.setText(Helper.DATE_FORMAT.format(dateFrom)))
+                (date) -> dateFromText.setText(Helper.DATE_FORMAT.format(date)))
         );
 
         dateToText.setOnClickListener(v -> AppDatePickerDialog.popDialog(
                 activity,
                 dateTo,
-                () -> dateToText.setText(Helper.DATE_FORMAT.format(dateTo)))
+                (date) -> dateToText.setText(Helper.DATE_FORMAT.format(date)))
         );
 
         cancelBtn.setOnClickListener(v -> {

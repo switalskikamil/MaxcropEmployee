@@ -14,7 +14,7 @@ import androidx.annotation.NonNull;
 
 public class AppDatePickerDialog extends AppDialog {
 
-    private static final int LAYOUT_ID = R.layout.dialog_login_or_update;
+    private static final int LAYOUT_ID = R.layout.dialog_data_picker;
     private Date dateToPickTo;
     private DatePicker datePicker;
     private Button cancelbtn;
@@ -23,6 +23,7 @@ public class AppDatePickerDialog extends AppDialog {
 
     public AppDatePickerDialog(@NonNull MainActivity activity, Date dateToPickTo, OnSelectedListener listener) {
         super(activity, LAYOUT_ID);
+
 
         this.dateToPickTo = dateToPickTo;
 
@@ -43,7 +44,7 @@ public class AppDatePickerDialog extends AppDialog {
             c.set(Calendar.DAY_OF_MONTH, datePicker.getDayOfMonth());
             this.dateToPickTo = c.getTime();
 
-            listener.onSelected();
+            listener.onSelected(this.dateToPickTo);
 
             dismiss();
         });
@@ -62,6 +63,6 @@ public class AppDatePickerDialog extends AppDialog {
     }
 
     public interface OnSelectedListener {
-         void onSelected();
+         void onSelected(Date date);
     }
 }

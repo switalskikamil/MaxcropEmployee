@@ -38,4 +38,8 @@
     <string name="label_ok">Ok</string>
     <string name="date_from_cant_be_older">\'Date to\' can\'t be older than \'Date from\'.</string>
     <string name="too_long_time_span">Selected date range is too large.</string>
+    <string name="label_serverAddress">Server address</string>
+    <string name="label_setting_database">Database</string>
+    <string name="label_settings_webservice">REST API</string>
+    <string name="label_settings_server_protocol">Protocol</string>
 </resources>

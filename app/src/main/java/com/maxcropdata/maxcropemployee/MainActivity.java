@@ -1,6 +1,7 @@
 package com.maxcropdata.maxcropemployee;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -10,6 +11,7 @@ import com.maxcropdata.maxcropemployee.model.account.AccountController;
 import com.maxcropdata.maxcropemployee.model.issue.Issue;
 import com.maxcropdata.maxcropemployee.model.report.Report;
 import com.maxcropdata.maxcropemployee.model.server.Server;
+import com.maxcropdata.maxcropemployee.model.server.ServerController;
 import com.maxcropdata.maxcropemployee.model.server.response.AccountAlreadyExistsException;
 import com.maxcropdata.maxcropemployee.model.server.response.AccountRegistrationServerResponse;
 import com.maxcropdata.maxcropemployee.model.server.response.ReportsForDatesServerResponse;
@@ -23,6 +25,8 @@ import com.maxcropdata.maxcropemployee.view.MainMenuFragment;
 import com.maxcropdata.maxcropemployee.view.ServerSettingsFragment;
 import com.maxcropdata.maxcropemployee.view.ShowDataFilterFragment;
 import com.maxcropdata.maxcropemployee.view.ShowIssuesFragment;
+
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +67,26 @@ public class MainActivity extends AppCompatActivity
         navigationView.setItemIconTintList(null);
         navigationView.setNavigationItemSelectedListener(this);
 
+        loadSettings();
+
         loadFragment(MainMenuFragment.getInstance());
+    }
+
+    private void loadSettings() {
+        try {
+            //loads saved server or default server if nothing is saved
+            this.server = ServerController.readServerFromFileSystem(this);
+            Log.d("MCM", this.server.toString());
+
+            //loads user account
+            this.userAccount = AccountController.readAccountFromFileSystem(this);
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -78,6 +101,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void loadFragment(Fragment f, boolean saveToStack) {
+        //TODO: clean up
         //boolean allowedWithoutLoggin = false;
         if (f != null) {
             /*if (this.dataHolder.getLoggedInScannerProfile() == null

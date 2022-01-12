@@ -72,7 +72,7 @@ public class AccountController {
 
         String file = FileManager.readFileFromStorage(context, fileName);
 
-        if (file != null) {
+        if (file != null && file.length() > 0) {
             return service.fromJSON(new JSONObject(file));
         } else {
             return null;
