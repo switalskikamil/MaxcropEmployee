@@ -13,6 +13,7 @@ import com.maxcropdata.maxcropemployee.model.report.Report;
 import com.maxcropdata.maxcropemployee.model.server.Server;
 import com.maxcropdata.maxcropemployee.model.server.ServerController;
 import com.maxcropdata.maxcropemployee.model.server.response.AccountAlreadyExistsException;
+import com.maxcropdata.maxcropemployee.model.server.response.AccountLoginServerResponse;
 import com.maxcropdata.maxcropemployee.model.server.response.AccountRegistrationServerResponse;
 import com.maxcropdata.maxcropemployee.model.server.response.ReportsForDatesServerResponse;
 import com.maxcropdata.maxcropemployee.model.server.response.RequestUnathorizedException;
@@ -76,7 +77,6 @@ public class MainActivity extends AppCompatActivity
         try {
             //loads saved server or default server if nothing is saved
             this.server = ServerController.readServerFromFileSystem(this);
-            Log.d("MCM", this.server.toString());
 
             //loads user account
             this.userAccount = AccountController.readAccountFromFileSystem(this);
@@ -153,11 +153,30 @@ public class MainActivity extends AppCompatActivity
                 processReportsForDatesServerResponse((ReportsForDatesServerResponse) response);
             else if (response instanceof AccountRegistrationServerResponse)
                 processAccountRegistrationServerResponse((AccountRegistrationServerResponse) response);
+            else if (response instanceof AccountLoginServerResponse)
+                processAccountLoginServerResponse((AccountLoginServerResponse)response);
 
-        } catch (UexpectedResponseStatusException | ResponseMalformedException | RequestUnathorizedException | AccountAlreadyExistsException e) {
+        } catch (UexpectedResponseStatusException | ResponseMalformedException |
+                RequestUnathorizedException | AccountAlreadyExistsException |
+                IllegalAccessException e) {
             e.printStackTrace();
             //TODO: dialogs for each type of errors
         }
+    }
+
+    private void processAccountLoginServerResponse(AccountLoginServerResponse response)
+            throws RequestUnathorizedException,
+            ResponseMalformedException,
+            UexpectedResponseStatusException,
+            AccountAlreadyExistsException,
+            IllegalAccessException {
+        response.readResponse(this);
+
+        AccountController.mergeWithLoginResponse(userAccount, response);
+
+        AccountController.saveAccountToFileSystem(this, userAccount);
+
+        loadFragment(MainMenuFragment.getInstance());
     }
 
     private void processReportsForDatesServerResponse(ReportsForDatesServerResponse response)
@@ -165,7 +184,7 @@ public class MainActivity extends AppCompatActivity
             ResponseMalformedException,
             RequestUnathorizedException,
             AccountAlreadyExistsException {
-        response.readResponse();
+        response.readResponse(this);
 
         List<Report> reports = response.getReportsList();
 
@@ -179,10 +198,13 @@ public class MainActivity extends AppCompatActivity
             throws UexpectedResponseStatusException,
             ResponseMalformedException,
             RequestUnathorizedException,
-            AccountAlreadyExistsException {
-        response.readResponse();
+            AccountAlreadyExistsException,
+            IllegalAccessException {
+        response.readResponse(this);
 
         AccountController.mergeWithRegistrationResponse(userAccount, response);
+
+        AccountController.saveAccountToFileSystem(this, userAccount);
     }
 
     public Account getUserAccount() {
@@ -191,5 +213,9 @@ public class MainActivity extends AppCompatActivity
 
     public Server getServer() {
         return this.server;
+    }
+
+    public void setUserAccount(Account account) {
+        this.userAccount = account;
     }
 }

@@ -38,12 +38,16 @@ public class PasswordUtils {
         return new String(hexChars);
     }
 
+    private static String generateSalt(String base) {
+        return SALT_PREF + base.hashCode();
+    }
+
     private static String generateSaltForLogin(String login) {
-        return SALT_PREF + (login.substring(0, login.lastIndexOf("#"))).hashCode();
+        return generateSalt(login.substring(0, login.lastIndexOf("#")));
     }
 
     private static String generateSaltForRegistrationForm(RegistrationForm registrationForm) {
-        return SALT_PREF + (registrationForm.getName() + "." + registrationForm.getLastName()).toLowerCase().hashCode();
+        return generateSalt((registrationForm.getName() + "." + registrationForm.getLastName()).toLowerCase());
     }
 
     public static String generatePassword(String login, String plainPassword)

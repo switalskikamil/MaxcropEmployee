@@ -30,6 +30,14 @@ public class IssueService implements JSONAble<Issue> {
     }
 
     List<Issue> allFromJSON(JSONArray jsonArray) throws IllegalAccessException, JSONException, InstantiationException {
-        return (ArrayList<Issue>) JSONService.readJSONArrayIntoList(jsonArray, Issue.class);
+        List<Issue> list = new ArrayList<>();
+        for (int i = 0; i < jsonArray.length(); i++ ) {
+            Issue o = new Issue();
+
+            JSONService.readJSONIntoObject(jsonArray.getJSONObject(i), o);
+
+            list.add(o);
+        }
+        return list;
     }
 }

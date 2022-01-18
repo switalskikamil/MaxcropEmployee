@@ -1,9 +1,12 @@
 package com.maxcropdata.maxcropemployee.model.account;
 
 import android.content.Context;
+import android.util.Log;
 
+import com.maxcropdata.maxcropemployee.MainActivity;
 import com.maxcropdata.maxcropemployee.model.registrationform.RegistrationForm;
 import com.maxcropdata.maxcropemployee.model.registrationform.RegistrationFormController;
+import com.maxcropdata.maxcropemployee.model.server.response.AccountLoginServerResponse;
 import com.maxcropdata.maxcropemployee.model.server.response.AccountRegistrationServerResponse;
 import com.maxcropdata.maxcropemployee.shared.utils.FileManager;
 import com.maxcropdata.maxcropemployee.shared.utils.PasswordUtils;
@@ -14,6 +17,7 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
 
 public class AccountController {
     public static final String FILE_NAME = "account.json";
@@ -38,6 +42,14 @@ public class AccountController {
         localAccount.setExpirationDate(serverResponse.getAccount().getExpirationDate());
         localAccount.setLogin(serverResponse.getAccount().getLogin());
         localAccount.setWorkerId(serverResponse.getAccount().getWorkerId());
+    }
+
+    public static void mergeWithLoginResponse(Account localAccount, AccountLoginServerResponse serverResponse) {
+        localAccount.setAccountId(serverResponse.getAccount().getAccountId());
+        localAccount.setExpirationDate(serverResponse.getAccount().getExpirationDate());
+        localAccount.setWorkerId(serverResponse.getAccount().getWorkerId());
+        localAccount.setLastName(serverResponse.getAccount().getLastName());
+        localAccount.setName(serverResponse.getAccount().getName());
     }
 
     public static void saveAccountToFileSystem(
@@ -71,6 +83,7 @@ public class AccountController {
         AccountService service = new AccountService();
 
         String file = FileManager.readFileFromStorage(context, fileName);
+        Log.d("MCM", "AccountController.readAccountFromFileSystem: " + file);
 
         if (file != null && file.length() > 0) {
             return service.fromJSON(new JSONObject(file));
@@ -80,20 +93,29 @@ public class AccountController {
     }
 
 
-    public static boolean loginAccount(String login, String plainPassword, Account account)
-            throws UnsupportedEncodingException, NoSuchAlgorithmException {
+    public static void loginAccount(String login, String plainPassword, MainActivity activity)
+            throws UnsupportedEncodingException, NoSuchAlgorithmException, PasswordTooShortException,
+            LoginTooShortException {
 
-        if (account == null) account = new Account();
+        if (activity.getUserAccount() == null) activity.setUserAccount(new Account());
 
-        if (login != null && login.length() > MIN_LOGIN_LENGTH) account.setLogin(login);
-        else return false;
+        if (login != null && login.length() > MIN_LOGIN_LENGTH) activity.getUserAccount().setLogin(login);
+        else throw new LoginTooShortException();
 
         if (plainPassword != null &&
             plainPassword != AccountSettingsFragment.PSWD_PLACEHOLDER &&
-            plainPassword.length() > MIN_PASSWORD_LENGTH) {
-            account.setPassword(PasswordUtils.generatePassword(account.getLogin(), plainPassword));
-        } else return false;
+            plainPassword.length() >= MIN_PASSWORD_LENGTH) {
 
-        return true;
+            activity.getUserAccount().setPassword(PasswordUtils.generatePassword(
+                    activity.getUserAccount().getLogin(), plainPassword)
+            );
+
+            //at this point we don't know if users account is not expired
+            //lets set temporary expiration date for tomorrow and check with server
+            activity.getUserAccount().setExpirationDate(new Date(new Date().getTime() + 8400000));
+            activity.getUserAccount().setName("");
+            activity.getUserAccount().setLastName("");
+
+        } else throw new PasswordTooShortException();
     }
 }

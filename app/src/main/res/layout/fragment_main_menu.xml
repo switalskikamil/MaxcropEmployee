@@ -20,7 +20,7 @@
                 android:text="@string/logged_as"
                 android:textStyle="bold"
                 android:textColor="@color/colorPrimary"
-                android:textSize="26sp"/>
+                android:textSize="24sp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:text="---"
                 android:textStyle="bold"
-                android:textSize="28sp"
+                android:textSize="24sp"
                 android:id="@+id/user_name_txt"/>
         </LinearLayout>
 
@@ -47,7 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="---"
-                android:textSize="24sp"
+                android:textSize="18sp"
                 android:id="@+id/user_login_txt"/>
         </LinearLayout>
 

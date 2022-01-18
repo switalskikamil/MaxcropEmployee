@@ -18,9 +18,9 @@ public class RegistrationFormServiceTest {
 
     final RegistrationForm registrationForm = new RegistrationForm.Builder()
             .dateOfBirth(Helper.DATE_FORMAT.parse("2021-01-01"))
-            .desiredPlainPassword("cojest123")
-            .name("Kamil")
-            .lastName("Świtalski")
+            .desiredPlainPassword("12345678")
+            .name("miłosz")
+            .lastName("adamczyk")
             .employerCode(301)
             .build();
 
@@ -30,7 +30,7 @@ public class RegistrationFormServiceTest {
     @Test
     public void isProducingProperHash() throws ParseException {
         // given
-        String expectedHash = "e989e070abc0e1d5b0fba29881ef4c9db34765fbaf57c148553a19fa5e490db7";
+        String expectedHash = "b32d51ae20bd441834302a7a5bc36f1c3341fea55ad43aa19299bb1315dfb99d";
 
 
         try {
@@ -49,7 +49,7 @@ public class RegistrationFormServiceTest {
     @Test
     public void isGeneratingAsProperJSON() throws ParseException {
         // given
-        String expectedJSON = "{\"name\":\"Kamil\",\"lastName\":\"Świtalski\",\"employerCode\":301,\"dateOfBirth\":1609455600000,\"desiredHashedPassword\":\"e989e070abc0e1d5b0fba29881ef4c9db34765fbaf57c148553a19fa5e490db7\"}";
+        String expectedJSON = "{\"name\":\"miłosz\",\"lastName\":\"adamczyk\",\"employerCode\":301,\"dateOfBirth\":1609455600000,\"desiredHashedPassword\":\"b32d51ae20bd441834302a7a5bc36f1c3341fea55ad43aa19299bb1315dfb99d\"}";
 
         try {
             // when

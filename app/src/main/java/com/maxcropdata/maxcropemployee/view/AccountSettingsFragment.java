@@ -13,6 +13,12 @@ import com.maxcropdata.maxcropemployee.MainActivity;
 import com.maxcropdata.maxcropemployee.R;
 import com.maxcropdata.maxcropemployee.model.account.Account;
 import com.maxcropdata.maxcropemployee.model.account.AccountController;
+import com.maxcropdata.maxcropemployee.model.account.LoginTooShortException;
+import com.maxcropdata.maxcropemployee.model.account.PasswordTooShortException;
+import com.maxcropdata.maxcropemployee.model.server.ServerController;
+import com.maxcropdata.maxcropemployee.model.server.request.AccountLoginServerRequest;
+import com.maxcropdata.maxcropemployee.model.token.Token;
+import com.maxcropdata.maxcropemployee.model.token.TokenController;
 import com.maxcropdata.maxcropemployee.view.mctoast.MCToast;
 
 import java.io.UnsupportedEncodingException;
@@ -66,17 +72,34 @@ public class AccountSettingsFragment extends Fragment {
 
     private void saveChanges() {
         try {
-            if (AccountController.loginAccount(
+            AccountController.loginAccount(
                     loginEdit.getText().toString(),
                     passwordEdit.getText().toString(),
-                    activity.getUserAccount())) {
-                AccountController.saveAccountToFileSystem(getContext(), activity.getUserAccount());
-            } else {
-                MCToast.displayText(activity, Toast.LENGTH_SHORT, getString(R.string.login_or_password_too_short));
-            }
+                    activity);
+
+            AccountController.saveAccountToFileSystem(getContext(), activity.getUserAccount());
+
+            runServerLogin(activity.getUserAccount());
+
+            //activity.loadFragment(MainMenuFragment.getInstance());
+
         } catch (UnsupportedEncodingException | NoSuchAlgorithmException | IllegalAccessException e) {
             e.printStackTrace();
+        } catch (LoginTooShortException | PasswordTooShortException e ) {
+            MCToast.displayText(activity, Toast.LENGTH_SHORT, getString(R.string.login_or_password_too_short));
         }
+    }
+
+    private void runServerLogin(Account account) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+        // prepare request
+        final AccountLoginServerRequest request = new AccountLoginServerRequest(
+                TokenController.generateToken(account),
+                activity.getServer(),
+                activity
+        );
+
+        // perform server request
+        ServerController.getInstance().executeServerRequest(request);
     }
 
     private void refreshData() {

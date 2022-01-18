@@ -42,4 +42,16 @@
     <string name="label_setting_database">Database</string>
     <string name="label_settings_webservice">REST API</string>
     <string name="label_settings_server_protocol">Protocol</string>
+    <string name="report_action_timework">Timework</string>
+    <string name="report_action_piecework">Piecework</string>
+    <string name="report_action_harvest">Piecework(harvest)</string>
+    <string name="report_action_sweden_ob">OB</string>
+    <string name="report_action_holiday">Holiday</string>
+    <string name="report_action_surcharge">Surcharge</string>
+    <string name="report_action_break">Break</string>
+    <string name="report_action_difference">Difference</string>
+    <string name="report_action_pay_out">Payout</string>
+    <string name="report_action_payment">Payment</string>
+    <string name="report_action_acc_balance">Account balance</string>
+    <string name="want_to_change_settings">Change server settings</string>
 </resources>

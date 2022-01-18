@@ -1,5 +1,7 @@
 package com.maxcropdata.maxcropemployee.model.server.response;
 
+import com.maxcropdata.maxcropemployee.MainActivity;
+
 import org.junit.Test;
 
 import java.net.HttpURLConnection;
@@ -17,11 +19,11 @@ public class AccountRegistrationServerResponseTest {
     public void isReadingStatusOkResponseProperly() {
         // given
         underTest = new AccountRegistrationServerResponse(HttpURLConnection.HTTP_OK, testResponse);
-
+        MainActivity activity = new MainActivity();
 
         // when
         try {
-            underTest.readResponse();
+            underTest.readResponse(activity);
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -42,9 +44,10 @@ public class AccountRegistrationServerResponseTest {
             AccountAlreadyExistsException {
         // given
         underTest = new AccountRegistrationServerResponse(HttpURLConnection.HTTP_UNAUTHORIZED, testResponse);
+        MainActivity activity = new MainActivity();
 
         // then
-        underTest.readResponse();
+        underTest.readResponse(activity);
 
         assertNull(underTest.getAccount());
 
@@ -58,9 +61,10 @@ public class AccountRegistrationServerResponseTest {
             AccountAlreadyExistsException {
         // given
         underTest = new AccountRegistrationServerResponse(HttpURLConnection.HTTP_BAD_GATEWAY, testResponse);
+        MainActivity activity = new MainActivity();
 
         // then
-        underTest.readResponse();
+        underTest.readResponse(activity);
 
         assertNull(underTest.getAccount());
 

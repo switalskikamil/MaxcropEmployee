@@ -1,6 +1,7 @@
 package com.maxcropdata.maxcropemployee.model.server;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.maxcropdata.maxcropemployee.model.server.request.ServerRequest;
 import com.maxcropdata.maxcropemployee.shared.utils.FileManager;
@@ -51,6 +52,7 @@ public class ServerController {
     ) throws JSONException, IllegalAccessException {
 
         String file = FileManager.readFileFromStorage(context, fileName);
+        Log.d("MCM", "ServerController.readServerFromFileSystem: " + file);
 
         if (file != null && file.length() > 0) {
             return ServerService.getInstance().fromJSON(new JSONObject(file));

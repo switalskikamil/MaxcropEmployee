@@ -1,5 +1,6 @@
 package com.maxcropdata.maxcropemployee.model.server.response;
 
+import com.maxcropdata.maxcropemployee.MainActivity;
 import com.maxcropdata.maxcropemployee.model.report.Report;
 import com.maxcropdata.maxcropemployee.model.report.ReportService;
 
@@ -20,7 +21,7 @@ public class ReportsForDatesServerResponse extends ServerResponse {
     }
 
     @Override
-    public void readResponse() throws
+    public void readResponse(MainActivity activity) throws
             RequestUnathorizedException,
             ResponseMalformedException,
             UexpectedResponseStatusException,
@@ -34,12 +35,12 @@ public class ReportsForDatesServerResponse extends ServerResponse {
 
                 for (int i = 0; i < reports.length(); i++) {
                     reportsList.add(
-                            ReportService.getInstance().fromJSON(reports.getJSONObject(i))
+                            ReportService.getInstance().fromJSON(reports.getJSONObject(i), activity)
                     );
                 }
 
 
-            } catch (JSONException | IllegalAccessException e) {
+            } catch (JSONException e) {
                 throw new ResponseMalformedException("Response malformed and could nto be read.");
             }
         }

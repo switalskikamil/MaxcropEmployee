@@ -49,10 +49,9 @@ public abstract class ServerRequest extends AsyncTask<Void, Void, String> {
             // prepare http connection
             prepareConnection();
 
-            // write and encode query
-            prepareQuery();
 
-        } catch (IOException | IllegalAccessException e) {
+
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -64,6 +63,9 @@ public abstract class ServerRequest extends AsyncTask<Void, Void, String> {
         InputStream inputStream;
 
         try {
+            // write and encode query
+            prepareQuery();
+
             getConnection().connect();
 
             this.httpResponseCode = getConnection().getResponseCode();
@@ -88,7 +90,7 @@ public abstract class ServerRequest extends AsyncTask<Void, Void, String> {
 
             }
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

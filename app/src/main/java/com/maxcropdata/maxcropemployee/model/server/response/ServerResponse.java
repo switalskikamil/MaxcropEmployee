@@ -1,6 +1,8 @@
 package com.maxcropdata.maxcropemployee.model.server.response;
 
 
+import com.maxcropdata.maxcropemployee.MainActivity;
+
 import javax.net.ssl.HttpsURLConnection;
 
 public abstract class ServerResponse {
@@ -36,7 +38,9 @@ public abstract class ServerResponse {
     /**
      * Reads the json response into response specific fields
      */
-    public abstract void readResponse() throws RequestUnathorizedException, ResponseMalformedException, UexpectedResponseStatusException, AccountAlreadyExistsException;
+    public abstract void readResponse(MainActivity activity)
+            throws RequestUnathorizedException, ResponseMalformedException,
+            UexpectedResponseStatusException, AccountAlreadyExistsException;
 
 
     public String getJsonResponse() {

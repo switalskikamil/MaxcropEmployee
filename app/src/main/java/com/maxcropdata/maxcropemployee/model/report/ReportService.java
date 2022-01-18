@@ -1,5 +1,6 @@
 package com.maxcropdata.maxcropemployee.model.report;
 
+import com.maxcropdata.maxcropemployee.MainActivity;
 import com.maxcropdata.maxcropemployee.shared.interfaces.JSONAble;
 import com.maxcropdata.maxcropemployee.shared.utils.Helper;
 
@@ -9,7 +10,7 @@ import org.json.JSONObject;
 
 import java.text.ParseException;
 
-public class ReportService implements JSONAble<Report> {
+public class ReportService  {
 
     private static final String COLS_DEFINITION = "cols_definition";
     private static final String COLUMNS = "cols";
@@ -18,7 +19,7 @@ public class ReportService implements JSONAble<Report> {
     private static final String FIELD = "field";
     private static final String VALUE = "value";
     private static final String REPORT_DATE = "report_date";
-    private static final String ACTION = "ACTION";
+    private static final String ACTION = "paymentForInt";
 
     private static ReportService instance = new ReportService();
 
@@ -26,38 +27,27 @@ public class ReportService implements JSONAble<Report> {
         return instance;
     }
 
-    @Override
-    public String toJSON(Report s) throws IllegalAccessException, NoSuchFieldException {
-        return null;
-    }
-
-    @Override
-    public Report fromJSON(JSONObject json) throws JSONException, IllegalAccessException {
+    public Report fromJSON(JSONObject json, MainActivity activity) throws JSONException {
         final Report report;
-        try {
-            report = new Report(
-                    Helper.DATE_FORMAT.parse(json.getString(REPORT_DATE))
-            );
+        report = new Report(
+                //Helper.DATE_FORMAT.parse(json.getString(REPORT_DATE))
+        );
 
-            JSONArray colDefs = json.getJSONArray(COLS_DEFINITION);
-            JSONArray rows = json.getJSONArray(ROWS);
+        JSONArray colDefs = json.getJSONArray(COLS_DEFINITION);
+        JSONArray rows = json.getJSONArray(ROWS);
 
-            for (int i=0; i < colDefs.length(); i++) {
-                report.getColumnDefinition().add(colDefs.getJSONObject(i).getString(FIELD));
-            }
+        for (int i=0; i < colDefs.length(); i++) {
+            report.getColumnDefinition().add(colDefs.getJSONObject(i).getString(FIELD));
+        }
 
-            for (int j = 0; j < rows.length(); j++) {
-                report.getReportRows().add(reportRowFromJSON(rows.getJSONObject(j)));
-            }
-
-        } catch (ParseException e) {
-            throw new JSONException(e.toString());
+        for (int j = 0; j < rows.length(); j++) {
+            report.getReportRows().add(reportRowFromJSON(rows.getJSONObject(j), activity));
         }
 
         return report;
     }
 
-    private ReportRow reportRowFromJSON(JSONObject json) throws JSONException {
+    private ReportRow reportRowFromJSON(JSONObject json, MainActivity activity) throws JSONException {
         final ReportRow reportRow;
         reportRow = new ReportRow(json.getInt(ROW));
 
@@ -66,30 +56,24 @@ public class ReportService implements JSONAble<Report> {
         for (int i = 0; i < columns.length(); i++) {
             reportRow.getColumns().put(
               columns.getJSONObject(i).getString(FIELD),
-              columns.getJSONObject(i).get(VALUE)
+              columns.getJSONObject(i).has(VALUE)?columns.getJSONObject(i).get(VALUE):null
             );
         }
 
-        return refineRow(reportRow);
+        return refineRow(reportRow, activity);
     }
 
     /*
         field containing action id will have to be translated on the device
      */
-    private ReportRow refineRow(ReportRow row) {
+    private ReportRow refineRow(ReportRow row, MainActivity activity) {
         if (row.getColumns().containsKey(ACTION)) {
-            row.getColumns().put(ACTION, getLabelForActionId((Integer) row.getColumns().get(ACTION)));
+            row.getColumns().put(ACTION, getLabelForActionId((Integer) row.getColumns().get(ACTION), activity));
         }
         return row;
     }
 
-    private String getLabelForActionId(Integer actionId) {
-        if (actionId == 0) return "?";
-        else if (actionId == 1) return "START_TIME";
-        else if (actionId == 2) return "START_PIECEWORK";
-        else if (actionId == 3) return "BREAK";
-        else if (actionId == 4) return "STOP";
-        else return "?";
-        //TODO add others - collection, holiday, pay outs, bonus etc
+    private String getLabelForActionId(Integer actionId, MainActivity activity) {
+        return ReportActionLabel.getLabel(actionId, activity);
     }
 }

@@ -62,7 +62,7 @@ public class Server {
 
     @Override
     public String toString() {
-        return this.protocol + "://" + this.address + "/" + this.webserviceAddress + "/";
+        return this.protocol + "://" + this.address + "/" ;//+ this.webserviceAddress + "/";
     }
 
     public String stringForUpdate() {

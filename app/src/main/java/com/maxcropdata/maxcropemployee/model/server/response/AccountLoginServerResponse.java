@@ -7,20 +7,19 @@ import com.maxcropdata.maxcropemployee.shared.utils.JSONService;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class AccountRegistrationServerResponse extends ServerResponse {
+public class AccountLoginServerResponse extends ServerResponse {
 
     private Account account;
 
-    public AccountRegistrationServerResponse(int responseCode, String jsonResponse) {
+
+    public AccountLoginServerResponse(int responseCode, String jsonResponse) {
         super(responseCode, jsonResponse);
     }
 
     @Override
-    public void readResponse(MainActivity activity) throws
-            RequestUnathorizedException,
-            ResponseMalformedException,
-            UexpectedResponseStatusException,
-            AccountAlreadyExistsException {
+    public void readResponse(MainActivity activity)
+            throws RequestUnathorizedException, ResponseMalformedException,
+            UexpectedResponseStatusException, AccountAlreadyExistsException {
 
         if (super.processResponse()) {
             this.account = new Account();
@@ -28,10 +27,9 @@ public class AccountRegistrationServerResponse extends ServerResponse {
             try {
                 JSONService.readJSONIntoObject(new JSONObject(getJsonResponse()), this.account);
             } catch (JSONException | IllegalAccessException e) {
-                throw new ResponseMalformedException("Response malformed and could nto be read.");
+                throw new ResponseMalformedException("Response malformed and could not be read: " + getJsonResponse() );
             }
         }
-
     }
 
     public Account getAccount() {

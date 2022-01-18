@@ -106,8 +106,8 @@ public class Account {
     }
 
     public String toShortString() {
-        if (this.getName() != null
-        && this.getLastName() != null) return this.getName() + " " + this.getLastName();
+        if (this.getName() != null && this.getLastName() != null)
+            return this.getName() + " " + this.getLastName();
         return "---";
     }
 
