@@ -3,7 +3,7 @@ package com.maxcropdata.maxcropemployee.model.report;
 import com.maxcropdata.maxcropemployee.MainActivity;
 import com.maxcropdata.maxcropemployee.R;
 
-public class ReportActionLabel {
+public class ReportActionType {
     public static final int ACTION_TIMEWORK = 1;
     public static final int ACTION_PIECEWORK = 2;
     public static final int ACTION_PIECEWORK_HARVEST = 22;

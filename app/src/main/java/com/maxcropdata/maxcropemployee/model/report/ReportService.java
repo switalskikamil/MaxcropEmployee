@@ -1,14 +1,10 @@
 package com.maxcropdata.maxcropemployee.model.report;
 
 import com.maxcropdata.maxcropemployee.MainActivity;
-import com.maxcropdata.maxcropemployee.shared.interfaces.JSONAble;
-import com.maxcropdata.maxcropemployee.shared.utils.Helper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.text.ParseException;
 
 public class ReportService  {
 
@@ -28,10 +24,7 @@ public class ReportService  {
     }
 
     public Report fromJSON(JSONObject json, MainActivity activity) throws JSONException {
-        final Report report;
-        report = new Report(
-                //Helper.DATE_FORMAT.parse(json.getString(REPORT_DATE))
-        );
+        final Report report = new Report();
 
         JSONArray colDefs = json.getJSONArray(COLS_DEFINITION);
         JSONArray rows = json.getJSONArray(ROWS);
@@ -74,6 +67,6 @@ public class ReportService  {
     }
 
     private String getLabelForActionId(Integer actionId, MainActivity activity) {
-        return ReportActionLabel.getLabel(actionId, activity);
+        return ReportActionType.getLabel(actionId, activity);
     }
 }

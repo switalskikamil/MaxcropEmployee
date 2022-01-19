@@ -1,6 +1,7 @@
 package com.maxcropdata.maxcropemployee.view;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,13 +66,19 @@ public class ShowDataFilterFragment extends Fragment {
         dateFromText.setOnClickListener(v -> AppDatePickerDialog.popDialog(
                 activity,
                 dateFrom,
-                (date) -> dateFromText.setText(Helper.DATE_FORMAT.format(date)))
+                (date) -> {
+                    dateFromText.setText(Helper.DATE_FORMAT.format(date));
+                    dateFrom = date;
+                })
         );
 
         dateToText.setOnClickListener(v -> AppDatePickerDialog.popDialog(
                 activity,
                 dateTo,
-                (date) -> dateToText.setText(Helper.DATE_FORMAT.format(date)))
+                (date) -> {
+                    dateToText.setText(Helper.DATE_FORMAT.format(date));
+                    dateTo = date;
+                })
         );
 
         cancelBtn.setOnClickListener(v -> {
@@ -97,6 +104,8 @@ public class ShowDataFilterFragment extends Fragment {
                         form,
                         activity.getUserAccount(),
                         activity.getServer());
+            } else {
+                Log.d("MCM", "Failed to verify report request. Reason: worker id = " + activity.getUserAccount().getWorkerId());
             }
         } catch (DateFromOlderThanDateToException e) {
             MCToast.displayText(

@@ -38,19 +38,19 @@ import java.util.List;
 }
  */
 public class Report {
-    //private Date reportDate;
+    private Date reportGenerationDate;
     private List<String> columnDefinition;
     private List<ReportRow> reportRows;
 
     public Report() {
-        //this.reportDate = reportDate;
         this.columnDefinition = new ArrayList<>();
         this.reportRows = new ArrayList<>();
+        this.reportGenerationDate = new Date();
     }
 
-    /*public Date getReportDate() {
-        return reportDate;
-    }*/
+    public Date getReportGenerationDate() {
+        return reportGenerationDate;
+    }
 
     public List<String> getColumnDefinition() {
         return columnDefinition;

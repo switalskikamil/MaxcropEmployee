@@ -1,5 +1,7 @@
 package com.maxcropdata.maxcropemployee.model.server.response;
 
+import android.util.Log;
+
 import com.maxcropdata.maxcropemployee.MainActivity;
 import com.maxcropdata.maxcropemployee.model.report.Report;
 import com.maxcropdata.maxcropemployee.model.report.ReportService;
@@ -31,17 +33,11 @@ public class ReportsForDatesServerResponse extends ServerResponse {
 
             try {
                 JSONObject json = new JSONObject(getJsonResponse());
-                JSONArray reports = json.getJSONArray(REPORTS);
 
-                for (int i = 0; i < reports.length(); i++) {
-                    reportsList.add(
-                            ReportService.getInstance().fromJSON(reports.getJSONObject(i), activity)
-                    );
-                }
-
+                reportsList.add(ReportService.getInstance().fromJSON(json, activity));
 
             } catch (JSONException e) {
-                throw new ResponseMalformedException("Response malformed and could nto be read.");
+                throw new ResponseMalformedException("Response malformed and could not be read.");
             }
         }
     }

@@ -54,4 +54,18 @@
     <string name="report_action_payment">Payment</string>
     <string name="report_action_acc_balance">Account balance</string>
     <string name="want_to_change_settings">Change server settings</string>
+    <string name="column_label_date">Date</string>
+    <string name="column_label_area">Area</string>
+    <string name="column_label_product_class">Product class</string>
+    <string name="column_label_work_type">Work type</string>
+    <string name="column_label_payment_for">Evidence</string>
+    <string name="column_label_day_start">Time from</string>
+    <string name="column_label_day_stop">Time to</string>
+    <string name="column_label_wage">Wage</string>
+    <string name="column_label_time">Time</string>
+    <string name="column_label_amount">Quantity</string>
+    <string name="column_label_weight">Weight</string>
+    <string name="column_label_total">Total</string>
+    <string name="label_quantity">quantity</string>
+    <string name="label_weight">weight</string>
 </resources>

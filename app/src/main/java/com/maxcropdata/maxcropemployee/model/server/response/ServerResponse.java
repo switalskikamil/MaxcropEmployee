@@ -1,6 +1,8 @@
 package com.maxcropdata.maxcropemployee.model.server.response;
 
 
+import android.util.Log;
+
 import com.maxcropdata.maxcropemployee.MainActivity;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -44,6 +46,7 @@ public abstract class ServerResponse {
 
 
     public String getJsonResponse() {
+        Log.d("MCM", jsonResponse);
         return jsonResponse;
     }
 

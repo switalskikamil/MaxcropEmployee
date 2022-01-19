@@ -54,4 +54,9 @@ public class ReportRow {
     public HashMap<String, Object> getColumns() {
         return columns;
     }
+
+    public Object getColumn(String key) {
+        if (columns.containsKey(key)) return columns.get(key);
+        else return null;
+    }
 }
