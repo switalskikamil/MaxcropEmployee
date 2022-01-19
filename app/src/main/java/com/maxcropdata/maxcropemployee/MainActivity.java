@@ -26,6 +26,7 @@ import com.maxcropdata.maxcropemployee.view.MainMenuFragment;
 import com.maxcropdata.maxcropemployee.view.ServerSettingsFragment;
 import com.maxcropdata.maxcropemployee.view.ShowDataFilterFragment;
 import com.maxcropdata.maxcropemployee.view.ShowIssuesFragment;
+import com.maxcropdata.maxcropemployee.view.ShowReportFragment;
 
 import org.json.JSONException;
 
@@ -186,10 +187,12 @@ public class MainActivity extends AppCompatActivity
             AccountAlreadyExistsException {
         response.readResponse(this);
 
-        List<Report> reports = response.getReportsList();
+        Report report = response.getReport();
 
         savedReports = new ArrayList<>();
-        savedReports.addAll(reports);
+        savedReports.add(report);
+
+        loadFragment(ShowReportFragment.getInstance(report));
         //TODO: we could just add reports to existing list, but we need to first remove some by date
         //TODO: open ShowDataByDayFilter and pass reports as argument
     }

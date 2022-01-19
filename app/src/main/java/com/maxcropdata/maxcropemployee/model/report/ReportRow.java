@@ -59,4 +59,10 @@ public class ReportRow {
         if (columns.containsKey(key)) return columns.get(key);
         else return null;
     }
+
+    public String getColumnAsString(String key) {
+        if (columns.containsKey(key) && columns.get(key) != null)
+            return columns.get(key).toString();
+        else return "";
+    }
 }

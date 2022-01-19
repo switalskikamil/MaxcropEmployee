@@ -15,7 +15,7 @@ import java.util.List;
 
 public class ReportsForDatesServerResponse extends ServerResponse {
 
-    List<Report> reportsList;
+    Report report;
     private static final String REPORTS = "reports";
 
     public ReportsForDatesServerResponse(int responseCode, String jsonResponse) {
@@ -29,12 +29,11 @@ public class ReportsForDatesServerResponse extends ServerResponse {
             UexpectedResponseStatusException,
             AccountAlreadyExistsException {
         if (super.processResponse()) {
-            reportsList = new ArrayList<>();
 
             try {
                 JSONObject json = new JSONObject(getJsonResponse());
 
-                reportsList.add(ReportService.getInstance().fromJSON(json, activity));
+                report = ReportService.getInstance().fromJSON(json, activity);
 
             } catch (JSONException e) {
                 throw new ResponseMalformedException("Response malformed and could not be read.");
@@ -42,7 +41,7 @@ public class ReportsForDatesServerResponse extends ServerResponse {
         }
     }
 
-    public List<Report> getReportsList() {
-        return reportsList;
+    public Report getReport() {
+        return report;
     }
 }

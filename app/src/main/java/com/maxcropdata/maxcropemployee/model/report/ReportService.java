@@ -53,20 +53,20 @@ public class ReportService  {
             );
         }
 
-        return refineRow(reportRow, activity);
+        return reportRow;
     }
 
     /*
         field containing action id will have to be translated on the device
      */
-    private ReportRow refineRow(ReportRow row, MainActivity activity) {
+    /*private ReportRow refineRow(ReportRow row, MainActivity activity) {
         if (row.getColumns().containsKey(ACTION)) {
             row.getColumns().put(ACTION, getLabelForActionId((Integer) row.getColumns().get(ACTION), activity));
         }
         return row;
-    }
+    }*/
 
-    private String getLabelForActionId(Integer actionId, MainActivity activity) {
+    /*private String getLabelForActionId(Integer actionId, MainActivity activity) {
         return ReportActionType.getLabel(actionId, activity);
-    }
+    }*/
 }

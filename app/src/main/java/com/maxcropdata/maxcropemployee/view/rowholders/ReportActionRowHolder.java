@@ -33,9 +33,9 @@ public class ReportActionRowHolder {
 
     public void populate(ReportRow reportRow) {
         clearFields();
-        final int actionTypeId = (Integer)reportRow.getColumn(ReportColumnType.COL_PAYMENT_FOR);
+        final int actionTypeId = Integer.valueOf(reportRow.getColumn(ReportColumnType.COL_PAYMENT_FOR).toString());
 
-        actionDate.setText(reportRow.getColumn(ReportColumnType.COL_DATE).toString());
+        actionDate.setText(reportRow.getColumnAsString(ReportColumnType.COL_DATE));
         actionLabel.setText(ReportActionType.getLabel(actionTypeId, activity));
 
         if (actionTypeId == ReportActionType.ACTION_TIMEWORK
@@ -47,22 +47,24 @@ public class ReportActionRowHolder {
         }
 
         actionMoneyValue.setText(
-                Helper.formatValue(reportRow.getColumn(ReportColumnType.COL_TOTAL).toString())
+                Helper.formatValue(reportRow.getColumnAsString(ReportColumnType.COL_TOTAL))
         );
     }
 
     private void populateTimeRecord(ReportRow reportRow) {
-        String actionFrom = activity.getString(R.string.column_label_day_start)
+        /*String actionFrom = activity.getString(R.string.column_label_day_start)
                 + ": " + reportRow.getColumn(ReportColumnType.COL_DAY_START);
 
         String actionTo = activity.getString(R.string.column_label_day_stop)
                 + ": " + reportRow.getColumn(ReportColumnType.COL_DAY_STOP);
-
-        String wage = Helper.formatValue(reportRow.getColumn(ReportColumnType.COL_WAGE).toString())
+           */
+        String wage = Helper.formatValue(reportRow.getColumnAsString(ReportColumnType.COL_WAGE))
                 + "/h";
 
-        actionDetailOne.setText(actionFrom);
-        actionDetailTwo.setText(actionTo);
+        String actionTime = reportRow.getColumn(ReportColumnType.COL_DAY_START) + " - " + reportRow.getColumn(ReportColumnType.COL_DAY_STOP);
+
+        actionDetailOne.setText(actionTime);
+        //actionDetailTwo.setText(actionTo);
         actionLabourValue.setText(reportRow.getColumn(ReportColumnType.COL_TIME).toString());
         actionLabourWage.setText(wage);
     }
@@ -75,10 +77,10 @@ public class ReportActionRowHolder {
         String harvestType;
         if ((Boolean)reportRow.getColumn(ReportColumnType.COL_HARVEST_PER_QUANTITY)) {
             harvestType = activity.getString(R.string.label_quantity);
-            actionLabourValue.setText(reportRow.getColumn(ReportColumnType.COL_AMOUNT).toString());
+            actionLabourValue.setText(Helper.formatValue(reportRow.getColumn(ReportColumnType.COL_AMOUNT).toString()));
         } else {
             harvestType = activity.getString(R.string.label_weight);
-            actionLabourValue.setText(reportRow.getColumn(ReportColumnType.COL_WEIGHT).toString());
+            actionLabourValue.setText(Helper.formatValue(reportRow.getColumn(ReportColumnType.COL_WEIGHT).toString()));
         }
 
         String wage = Helper.formatValue(reportRow.getColumn(ReportColumnType.COL_WAGE).toString()) +
