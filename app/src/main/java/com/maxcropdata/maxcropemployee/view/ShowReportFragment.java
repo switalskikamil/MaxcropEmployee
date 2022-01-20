@@ -4,11 +4,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.maxcropdata.maxcropemployee.MainActivity;
 import com.maxcropdata.maxcropemployee.R;
 import com.maxcropdata.maxcropemployee.model.report.Report;
+import com.maxcropdata.maxcropemployee.model.report.ReportColumnType;
 import com.maxcropdata.maxcropemployee.model.report.ReportRow;
 import com.maxcropdata.maxcropemployee.model.report.ReportRowArrayAdapter;
 
@@ -54,6 +56,12 @@ public class ShowReportFragment extends Fragment {
         ListView list = root.findViewById(R.id.report_list_view);
 
         list.setAdapter(adapter);
+
+        list.setOnItemClickListener((parent, view, position, id) -> {
+            final ReportRow reportRow = adapter.getItem(position);
+            if (!(Boolean)reportRow.getColumn(ReportColumnType.COL_IS_FINAL))
+                activity.loadFragment(ShowReportRecordDetailFragment.getInstance(reportRow));
+        });
 
         return root;
     }

@@ -1,6 +1,12 @@
 package com.maxcropdata.maxcropemployee.model.report;
 
+import com.maxcropdata.maxcropemployee.MainActivity;
+import com.maxcropdata.maxcropemployee.R;
+import com.maxcropdata.maxcropemployee.shared.utils.Helper;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 
 /*
@@ -53,6 +59,37 @@ public class ReportRow {
 
     public HashMap<String, Object> getColumns() {
         return columns;
+    }
+
+    public ArrayList<ReportRowDetail> listDetails(MainActivity activity) {
+        ArrayList<ReportRowDetail> details = new ArrayList<>();
+        boolean oddRow = false;
+        int actionType = (Integer) getColumn(ReportColumnType.COL_PAYMENT_FOR);
+
+        for (String key : ReportColumnType.getColumnListOrdered(actionType)) {
+            String fieldLabel = ReportColumnType.getLabel(key, activity);
+            String fieldValue;
+
+            if (!key.equals(ReportColumnType.COL_IS_FINAL)) {
+                if (columns.get(key) != null) {
+                    if (key.equals(ReportColumnType.COL_AMOUNT)
+                    || key.equals(ReportColumnType.COL_WEIGHT)
+                    || key.equals(ReportColumnType.COL_WAGE)
+                    || key.equals(ReportColumnType.COL_TOTAL)) {
+                        fieldValue = Helper.formatValue(getColumnAsString(key));
+                    } else if (key.equals(ReportColumnType.COL_HARVEST_PER_QUANTITY)) {
+                        if ((Boolean)columns.get(key)) fieldValue = activity.getString(R.string.column_calculation_for_quantity);
+                        else fieldValue = activity.getString(R.string.column_calculation_for_weight);
+                    } else if (key.equals(ReportColumnType.COL_PAYMENT_FOR)) {
+                        fieldValue = ReportActionType.getLabel(actionType, activity);
+                    } else fieldValue = getColumnAsString(key);
+
+                    details.add(new ReportRowDetail(fieldLabel, fieldValue, oddRow));
+                    oddRow=!oddRow;
+                }
+            }
+        }
+        return details;
     }
 
     public Object getColumn(String key) {

@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#008577</color>
+    <color name="colorBlueish">#2F8AA3</color>
+    <color name="colorBlueishDark">#076079</color>
     <color name="colorLight">#A0FFF0</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="dark">#000</color>
     <color name="logoDark">#29245C</color>
     <color name="white">#fff</color>
+    <color name="colorGreenish">#1DA366</color>
+    <color name="colorGreenishDark">#036D41</color>
+    <color name="colorVioletish">#A939C5</color>
+    <color name="colorVioletishDark">#6F1288</color>
+    <color name="colorVioletishLight">#F6E4FF</color>
 </resources>

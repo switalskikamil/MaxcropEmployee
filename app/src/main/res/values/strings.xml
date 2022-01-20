@@ -44,7 +44,7 @@
     <string name="label_settings_server_protocol">Protocol</string>
     <string name="report_action_timework">Timework</string>
     <string name="report_action_piecework">Piecework</string>
-    <string name="report_action_harvest">Piecework(harvest)</string>
+    <string name="report_action_harvest">Piecework(picking)</string>
     <string name="report_action_sweden_ob">OB</string>
     <string name="report_action_holiday">Holiday</string>
     <string name="report_action_surcharge">Surcharge</string>
@@ -68,4 +68,7 @@
     <string name="column_label_total">Total</string>
     <string name="label_quantity">quantity</string>
     <string name="label_weight">weight</string>
+    <string name="column_label_calculation_type">Calculation type</string>
+    <string name="column_calculation_for_quantity">by quantity</string>
+    <string name="column_calculation_for_weight">by weight</string>
 </resources>
