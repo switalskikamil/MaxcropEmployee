@@ -10,7 +10,7 @@ public class ReportsForDatesServerRequest extends ServerRequest {
     private static final String END_POINT = "employeeGetReports";
 
     public ReportsForDatesServerRequest(Token authToken, String payload, Server server, AsyncResponseProcessor delegatedProcessor) {
-        super(authToken, payload, server, delegatedProcessor, MethodType.GET, END_POINT);
+        super(authToken, payload, server, delegatedProcessor, MethodType.POST, END_POINT);
     }
 
     @Override

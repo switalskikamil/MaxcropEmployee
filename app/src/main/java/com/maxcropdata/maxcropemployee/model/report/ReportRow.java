@@ -4,7 +4,9 @@ import com.maxcropdata.maxcropemployee.MainActivity;
 import com.maxcropdata.maxcropemployee.R;
 import com.maxcropdata.maxcropemployee.shared.utils.Helper;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -61,10 +63,11 @@ public class ReportRow {
         return columns;
     }
 
-    public ArrayList<ReportRowDetail> listDetails(MainActivity activity) {
+    public ArrayList<ReportRowDetail> listDetails(MainActivity activity) throws ParseException {
         ArrayList<ReportRowDetail> details = new ArrayList<>();
         boolean oddRow = false;
-        int actionType = (Integer) getColumn(ReportColumnType.COL_PAYMENT_FOR);
+        final int actionType = (Integer) getColumn(ReportColumnType.COL_PAYMENT_FOR);
+        final Date rowDate = Helper.DATE_FORMAT.parse(getColumnAsString(ReportColumnType.COL_DATE));
 
         for (String key : ReportColumnType.getColumnListOrdered(actionType)) {
             String fieldLabel = ReportColumnType.getLabel(key, activity);
@@ -84,7 +87,7 @@ public class ReportRow {
                         fieldValue = ReportActionType.getLabel(actionType, activity);
                     } else fieldValue = getColumnAsString(key);
 
-                    details.add(new ReportRowDetail(fieldLabel, fieldValue, oddRow));
+                    details.add(new ReportRowDetail(fieldLabel, fieldValue, key, rowDate, oddRow));
                     oddRow=!oddRow;
                 }
             }

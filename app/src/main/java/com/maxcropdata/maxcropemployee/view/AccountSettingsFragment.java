@@ -14,6 +14,7 @@ import com.maxcropdata.maxcropemployee.R;
 import com.maxcropdata.maxcropemployee.model.account.Account;
 import com.maxcropdata.maxcropemployee.model.account.AccountController;
 import com.maxcropdata.maxcropemployee.model.account.LoginTooShortException;
+import com.maxcropdata.maxcropemployee.model.account.PasswordIsPlaceHolderException;
 import com.maxcropdata.maxcropemployee.model.account.PasswordTooShortException;
 import com.maxcropdata.maxcropemployee.model.server.ServerController;
 import com.maxcropdata.maxcropemployee.model.server.request.AccountLoginServerRequest;
@@ -29,7 +30,7 @@ import androidx.fragment.app.Fragment;
 
 public class AccountSettingsFragment extends Fragment {
 
-    public static final String PSWD_PLACEHOLDER = "*******";
+    public static final String PSWD_PLACEHOLDER = "********";
 
     public static AccountSettingsFragment getInstance() {
         return new AccountSettingsFragment();
@@ -81,10 +82,10 @@ public class AccountSettingsFragment extends Fragment {
 
             runServerLogin(activity.getUserAccount());
 
-            //activity.loadFragment(MainMenuFragment.getInstance());
-
         } catch (UnsupportedEncodingException | NoSuchAlgorithmException | IllegalAccessException e) {
             e.printStackTrace();
+        } catch (PasswordIsPlaceHolderException e) {
+            activity.loadFragment(MainMenuFragment.getInstance());
         } catch (LoginTooShortException | PasswordTooShortException e ) {
             MCToast.displayText(activity, Toast.LENGTH_SHORT, getString(R.string.login_or_password_too_short));
         }

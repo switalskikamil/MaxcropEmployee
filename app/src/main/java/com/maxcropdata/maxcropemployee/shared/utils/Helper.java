@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 
 public class Helper {
     public static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+    public static final DateFormat DATE_TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     /*
     formats number to two decimal paces

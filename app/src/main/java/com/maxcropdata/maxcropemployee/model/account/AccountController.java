@@ -95,27 +95,31 @@ public class AccountController {
 
     public static void loginAccount(String login, String plainPassword, MainActivity activity)
             throws UnsupportedEncodingException, NoSuchAlgorithmException, PasswordTooShortException,
-            LoginTooShortException {
+            LoginTooShortException, PasswordIsPlaceHolderException {
 
         if (activity.getUserAccount() == null) activity.setUserAccount(new Account());
 
-        if (login != null && login.length() > MIN_LOGIN_LENGTH) activity.getUserAccount().setLogin(login);
+        if (login != null && login.length() > MIN_LOGIN_LENGTH)
+            activity.getUserAccount().setLogin(login);
         else throw new LoginTooShortException();
 
-        if (plainPassword != null &&
-            plainPassword != AccountSettingsFragment.PSWD_PLACEHOLDER &&
-            plainPassword.length() >= MIN_PASSWORD_LENGTH) {
+        if (plainPassword != null && !plainPassword.equals(AccountSettingsFragment.PSWD_PLACEHOLDER)) {
+            if (plainPassword.length() >= MIN_PASSWORD_LENGTH) {
 
-            activity.getUserAccount().setPassword(PasswordUtils.generatePassword(
-                    activity.getUserAccount().getLogin(), plainPassword)
-            );
+                activity.getUserAccount().setPassword(PasswordUtils.generatePassword(
+                        activity.getUserAccount().getLogin(), plainPassword)
+                );
 
-            //at this point we don't know if users account is not expired
-            //lets set temporary expiration date for tomorrow and check with server
-            activity.getUserAccount().setExpirationDate(new Date(new Date().getTime() + 8400000));
-            activity.getUserAccount().setName("");
-            activity.getUserAccount().setLastName("");
+                //at this point we don't know if users account is not expired
+                //lets set temporary expiration date for tomorrow and check with server
+                activity.getUserAccount().setExpirationDate(new Date(new Date().getTime() + 8400000));
+                activity.getUserAccount().setName("");
+                activity.getUserAccount().setLastName("");
 
-        } else throw new PasswordTooShortException();
+
+            } else throw new PasswordTooShortException();
+        } else {
+            throw new PasswordIsPlaceHolderException();
+        }
     }
 }

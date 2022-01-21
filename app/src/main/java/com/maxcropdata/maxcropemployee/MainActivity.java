@@ -9,12 +9,14 @@ import com.google.android.material.navigation.NavigationView;
 import com.maxcropdata.maxcropemployee.model.account.Account;
 import com.maxcropdata.maxcropemployee.model.account.AccountController;
 import com.maxcropdata.maxcropemployee.model.issue.Issue;
+import com.maxcropdata.maxcropemployee.model.issue.IssueController;
 import com.maxcropdata.maxcropemployee.model.report.Report;
 import com.maxcropdata.maxcropemployee.model.server.Server;
 import com.maxcropdata.maxcropemployee.model.server.ServerController;
 import com.maxcropdata.maxcropemployee.model.server.response.AccountAlreadyExistsException;
 import com.maxcropdata.maxcropemployee.model.server.response.AccountLoginServerResponse;
 import com.maxcropdata.maxcropemployee.model.server.response.AccountRegistrationServerResponse;
+import com.maxcropdata.maxcropemployee.model.server.response.IssueRegistrationServerResponse;
 import com.maxcropdata.maxcropemployee.model.server.response.ReportsForDatesServerResponse;
 import com.maxcropdata.maxcropemployee.model.server.response.RequestUnathorizedException;
 import com.maxcropdata.maxcropemployee.model.server.response.ResponseMalformedException;
@@ -82,8 +84,11 @@ public class MainActivity extends AppCompatActivity
             //loads user account
             this.userAccount = AccountController.readAccountFromFileSystem(this);
 
+            //load saved issues
+            this.savedIssues = IssueController.readIssuesFromFileSystem(this);
 
-        } catch (JSONException e) {
+
+        } catch (JSONException | InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
@@ -156,6 +161,8 @@ public class MainActivity extends AppCompatActivity
                 processAccountRegistrationServerResponse((AccountRegistrationServerResponse) response);
             else if (response instanceof AccountLoginServerResponse)
                 processAccountLoginServerResponse((AccountLoginServerResponse)response);
+            else if (response instanceof IssueRegistrationServerResponse)
+                processIssueRegistrationServerResponse((IssueRegistrationServerResponse)response);
 
         } catch (UexpectedResponseStatusException | ResponseMalformedException |
                 RequestUnathorizedException | AccountAlreadyExistsException |
@@ -163,6 +170,19 @@ public class MainActivity extends AppCompatActivity
             e.printStackTrace();
             //TODO: dialogs for each type of errors
         }
+    }
+
+    private void processIssueRegistrationServerResponse(IssueRegistrationServerResponse response)
+            throws RequestUnathorizedException,
+            ResponseMalformedException,
+            UexpectedResponseStatusException,
+            AccountAlreadyExistsException, IllegalAccessException {
+
+        response.readResponse(this);
+
+        IssueController.updateRegisteredIssues(this.savedIssues, response.getReceivedIssueRegistration());
+
+        IssueController.saveIssuesToFileSystem(this, this.savedIssues);
     }
 
     private void processAccountLoginServerResponse(AccountLoginServerResponse response)
@@ -220,5 +240,9 @@ public class MainActivity extends AppCompatActivity
 
     public void setUserAccount(Account account) {
         this.userAccount = account;
+    }
+
+    public List<Issue> getSavedIssues() {
+        return savedIssues;
     }
 }

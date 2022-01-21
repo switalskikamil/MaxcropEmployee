@@ -37,8 +37,18 @@ public class IssueController {
 
         String file = FileManager.readFileFromStorage(context, fileName);
 
-        JSONArray jArray = (JSONArray) new JSONTokener(file).nextValue();
+        JSONArray jArray;
+        if (file != null && file.length() > 0)
+            jArray = (JSONArray) new JSONTokener(file).nextValue();
+        else
+            jArray = new JSONArray();
 
         return service.allFromJSON(jArray);
+    }
+
+    public static void updateRegisteredIssues(List<Issue> savedIssues, Issue receivedIssueRegistration) {
+        for (Issue i : savedIssues)
+            if (i.getIssueLocalId() == receivedIssueRegistration.getIssueLocalId())
+                i.setIssueDbId(receivedIssueRegistration.getIssueDbId());
     }
 }

@@ -71,4 +71,10 @@
     <string name="column_label_calculation_type">Calculation type</string>
     <string name="column_calculation_for_quantity">by quantity</string>
     <string name="column_calculation_for_weight">by weight</string>
+    <string name="label_send_report">Send</string>
+    <string name="issue_info">You can report a data inconsistency in this field to your employer.</string>
+    <string name="issue_description">Details:</string>
+    <string name="error_problem_registering_issue">Error: Could not register issue to server.</string>
+    <string name="label_issue_sent">Sent</string>
+    <string name="label_issue_unsent">Unsent</string>
 </resources>

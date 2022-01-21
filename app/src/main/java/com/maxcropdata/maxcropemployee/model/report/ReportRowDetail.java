@@ -1,14 +1,35 @@
 package com.maxcropdata.maxcropemployee.model.report;
 
+import java.util.Date;
+
 public class ReportRowDetail {
     String fieldLabel;
+    String fieldId;
     String fieldValue;
+    Date reportRowDate;
     boolean isOddRow;
 
-    public ReportRowDetail(String fieldLabel, String fieldValue, boolean isOddRow) {
+    public ReportRowDetail(
+            String fieldLabel,
+            String fieldValue,
+            String fieldId,
+            Date reportRowDate,
+            boolean isOddRow) {
         this.fieldLabel = fieldLabel;
         this.fieldValue = fieldValue;
+        this.fieldId = fieldId;
+        this.reportRowDate = reportRowDate;
         this.isOddRow = isOddRow;
+    }
+
+    public ReportRowDetail(
+            String fieldLabel,
+            String fieldValue,
+            String fieldId) {
+        this.fieldLabel = fieldLabel;
+        this.fieldValue = fieldValue;
+        this.fieldId = fieldId;
+        this.isOddRow = false;
     }
 
     public String getFieldLabel() {
@@ -33,5 +54,13 @@ public class ReportRowDetail {
 
     public void setOddRow(boolean oddRow) {
         isOddRow = oddRow;
+    }
+
+    public String getFieldId() {
+        return fieldId;
+    }
+
+    public Date getReportRowDate() {
+        return reportRowDate;
     }
 }

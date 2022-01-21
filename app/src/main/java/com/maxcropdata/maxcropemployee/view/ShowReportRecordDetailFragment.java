@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -12,8 +13,10 @@ import com.maxcropdata.maxcropemployee.R;
 import com.maxcropdata.maxcropemployee.model.report.ReportRow;
 import com.maxcropdata.maxcropemployee.model.report.ReportRowDetail;
 import com.maxcropdata.maxcropemployee.model.report.ReportRowDetailsArrayAdapter;
+import com.maxcropdata.maxcropemployee.view.dialogs.ReportIssueDialog;
 import com.maxcropdata.maxcropemployee.view.rowholders.ReportActionRowHolder;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
@@ -25,7 +28,7 @@ public class ShowReportRecordDetailFragment extends Fragment {
     private MainActivity activity;
     private ReportRow reportRow;
     private ReportActionRowHolder headerHolder;
-
+    private ReportRowDetailsArrayAdapter adapter;
 
     public static ShowReportRecordDetailFragment getInstance(ReportRow reportRow) {
         ShowReportRecordDetailFragment instance = new ShowReportRecordDetailFragment();
@@ -46,16 +49,26 @@ public class ShowReportRecordDetailFragment extends Fragment {
         this.headerHolder = new ReportActionRowHolder(root, activity);
         this.headerHolder.populate(reportRow);
 
-
-        ReportRowDetailsArrayAdapter adapter = new ReportRowDetailsArrayAdapter(
-                this.activity,
-                this.reportRow.listDetails(activity)
-        );
+        try {
+            adapter = new ReportRowDetailsArrayAdapter(
+                    this.activity,
+                    this.reportRow.listDetails(activity)
+            );
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
 
         ListView list = root.findViewById(R.id.report_list_view);
 
         list.setAdapter(adapter);
+
+
+        list.setOnItemClickListener((parent, view, position, id) -> {
+            ReportRowDetail detailField = adapter.getItem(position);
+            ReportIssueDialog issueDialog = new ReportIssueDialog(activity, detailField);
+            issueDialog.show();
+        });
 
         return root;
     }
