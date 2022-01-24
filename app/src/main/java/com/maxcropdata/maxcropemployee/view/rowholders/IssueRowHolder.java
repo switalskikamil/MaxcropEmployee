@@ -51,8 +51,8 @@ public class IssueRowHolder {
     private void setStatus(boolean status) {
         if (status) {
             issueStatusText.setText(R.string.label_issue_sent);
-            dateLayout.setBackgroundColor(activity.getColor(R.color.colorGreenishDark));
-            statusLayout.setBackgroundColor(activity.getColor(R.color.colorGreenishDark));
+            dateLayout.setBackgroundColor(activity.getColor(R.color.colorPrimary));
+            statusLayout.setBackgroundColor(activity.getColor(R.color.colorPrimary));
         } else {
             issueStatusText.setText(R.string.label_issue_unsent);
             dateLayout.setBackgroundColor(activity.getColor(R.color.colorVioletish));
