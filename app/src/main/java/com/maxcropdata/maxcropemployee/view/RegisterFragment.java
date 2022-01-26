@@ -1,6 +1,7 @@
 package com.maxcropdata.maxcropemployee.view;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 
 import com.maxcropdata.maxcropemployee.MainActivity;
 import com.maxcropdata.maxcropemployee.R;
+import com.maxcropdata.maxcropemployee.model.account.Account;
 import com.maxcropdata.maxcropemployee.model.account.AccountController;
 import com.maxcropdata.maxcropemployee.model.registrationform.RegistrationForm;
 import com.maxcropdata.maxcropemployee.model.registrationform.RegistrationFormController;
@@ -63,7 +65,7 @@ public class RegisterFragment extends Fragment {
 
         verifyBtn.setOnClickListener(v -> {
             try {
-                performVerification();
+                performVerification(activity);
 
             } catch (NoSuchFieldException |
                     NoSuchAlgorithmException |
@@ -80,7 +82,10 @@ public class RegisterFragment extends Fragment {
         birthDateText.setOnClickListener(v -> AppDatePickerDialog.popDialog(
                 (MainActivity) getActivity(),
                 birthDate,
-                (date) -> birthDateText.setText(Helper.DATE_FORMAT.format(date))
+                (date) -> {
+                    birthDateText.setText(Helper.DATE_FORMAT.format(date));
+                    birthDate = date;
+                }
         ));
 
 
@@ -88,7 +93,7 @@ public class RegisterFragment extends Fragment {
     }
 
 
-    private void performVerification()
+    private void performVerification(MainActivity activity)
             throws NoSuchFieldException, NoSuchAlgorithmException,
             IllegalAccessException, UnsupportedEncodingException {
         int validatedPassword = validatePassword();
@@ -103,10 +108,10 @@ public class RegisterFragment extends Fragment {
                     .dateOfBirth(birthDate)
                     .build();
 
-            verifyRegistrationWithTheServer(registrationForm);
+            verifyRegistrationWithTheServer(registrationForm, activity);
         } else {
-            MCToast.displayText((MainActivity) getActivity(), Toast.LENGTH_SHORT, getString(validatedPassword));
-            MCToast.displayText((MainActivity) getActivity(), Toast.LENGTH_SHORT, getString(validateBirthDate));
+            if (validatedPassword > 0) MCToast.displayText((MainActivity) getActivity(), Toast.LENGTH_SHORT, getString(validatedPassword));
+            else MCToast.displayText((MainActivity) getActivity(), Toast.LENGTH_SHORT, getString(validateBirthDate));
         }
     }
 
@@ -122,16 +127,22 @@ public class RegisterFragment extends Fragment {
         c.add(Calendar.YEAR, 18);
         Date dateOfAdulthood = c.getTime();
 
+        //Log.d("MCM", "dateOfAdulthood=" + dateOfAdulthood);
+
         if (new Date().compareTo(dateOfAdulthood) < 0) return R.string.warning_wrong_birth_date;
         return 0;
     }
 
-    private void verifyRegistrationWithTheServer(RegistrationForm registrationForm)
+    private void verifyRegistrationWithTheServer(RegistrationForm registrationForm ,MainActivity activity)
             throws UnsupportedEncodingException, NoSuchAlgorithmException,
             NoSuchFieldException, IllegalAccessException {
 
         // hash password etc
         RegistrationFormController.processRegistrationForm(registrationForm);
+
+        //create user
+        activity.setUserAccount(new Account());
+        activity.getUserAccount().setPassword(registrationForm.getDesiredHashedPassword());
 
         // prepare request
         final AccountRegistrationServerRequest request = new AccountRegistrationServerRequest(

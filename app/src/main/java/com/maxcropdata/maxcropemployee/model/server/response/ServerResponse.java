@@ -5,6 +5,8 @@ import android.util.Log;
 
 import com.maxcropdata.maxcropemployee.MainActivity;
 
+import java.net.HttpURLConnection;
+
 import javax.net.ssl.HttpsURLConnection;
 
 public abstract class ServerResponse {
@@ -22,7 +24,8 @@ public abstract class ServerResponse {
             RequestUnathorizedException,
             UexpectedResponseStatusException,
             ResponseMalformedException,
-            AccountAlreadyExistsException {
+            AccountAlreadyExistsException,
+            ForbiddenActionException {
 
         if (getResponseCode() == HttpsURLConnection.HTTP_OK) {
             return true;
@@ -32,8 +35,13 @@ public abstract class ServerResponse {
             throw new ResponseMalformedException("Server could not read the request");
         } else if (getResponseCode() == HttpsURLConnection.HTTP_CONFLICT) {
             throw new AccountAlreadyExistsException("Account for this user already exists");
+        } else if (getResponseCode() == HttpURLConnection.HTTP_FORBIDDEN) {
+            throw new ForbiddenActionException(
+                    "This action is not allowed by Your employer",
+                    this instanceof  AccountRegistrationServerResponse
+            );
         } else {
-            throw new UexpectedResponseStatusException("Unexpected response status code: " + getResponseCode());
+            throw new UexpectedResponseStatusException("Unexpected response status code: " + getResponseCode(), getResponseCode());
         }
     }
 
@@ -42,7 +50,7 @@ public abstract class ServerResponse {
      */
     public abstract void readResponse(MainActivity activity)
             throws RequestUnathorizedException, ResponseMalformedException,
-            UexpectedResponseStatusException, AccountAlreadyExistsException;
+            UexpectedResponseStatusException, AccountAlreadyExistsException, ForbiddenActionException;
 
 
     public String getJsonResponse() {

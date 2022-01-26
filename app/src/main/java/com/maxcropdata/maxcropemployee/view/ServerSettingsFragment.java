@@ -54,7 +54,7 @@ public class ServerSettingsFragment extends Fragment {
 
             try {
                 ServerController.saveServerToFileSystem(activity, server);
-                activity.loadFragment(AccountSettingsFragment.getInstance());
+                activity.loadFragment(MainMenuFragment.getInstance());
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }

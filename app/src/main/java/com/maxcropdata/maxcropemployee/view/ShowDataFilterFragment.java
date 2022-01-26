@@ -106,6 +106,7 @@ public class ShowDataFilterFragment extends Fragment {
                         activity.getServer());
             } else {
                 Log.d("MCM", "Failed to verify report request. Reason: worker id = " + activity.getUserAccount().getWorkerId());
+                MCToast.displayText(activity, Toast.LENGTH_LONG, getString(R.string.error_unathorized));
             }
         } catch (DateFromOlderThanDateToException e) {
             MCToast.displayText(

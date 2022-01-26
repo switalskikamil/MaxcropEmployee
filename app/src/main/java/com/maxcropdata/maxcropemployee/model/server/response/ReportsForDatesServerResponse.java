@@ -27,7 +27,7 @@ public class ReportsForDatesServerResponse extends ServerResponse {
             RequestUnathorizedException,
             ResponseMalformedException,
             UexpectedResponseStatusException,
-            AccountAlreadyExistsException {
+            AccountAlreadyExistsException, ForbiddenActionException {
         if (super.processResponse()) {
 
             try {

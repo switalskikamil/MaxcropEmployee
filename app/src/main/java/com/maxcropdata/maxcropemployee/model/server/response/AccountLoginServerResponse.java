@@ -19,7 +19,8 @@ public class AccountLoginServerResponse extends ServerResponse {
     @Override
     public void readResponse(MainActivity activity)
             throws RequestUnathorizedException, ResponseMalformedException,
-            UexpectedResponseStatusException, AccountAlreadyExistsException {
+            UexpectedResponseStatusException, AccountAlreadyExistsException,
+            ForbiddenActionException {
 
         if (super.processResponse()) {
             this.account = new Account();

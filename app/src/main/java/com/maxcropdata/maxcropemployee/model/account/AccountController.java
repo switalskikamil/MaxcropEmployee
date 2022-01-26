@@ -42,6 +42,8 @@ public class AccountController {
         localAccount.setExpirationDate(serverResponse.getAccount().getExpirationDate());
         localAccount.setLogin(serverResponse.getAccount().getLogin());
         localAccount.setWorkerId(serverResponse.getAccount().getWorkerId());
+        localAccount.setName(serverResponse.getAccount().getName());
+        localAccount.setLastName(serverResponse.getAccount().getLastName());
     }
 
     public static void mergeWithLoginResponse(Account localAccount, AccountLoginServerResponse serverResponse) {
@@ -95,13 +97,11 @@ public class AccountController {
 
     public static void loginAccount(String login, String plainPassword, MainActivity activity)
             throws UnsupportedEncodingException, NoSuchAlgorithmException, PasswordTooShortException,
-            LoginTooShortException, PasswordIsPlaceHolderException {
+            LoginTooShortException, PasswordIsPlaceHolderException, IncorectLoginFormat {
 
         if (activity.getUserAccount() == null) activity.setUserAccount(new Account());
 
-        if (login != null && login.length() > MIN_LOGIN_LENGTH)
-            activity.getUserAccount().setLogin(login);
-        else throw new LoginTooShortException();
+        if (verifyLogin(login)) activity.getUserAccount().setLogin(login);
 
         if (plainPassword != null && !plainPassword.equals(AccountSettingsFragment.PSWD_PLACEHOLDER)) {
             if (plainPassword.length() >= MIN_PASSWORD_LENGTH) {
@@ -121,5 +121,12 @@ public class AccountController {
         } else {
             throw new PasswordIsPlaceHolderException();
         }
+    }
+
+    private static boolean verifyLogin(String login) throws LoginTooShortException, IncorectLoginFormat {
+        if (login != null && login.length() > MIN_LOGIN_LENGTH)
+            if (login.contains("#") && login.contains(".")) return true;
+            else throw new IncorectLoginFormat("Incorrect login format.");
+        else throw new LoginTooShortException();
     }
 }

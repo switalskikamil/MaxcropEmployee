@@ -13,6 +13,7 @@ import com.maxcropdata.maxcropemployee.MainActivity;
 import com.maxcropdata.maxcropemployee.R;
 import com.maxcropdata.maxcropemployee.model.account.Account;
 import com.maxcropdata.maxcropemployee.model.account.AccountController;
+import com.maxcropdata.maxcropemployee.model.account.IncorectLoginFormat;
 import com.maxcropdata.maxcropemployee.model.account.LoginTooShortException;
 import com.maxcropdata.maxcropemployee.model.account.PasswordIsPlaceHolderException;
 import com.maxcropdata.maxcropemployee.model.account.PasswordTooShortException;
@@ -88,6 +89,8 @@ public class AccountSettingsFragment extends Fragment {
             activity.loadFragment(MainMenuFragment.getInstance());
         } catch (LoginTooShortException | PasswordTooShortException e ) {
             MCToast.displayText(activity, Toast.LENGTH_SHORT, getString(R.string.login_or_password_too_short));
+        } catch (IncorectLoginFormat incorectLoginFormat) {
+            MCToast.displayText(activity, Toast.LENGTH_SHORT, getString(R.string.login_in_wrong_format));
         }
     }
 

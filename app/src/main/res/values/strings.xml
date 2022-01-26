@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Maxcrop Mobile Employee</string>
+    <string name="app_name">Maxcrop: Employee</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_desc">Navigation header</string>
@@ -74,7 +74,16 @@
     <string name="label_send_report">Send</string>
     <string name="issue_info">You can report a data inconsistency in this field to your employer.</string>
     <string name="issue_description">Details:</string>
-    <string name="error_problem_registering_issue">Error: Could not register issue to server.</string>
+    <string name="error_problem_registering_issue">"Could not register issue to server. "</string>
     <string name="label_issue_sent">Sent</string>
     <string name="label_issue_unsent">Unsent</string>
+    <string name="error_registration_forbidden">Account registration has been blocked by Your employer.</string>
+    <string name="error_requested_date_not_available">Requested date is not yet available. Try again tomorrow.</string>
+    <string name="error_account_already_registered">Account for those credentials already exists. Try to log in using Your login and password, or contact your employer to reset Your account.</string>
+    <string name="error_unathorized">Failed to authorize Your request. Check if You provided proper login and password.</string>
+    <string name="error_response_malformed">Unexpected response from the server. Contact Your employer.</string>
+    <string name="error_response_unknown">Unepected response status:</string>
+    <string name="error_illegal_access_exception">Failed to parse server response. Contact Your employer.</string>
+    <string name="login_in_wrong_format">Login must contain \'.\' and \'#\' characters.</string>
+    <string name="error_connection_problem">Could not connect to the server. Check your internet connection.</string>
 </resources>

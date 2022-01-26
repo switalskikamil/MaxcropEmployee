@@ -20,7 +20,7 @@ public class AccountRegistrationServerResponse extends ServerResponse {
             RequestUnathorizedException,
             ResponseMalformedException,
             UexpectedResponseStatusException,
-            AccountAlreadyExistsException {
+            AccountAlreadyExistsException, ForbiddenActionException {
 
         if (super.processResponse()) {
             this.account = new Account();

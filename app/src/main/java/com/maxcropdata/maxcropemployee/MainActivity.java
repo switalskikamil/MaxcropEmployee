@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.maxcropdata.maxcropemployee.model.account.Account;
@@ -16,6 +17,7 @@ import com.maxcropdata.maxcropemployee.model.server.ServerController;
 import com.maxcropdata.maxcropemployee.model.server.response.AccountAlreadyExistsException;
 import com.maxcropdata.maxcropemployee.model.server.response.AccountLoginServerResponse;
 import com.maxcropdata.maxcropemployee.model.server.response.AccountRegistrationServerResponse;
+import com.maxcropdata.maxcropemployee.model.server.response.ForbiddenActionException;
 import com.maxcropdata.maxcropemployee.model.server.response.IssueRegistrationServerResponse;
 import com.maxcropdata.maxcropemployee.model.server.response.ReportsForDatesServerResponse;
 import com.maxcropdata.maxcropemployee.model.server.response.RequestUnathorizedException;
@@ -29,6 +31,7 @@ import com.maxcropdata.maxcropemployee.view.ServerSettingsFragment;
 import com.maxcropdata.maxcropemployee.view.ShowDataFilterFragment;
 import com.maxcropdata.maxcropemployee.view.ShowIssuesFragment;
 import com.maxcropdata.maxcropemployee.view.ShowReportFragment;
+import com.maxcropdata.maxcropemployee.view.mctoast.MCToast;
 
 import org.json.JSONException;
 
@@ -88,9 +91,9 @@ public class MainActivity extends AppCompatActivity
             this.savedIssues = IssueController.readIssuesFromFileSystem(this);
 
 
-        } catch (JSONException | InstantiationException e) {
+        } catch (JSONException | InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
-        } catch (IllegalAccessException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -164,11 +167,21 @@ public class MainActivity extends AppCompatActivity
             else if (response instanceof IssueRegistrationServerResponse)
                 processIssueRegistrationServerResponse((IssueRegistrationServerResponse)response);
 
-        } catch (UexpectedResponseStatusException | ResponseMalformedException |
-                RequestUnathorizedException | AccountAlreadyExistsException |
-                IllegalAccessException e) {
-            e.printStackTrace();
-            //TODO: dialogs for each type of errors
+
+        } catch (ForbiddenActionException e) {
+            if (e.isRegistrationResponse()) MCToast.displayText(this, Toast.LENGTH_LONG, getString(R.string.error_registration_forbidden));
+            else MCToast.displayText(this, Toast.LENGTH_LONG, getString(R.string.error_requested_date_not_available));
+        } catch (AccountAlreadyExistsException e) {
+            MCToast.displayText(this, Toast.LENGTH_LONG, getString(R.string.error_account_already_registered));
+        } catch (RequestUnathorizedException e) {
+            MCToast.displayText(this, Toast.LENGTH_LONG, getString(R.string.error_unathorized));
+        } catch (ResponseMalformedException e) {
+            MCToast.displayText(this, Toast.LENGTH_LONG, getString(R.string.error_response_malformed));
+        } catch (UexpectedResponseStatusException e) {
+            if (e.getStatusCode() == 0) MCToast.displayText(this, Toast.LENGTH_LONG, getString(R.string.error_connection_problem));
+            else MCToast.displayText(this, Toast.LENGTH_LONG, getString(R.string.error_response_unknown) + e.getMessage());
+        } catch (IllegalAccessException e) {
+            MCToast.displayText(this, Toast.LENGTH_LONG, getString(R.string.error_illegal_access_exception));
         }
     }
 
@@ -176,7 +189,7 @@ public class MainActivity extends AppCompatActivity
             throws RequestUnathorizedException,
             ResponseMalformedException,
             UexpectedResponseStatusException,
-            AccountAlreadyExistsException, IllegalAccessException {
+            AccountAlreadyExistsException, IllegalAccessException, ForbiddenActionException {
 
         response.readResponse(this);
 
@@ -190,7 +203,7 @@ public class MainActivity extends AppCompatActivity
             ResponseMalformedException,
             UexpectedResponseStatusException,
             AccountAlreadyExistsException,
-            IllegalAccessException {
+            IllegalAccessException, ForbiddenActionException {
         response.readResponse(this);
 
         AccountController.mergeWithLoginResponse(userAccount, response);
@@ -204,7 +217,7 @@ public class MainActivity extends AppCompatActivity
             throws UexpectedResponseStatusException,
             ResponseMalformedException,
             RequestUnathorizedException,
-            AccountAlreadyExistsException {
+            AccountAlreadyExistsException, ForbiddenActionException {
         response.readResponse(this);
 
         Report report = response.getReport();
@@ -213,8 +226,6 @@ public class MainActivity extends AppCompatActivity
         savedReports.add(report);
 
         loadFragment(ShowReportFragment.getInstance(report));
-        //TODO: we could just add reports to existing list, but we need to first remove some by date
-        //TODO: open ShowDataByDayFilter and pass reports as argument
     }
 
     private void processAccountRegistrationServerResponse(AccountRegistrationServerResponse response)
@@ -222,12 +233,16 @@ public class MainActivity extends AppCompatActivity
             ResponseMalformedException,
             RequestUnathorizedException,
             AccountAlreadyExistsException,
-            IllegalAccessException {
+            IllegalAccessException, ForbiddenActionException {
         response.readResponse(this);
+
+        if (userAccount == null) userAccount = new Account();
 
         AccountController.mergeWithRegistrationResponse(userAccount, response);
 
         AccountController.saveAccountToFileSystem(this, userAccount);
+
+        loadFragment(MainMenuFragment.getInstance());
     }
 
     public Account getUserAccount() {
