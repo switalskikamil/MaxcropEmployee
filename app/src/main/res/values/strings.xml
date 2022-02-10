@@ -86,4 +86,18 @@
     <string name="error_illegal_access_exception">Failed to parse server response. Contact Your employer.</string>
     <string name="login_in_wrong_format">Login must contain \'.\' and \'#\' characters.</string>
     <string name="error_connection_problem">Could not connect to the server. Check your internet connection.</string>
+    <string name="label_retore_defaults">Restore defaults</string>
+    <string name="price_group_calc_type_0">[R0] for each kg</string>
+    <string name="price_group_calc_type_1">[R1] for each kg above average</string>
+    <string name="price_group_calc_type_2">[R2] for each kg above a minimum</string>
+    <string name="price_group_calc_type_3">[R3] for each kg if you exceed the minimum</string>
+    <string name="price_group_calc_type_4">[R4] for each kg if it exceeds the average</string>
+    <string name="price_group_calc_type_5">[R5] for each piece</string>
+    <string name="price_group_calc_type_6">[R6] for each piece above average</string>
+    <string name="price_group_calc_type_7">[R7] for each piece above the minimum</string>
+    <string name="price_group_calc_type_8">[R8] for each piece if it exceeds the minimum</string>
+    <string name="price_group_calc_type_9">[R9] for each piece if it exceeds the average</string>
+    <string name="column_label_price_group">Price group</string>
+    <string name="column_label_price_group_min">Minimum</string>
+    <string name="column_label_price_group_avg">Average</string>
 </resources>

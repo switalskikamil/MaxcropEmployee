@@ -60,7 +60,7 @@ public class ShowReportFragment extends Fragment {
         list.setOnItemClickListener((parent, view, position, id) -> {
             final ReportRow reportRow = adapter.getItem(position);
             if (!(Boolean)reportRow.getColumn(ReportColumnType.COL_IS_FINAL))
-                activity.loadFragment(ShowReportRecordDetailFragment.getInstance(reportRow));
+                activity.loadFragment(ShowReportRecordDetailFragment.getInstance(reportRow, report));
         });
 
         return root;

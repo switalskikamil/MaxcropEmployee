@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.maxcropdata.maxcropemployee.MainActivity;
 import com.maxcropdata.maxcropemployee.R;
+import com.maxcropdata.maxcropemployee.model.report.Report;
 import com.maxcropdata.maxcropemployee.model.report.ReportRow;
 import com.maxcropdata.maxcropemployee.model.report.ReportRowDetail;
 import com.maxcropdata.maxcropemployee.model.report.ReportRowDetailsArrayAdapter;
@@ -27,11 +28,13 @@ public class ShowReportRecordDetailFragment extends Fragment {
 
     private MainActivity activity;
     private ReportRow reportRow;
+    private Report report;
     private ReportActionRowHolder headerHolder;
     private ReportRowDetailsArrayAdapter adapter;
 
-    public static ShowReportRecordDetailFragment getInstance(ReportRow reportRow) {
+    public static ShowReportRecordDetailFragment getInstance(ReportRow reportRow, Report report) {
         ShowReportRecordDetailFragment instance = new ShowReportRecordDetailFragment();
+        instance.setReport(report);
         instance.setReportRow(reportRow);
         return instance;
     }
@@ -52,7 +55,7 @@ public class ShowReportRecordDetailFragment extends Fragment {
         try {
             adapter = new ReportRowDetailsArrayAdapter(
                     this.activity,
-                    this.reportRow.listDetails(activity)
+                    this.reportRow.listDetails(activity, report)
             );
         } catch (ParseException e) {
             e.printStackTrace();
@@ -73,4 +76,11 @@ public class ShowReportRecordDetailFragment extends Fragment {
         return root;
     }
 
+    public Report getReport() {
+        return report;
+    }
+
+    public void setReport(Report report) {
+        this.report = report;
+    }
 }

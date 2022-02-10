@@ -25,6 +25,7 @@ public class ServerSettingsFragment extends Fragment {
 
     private Button saveSettingsBtn;
     private Button cancelSettingsBtn;
+    private Button restoreSettingsBtn;
     private EditText serverAddressText;
     private EditText serverProtocolText;
     private EditText serverAPIText;
@@ -64,6 +65,17 @@ public class ServerSettingsFragment extends Fragment {
             activity.loadFragment(MainMenuFragment.getInstance());
         });
 
+        restoreSettingsBtn.setOnClickListener(v -> {
+            final Server server1 = ServerService.getDefaultServer();
+            loadData(server1);
+
+            try {
+                ServerController.saveServerToFileSystem(activity, server1);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        });
+
         return root;
     }
 
@@ -78,7 +90,7 @@ public class ServerSettingsFragment extends Fragment {
     private void findViews(View v) {
         saveSettingsBtn = v.findViewById(R.id.btn_save_server_settings);
         cancelSettingsBtn = v.findViewById(R.id.btn_cancel_settings);
-
+        restoreSettingsBtn = v.findViewById(R.id.btn_restore_settings);
         serverAddressText = v.findViewById(R.id.serverAddressText);
         serverDatabaseText = v.findViewById(R.id.serverDatabaseText);
         serverAPIText = v.findViewById(R.id.serverAPIText);

@@ -1,51 +1,32 @@
 package com.maxcropdata.maxcropemployee.model.report;
 
+import com.maxcropdata.maxcropemployee.model.pricegroup.PriceGroup;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/*
-{
-	"report_date":"2021-01-01",
-	"cols_definition":
-	[
-		{"field":"GODZ_OD"},
-		{"field":"GODZ_DO"},
-		{"field":"ACTION"},
-		{"field":"TOTAL_BRUTTO"}
-	],
-	"rows":
-	[
-        {
-			"row":1,
-			"cols":
-			[
-				{"field":"GODZ_OD", "value":"13:30"},
-				{"field":"GODZ_DO", "value":"15:30"},
-				{"field":"ACTION", "value":2}
-			]
-		},
-		{
-			"row":2,
-			"cols":
-			[
-				{"field":"GODZ_OD", "value":"15:30"},
-				{"field":"GODZ_DO", "value":"16:30"},
-				{"field":"ACTION", "value":1}
-			]
-		}
-	]
-}
- */
+
 public class Report {
     private Date reportGenerationDate;
     private List<String> columnDefinition;
     private List<ReportRow> reportRows;
+    private List<PriceGroup> priceGroups;
+
+    private boolean showAccountRecords;
+    private boolean showSummaryRecords;
+    private boolean showTimeRecords;
+    private boolean showAccordRecords;
 
     public Report() {
         this.columnDefinition = new ArrayList<>();
         this.reportRows = new ArrayList<>();
         this.reportGenerationDate = new Date();
+
+        this.showAccordRecords = true;
+        this.showAccountRecords = true;
+        this.showSummaryRecords = true;
+        this.showTimeRecords = true;
     }
 
     public Date getReportGenerationDate() {
@@ -58,5 +39,52 @@ public class Report {
 
     public List<ReportRow> getReportRows() {
         return reportRows;
+    }
+
+    public boolean isShowAccountRecords() {
+        return showAccountRecords;
+    }
+
+    public void setShowAccountRecords(boolean showAccountRecords) {
+        this.showAccountRecords = showAccountRecords;
+    }
+
+    public boolean isShowSummaryRecords() {
+        return showSummaryRecords;
+    }
+
+    public void setShowSummaryRecords(boolean showSummaryRecords) {
+        this.showSummaryRecords = showSummaryRecords;
+    }
+
+    public boolean isShowTimeRecords() {
+        return showTimeRecords;
+    }
+
+    public void setShowTimeRecords(boolean showTimeRecords) {
+        this.showTimeRecords = showTimeRecords;
+    }
+
+    public boolean isShowAccordRecords() {
+        return showAccordRecords;
+    }
+
+    public void setShowAccordRecords(boolean showAccordRecords) {
+        this.showAccordRecords = showAccordRecords;
+    }
+
+    public List<PriceGroup> getPriceGroups() {
+        return priceGroups;
+    }
+
+    public void setPriceGroups(List<PriceGroup> priceGroups) {
+        this.priceGroups = priceGroups;
+    }
+
+    public PriceGroup getPriceGroupById(long id) {
+        for (PriceGroup pg : priceGroups) {
+            if (pg.getId() == id) return pg;
+        }
+        return null;
     }
 }

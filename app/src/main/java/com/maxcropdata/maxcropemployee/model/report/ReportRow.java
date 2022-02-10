@@ -2,8 +2,11 @@ package com.maxcropdata.maxcropemployee.model.report;
 
 import com.maxcropdata.maxcropemployee.MainActivity;
 import com.maxcropdata.maxcropemployee.R;
+import com.maxcropdata.maxcropemployee.model.pricegroup.PriceGroup;
+import com.maxcropdata.maxcropemployee.model.pricegroup.PriceGroupService;
 import com.maxcropdata.maxcropemployee.shared.utils.Helper;
 
+import java.math.RoundingMode;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,39 +14,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-/*
-{
-	"report_date":"2021-01-01",
-	"cols_definition":
-	[
-		{"field":"GODZ_OD"},
-		{"field":"GODZ_DO"},
-		{"field":"ACTION"},
-		{"field":"TOTAL_BRUTTO"}
-	],
-	"rows":
-	[
-        {
-			"row":1,
-			"cols":
-			[
-				{"field":"GODZ_OD", "value":"13:30"},
-				{"field":"GODZ_DO", "value":"15:30"},
-				{"field":"ACTION", "value":2}
-			]
-		},
-		{
-			"row":2,
-			"cols":
-			[
-				{"field":"GODZ_OD", "value":"15:30"},
-				{"field":"GODZ_DO", "value":"16:30"},
-				{"field":"ACTION", "value":1}
-			]
-		}
-	]
-}
- */
 
 // row of a report table
 public class ReportRow {
@@ -63,13 +33,16 @@ public class ReportRow {
         return columns;
     }
 
-    public ArrayList<ReportRowDetail> listDetails(MainActivity activity) throws ParseException {
+    public ArrayList<ReportRowDetail> listDetails(MainActivity activity, Report report) throws ParseException {
         ArrayList<ReportRowDetail> details = new ArrayList<>();
         boolean oddRow = false;
         final int actionType = (Integer) getColumn(ReportColumnType.COL_PAYMENT_FOR);
         final Date rowDate = Helper.DATE_FORMAT.parse(getColumnAsString(ReportColumnType.COL_DATE));
+        boolean isPriceGroupRecord = (Boolean)columns.get(ReportColumnType.COL_IS_PRICE_GROUP);
 
-        for (String key : ReportColumnType.getColumnListOrdered(actionType)) {
+        if (isPriceGroupRecord) loadPriceGroupColumns(report, activity);
+
+        for (String key : ReportColumnType.getColumnListOrdered(actionType, isPriceGroupRecord)) {
             String fieldLabel = ReportColumnType.getLabel(key, activity);
             String fieldValue;
 
@@ -88,12 +61,38 @@ public class ReportRow {
                     } else fieldValue = getColumnAsString(key);
 
                     details.add(new ReportRowDetail(fieldLabel, fieldValue, key, rowDate, oddRow));
-                    oddRow=!oddRow;
+                    oddRow = !oddRow;
                 }
             }
         }
+
         return details;
     }
+
+    private void loadPriceGroupColumns(Report report, MainActivity activity) {
+        int priceGroupId = (int) columns.get(ReportColumnType.COL_PRICE_GROUP_ID);
+        final PriceGroup priceGroup = report.getPriceGroupById(priceGroupId);
+
+        if (priceGroup != null) {
+            columns.put(ReportColumnType.COL_PRICE_GROUP_NAME, priceGroup.getName());
+            columns.put(ReportColumnType.COL_PRICE_GROUP_CALC_TYPE,
+                    PriceGroupService.getCalculationTypeDescription(
+                            priceGroup.getCalcType(),
+                            activity));
+
+            if (priceGroup.getCalcType() < 4) {
+                columns.put(ReportColumnType.COL_PRICE_GROUP_AVG, priceGroup.getAverageWeight()
+                        .setScale(2, RoundingMode.HALF_DOWN).toString());
+            } else {
+                columns.put(ReportColumnType.COL_PRICE_GROUP_AVG, priceGroup.getAverageQuantity()
+                        .setScale(2, RoundingMode.HALF_DOWN).toString());
+            }
+            columns.put(ReportColumnType.COL_PRICE_GROUP_MIN, priceGroup.getMinimum()
+                    .setScale(2, RoundingMode.HALF_DOWN).toString());
+        }
+    }
+
+
 
     public Object getColumn(String key) {
         if (columns.containsKey(key)) return columns.get(key);

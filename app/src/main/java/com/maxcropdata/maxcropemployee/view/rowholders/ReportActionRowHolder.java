@@ -98,6 +98,7 @@ public class ReportActionRowHolder {
         actionLabourValue.setText(reportRow.getColumn(ReportColumnType.COL_TIME).toString());
         actionLabourWage.setText(wage);
         actionDateHolder.setBackgroundColor(activity.getColor(R.color.colorVioletishDark));
+        actionHolder.setBackgroundColor(activity.getColor(R.color.colorVioletish));
     }
 
     private void populateHarvestRecord(ReportRow reportRow) {
@@ -123,7 +124,8 @@ public class ReportActionRowHolder {
         actionDetailOne.setText(actionArea);
         actionDetailTwo.setText(actionProductClass);
         actionLabourWage.setText(wage);
-        actionDateHolder.setBackgroundColor(activity.getColor(R.color.colorVioletishDark));
+        actionDateHolder.setBackgroundColor(activity.getColor(R.color.colorPrimaryDark));
+        actionHolder.setBackgroundColor(activity.getColor(R.color.colorPrimary));
     }
 
     private void clearFields() {

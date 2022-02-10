@@ -1,6 +1,7 @@
 package com.maxcropdata.maxcropemployee.model.report;
 
 import com.maxcropdata.maxcropemployee.MainActivity;
+import com.maxcropdata.maxcropemployee.model.pricegroup.PriceGroupService;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -16,6 +17,7 @@ public class ReportService  {
     private static final String VALUE = "value";
     private static final String REPORT_DATE = "report_date";
     private static final String ACTION = "paymentForInt";
+    private static final String PRICE_GROUPS = "priceGroups";
 
     private static ReportService instance = new ReportService();
 
@@ -28,14 +30,20 @@ public class ReportService  {
 
         JSONArray colDefs = json.getJSONArray(COLS_DEFINITION);
         JSONArray rows = json.getJSONArray(ROWS);
+        JSONArray priceGroups = json.getJSONArray(PRICE_GROUPS);
 
+        //col defs
         for (int i=0; i < colDefs.length(); i++) {
             report.getColumnDefinition().add(colDefs.getJSONObject(i).getString(FIELD));
         }
 
+        //data rows
         for (int j = 0; j < rows.length(); j++) {
             report.getReportRows().add(reportRowFromJSON(rows.getJSONObject(j), activity));
         }
+
+        //price groups
+        report.setPriceGroups(PriceGroupService.fromJSON(priceGroups));
 
         return report;
     }
@@ -56,17 +64,5 @@ public class ReportService  {
         return reportRow;
     }
 
-    /*
-        field containing action id will have to be translated on the device
-     */
-    /*private ReportRow refineRow(ReportRow row, MainActivity activity) {
-        if (row.getColumns().containsKey(ACTION)) {
-            row.getColumns().put(ACTION, getLabelForActionId((Integer) row.getColumns().get(ACTION), activity));
-        }
-        return row;
-    }*/
 
-    /*private String getLabelForActionId(Integer actionId, MainActivity activity) {
-        return ReportActionType.getLabel(actionId, activity);
-    }*/
 }

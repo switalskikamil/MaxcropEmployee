@@ -32,6 +32,10 @@ public class ReportRowDetail {
         this.isOddRow = false;
     }
 
+    public ReportRowDetail() {
+
+    }
+
     public String getFieldLabel() {
         return fieldLabel;
     }
