@@ -27,6 +27,7 @@ public class ReportColumnType {
     public static final String COL_PRICE_GROUP_CALC_TYPE = "pgGroupCalcType";
     public static final String COL_PRICE_GROUP_MIN = "pgGroupMin";
     public static final String COL_PRICE_GROUP_AVG = "pgGroupAvg";
+    public static final String COL_PRICE_GROUP_PARENT = "nalezyDoGrupy";
 
 
     public static String getLabel(String column, MainActivity activity) {

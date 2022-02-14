@@ -13,4 +13,6 @@
     <color name="colorVioletish">#A939C5</color>
     <color name="colorVioletishDark">#6F1288</color>
     <color name="colorVioletishLight">#F6E4FF</color>
+    <color name="colorBrownishDark">#8B3A03</color>
+    <color name="colorBrownishLight">#C75F17</color>
 </resources>

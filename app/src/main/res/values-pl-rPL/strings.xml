@@ -65,7 +65,7 @@
     <string name="report_action_acc_balance">Stan konta</string>
     <string name="report_action_break">Przerwa</string>
     <string name="report_action_difference">Różnica</string>
-    <string name="report_action_harvest">Akord(zbiór)</string>
+    <string name="report_action_harvest">Akord</string>
     <string name="report_action_holiday">Urlop</string>
     <string name="report_action_pay_out">Wypłata</string>
     <string name="report_action_payment">Wpłata</string>

@@ -1,12 +1,14 @@
 package com.maxcropdata.maxcropemployee.view.rowholders;
 
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.maxcropdata.maxcropemployee.MainActivity;
 import com.maxcropdata.maxcropemployee.R;
+import com.maxcropdata.maxcropemployee.model.report.Report;
 import com.maxcropdata.maxcropemployee.model.report.ReportActionType;
 import com.maxcropdata.maxcropemployee.model.report.ReportColumnType;
 import com.maxcropdata.maxcropemployee.model.report.ReportRow;
@@ -22,10 +24,13 @@ public class ReportActionRowHolder {
     private TextView actionMoneyValue;
     private LinearLayout actionHolder;
     private LinearLayout actionDateHolder;
+    private LinearLayout titleSectionHolder;
+    private LinearLayout middleSectionHolder;
     private ImageView rowTagIcon;
     private MainActivity activity;
+    private Report report;
 
-    public ReportActionRowHolder(View view, MainActivity activity) {
+    public ReportActionRowHolder(View view, MainActivity activity, Report report) {
         actionDate = view.findViewById(R.id.action_date);
         actionLabel = view.findViewById(R.id.action_labour_label);
         actionDetailOne = view.findViewById(R.id.action_labour_detail_one);
@@ -35,8 +40,11 @@ public class ReportActionRowHolder {
         actionMoneyValue = view.findViewById(R.id.action_money_value);
         actionHolder  =view.findViewById(R.id.action_holder);
         actionDateHolder  =view.findViewById(R.id.action_date_holder);
+        titleSectionHolder  =view.findViewById(R.id.report_row_title_section);
+        middleSectionHolder  =view.findViewById(R.id.report_row_midle_section);
         rowTagIcon = view.findViewById(R.id.row_tag_icon);
         this.activity = activity;
+        this.report = report;
     }
 
     public void populate(ReportRow reportRow) {
@@ -53,7 +61,9 @@ public class ReportActionRowHolder {
         actionDate.setText(reportRow.getColumnAsString(ReportColumnType.COL_DATE));
         actionLabel.setText(actionLabelStr);
 
-        if (actionTypeId == ReportActionType.ACTION_TIMEWORK
+        if (actionTypeId == ReportActionType.ACTION_DAY_BREAK) {
+          populateDayBreakRecord(reportRow);
+        } else if (actionTypeId == ReportActionType.ACTION_TIMEWORK
             || actionTypeId == ReportActionType.ACTION_BREAK
             || actionTypeId == ReportActionType.ACTION_PIECEWORK) {
             populateTimeRecord(reportRow);
@@ -71,6 +81,23 @@ public class ReportActionRowHolder {
         actionMoneyValue.setText(
                 Helper.formatValue(reportRow.getColumnAsString(ReportColumnType.COL_TOTAL))
         );
+    }
+
+    private void populateDayBreakRecord(ReportRow reportRow) {
+        actionDetailOne.setText("");
+        actionDateHolder.setBackgroundColor(activity.getColor(R.color.colorPrimary));
+        ViewGroup.LayoutParams params =  actionDateHolder.getLayoutParams();
+
+        params.width = ViewGroup.LayoutParams.MATCH_PARENT;
+
+        middleSectionHolder.setVisibility(View.GONE);
+        titleSectionHolder.setVisibility(View.GONE);
+        actionMoneyValue.setVisibility(View.GONE);
+        actionDateHolder.setLayoutParams(params);
+        actionDetailOne.setText("");
+        actionLabourValue.setText("");
+        actionLabourWage.setText("");
+
     }
 
     private void markAsTotalRecord(ReportRow reportRow) {
@@ -124,8 +151,14 @@ public class ReportActionRowHolder {
         actionDetailOne.setText(actionArea);
         actionDetailTwo.setText(actionProductClass);
         actionLabourWage.setText(wage);
-        actionDateHolder.setBackgroundColor(activity.getColor(R.color.colorPrimaryDark));
-        actionHolder.setBackgroundColor(activity.getColor(R.color.colorPrimary));
+        actionDateHolder.setBackgroundColor(activity.getColor(R.color.colorBrownishDark));
+        actionHolder.setBackgroundColor(activity.getColor(R.color.colorBrownishLight));
+
+        int priceGroupParent = (int)reportRow.getColumn(ReportColumnType.COL_PRICE_GROUP_PARENT);
+        if (priceGroupParent > 0) {
+            String groupName = report.getPriceGroupById(priceGroupParent).getName();
+            actionLabel.setText(actionLabel.getText().toString() + " [" + groupName + "]");
+        }
     }
 
     private void clearFields() {
@@ -138,5 +171,13 @@ public class ReportActionRowHolder {
         actionMoneyValue.setText("");
         actionHolder.setBackgroundColor(activity.getColor(R.color.colorVioletish));
         rowTagIcon.setImageResource(R.drawable.calendar);
+        ViewGroup.LayoutParams params =  actionDateHolder.getLayoutParams();
+
+        params.width = ViewGroup.LayoutParams.WRAP_CONTENT;
+
+        if (middleSectionHolder!=null) middleSectionHolder.setVisibility(View.VISIBLE);
+        if (titleSectionHolder!=null) titleSectionHolder.setVisibility(View.VISIBLE);
+        if (actionMoneyValue!=null) actionMoneyValue.setVisibility(View.VISIBLE);
+        actionDateHolder.setLayoutParams(params);
     }
 }

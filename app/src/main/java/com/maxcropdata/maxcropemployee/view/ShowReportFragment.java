@@ -1,6 +1,7 @@
 package com.maxcropdata.maxcropemployee.view;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.ListView;
 import com.maxcropdata.maxcropemployee.MainActivity;
 import com.maxcropdata.maxcropemployee.R;
 import com.maxcropdata.maxcropemployee.model.report.Report;
+import com.maxcropdata.maxcropemployee.model.report.ReportActionType;
 import com.maxcropdata.maxcropemployee.model.report.ReportColumnType;
 import com.maxcropdata.maxcropemployee.model.report.ReportRow;
 import com.maxcropdata.maxcropemployee.model.report.ReportRowArrayAdapter;
@@ -47,9 +49,12 @@ public class ShowReportFragment extends Fragment {
 
         this.activity = (MainActivity)getActivity();
 
+        ArrayList<ReportRow> data = prepareDataForTheView();
+
         ReportRowArrayAdapter adapter = new ReportRowArrayAdapter(
                 this.activity,
-                (ArrayList<ReportRow>) this.report.getReportRows()
+                data,
+                report
         );
 
 
@@ -59,10 +64,40 @@ public class ShowReportFragment extends Fragment {
 
         list.setOnItemClickListener((parent, view, position, id) -> {
             final ReportRow reportRow = adapter.getItem(position);
-            if (!(Boolean)reportRow.getColumn(ReportColumnType.COL_IS_FINAL))
+            if (!(Boolean)reportRow.getColumn(ReportColumnType.COL_IS_FINAL)
+                && (int)reportRow.getColumn(ReportColumnType.COL_PAYMENT_FOR) != ReportActionType.ACTION_DAY_BREAK)
                 activity.loadFragment(ShowReportRecordDetailFragment.getInstance(reportRow, report));
         });
 
         return root;
+    }
+
+    private ArrayList<ReportRow> prepareDataForTheView() {
+        ArrayList<ReportRow> data = (ArrayList<ReportRow>) this.report.getReportRows();
+        ArrayList<ReportRow> returnData = new ArrayList<>();
+
+        String previousDate = "";
+        boolean reachedFinals;
+        //insert day-breakers
+        for (ReportRow rw : data) {
+            String currentDate = rw.getColumnAsString(ReportColumnType.COL_DATE);
+            reachedFinals = (Boolean)rw.getColumn(ReportColumnType.COL_IS_FINAL);
+            if (!currentDate.equals(previousDate)
+                    && !reachedFinals
+            ) {
+                ReportRow dayBreaker = new ReportRow(0);
+                dayBreaker.getColumns().put(ReportColumnType.COL_DATE, currentDate);
+                dayBreaker.getColumns().put(ReportColumnType.COL_PAYMENT_FOR, ReportActionType.ACTION_DAY_BREAK);
+                dayBreaker.getColumns().put(ReportColumnType.COL_IS_FINAL, false);
+                dayBreaker.getColumns().put(ReportColumnType.COL_IS_PRICE_GROUP, false);
+                returnData.add(dayBreaker);
+
+            }
+            previousDate = currentDate;
+            returnData.add(rw);
+
+        }
+
+        return returnData;
     }
 }

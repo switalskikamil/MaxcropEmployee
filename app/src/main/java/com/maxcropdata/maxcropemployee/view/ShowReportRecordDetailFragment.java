@@ -49,7 +49,7 @@ public class ShowReportRecordDetailFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_show_report_record_details, container, false);
 
         this.activity = (MainActivity)getActivity();
-        this.headerHolder = new ReportActionRowHolder(root, activity);
+        this.headerHolder = new ReportActionRowHolder(root, activity, report);
         this.headerHolder.populate(reportRow);
 
         try {

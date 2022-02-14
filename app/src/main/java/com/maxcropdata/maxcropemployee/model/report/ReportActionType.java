@@ -15,6 +15,7 @@ public class ReportActionType {
     public static final int ACTION_PAYMENT_OUT= 52;
     public static final int ACTION_PAYMENT = 53;
     public static final int ACTION_ACCOUNT_BALANCE = 54;
+    public static final int ACTION_DAY_BREAK = 3001;
 
     public static String getLabel(int actionId, MainActivity activity) {
         switch (actionId) {
@@ -50,6 +51,9 @@ public class ReportActionType {
 
             case ACTION_ACCOUNT_BALANCE:
                 return activity.getString(R.string.report_action_acc_balance);
+
+            case ACTION_DAY_BREAK:
+                return "";
 
             default:
                 return "?";

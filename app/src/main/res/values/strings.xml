@@ -44,7 +44,7 @@
     <string name="label_settings_server_protocol">Protocol</string>
     <string name="report_action_timework">Timework</string>
     <string name="report_action_piecework">Piecework</string>
-    <string name="report_action_harvest">Piecework(picking)</string>
+    <string name="report_action_harvest">Piecework</string>
     <string name="report_action_sweden_ob">OB</string>
     <string name="report_action_holiday">Holiday</string>
     <string name="report_action_surcharge">Surcharge</string>

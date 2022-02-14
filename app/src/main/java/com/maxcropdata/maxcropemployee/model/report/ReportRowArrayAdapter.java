@@ -14,12 +14,14 @@ import java.util.ArrayList;
 public class ReportRowArrayAdapter extends ArrayAdapter<ReportRow> {
     private ArrayList<ReportRow> data;
     MainActivity activity;
+    Report report;
     static final int layoutResourceId = R.layout.row_report_generic_action;
 
-    public ReportRowArrayAdapter(MainActivity activity, ArrayList<ReportRow> data) {
+    public ReportRowArrayAdapter(MainActivity activity, ArrayList<ReportRow> data, Report report) {
         super(activity, layoutResourceId, data);
         this.activity = activity;
         this.data = data;
+        this.report = report;
     }
 
     @Override
@@ -32,7 +34,7 @@ public class ReportRowArrayAdapter extends ArrayAdapter<ReportRow> {
             LayoutInflater inflater = activity.getLayoutInflater();
             row = inflater.inflate(layoutResourceId, parent, false);
 
-            holder = new ReportActionRowHolder(row, activity);
+            holder = new ReportActionRowHolder(row, activity, report);
             row.setTag(holder);
         }
         else
