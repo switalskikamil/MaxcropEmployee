@@ -7,6 +7,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Date;
+
 public class ReportService  {
 
     private static final String COLS_DEFINITION = "cols_definition";
@@ -18,6 +20,8 @@ public class ReportService  {
     private static final String REPORT_DATE = "report_date";
     private static final String ACTION = "paymentForInt";
     private static final String PRICE_GROUPS = "priceGroups";
+    private static final String REPORT_DATE_FROM = "dfrom";
+    private static final String REPORT_DATE_TO = "dto";
 
     private static ReportService instance = new ReportService();
 
@@ -44,6 +48,9 @@ public class ReportService  {
 
         //price groups
         report.setPriceGroups(PriceGroupService.fromJSON(priceGroups));
+
+        report.setReportFromDate(new Date(json.getLong(REPORT_DATE_FROM)));
+        report.setReportToDate(new Date(json.getLong(REPORT_DATE_TO)));
 
         return report;
     }

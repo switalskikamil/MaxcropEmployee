@@ -9,6 +9,8 @@ import java.util.List;
 
 public class Report {
     private Date reportGenerationDate;
+    private Date reportFromDate;
+    private Date reportToDate;
     private List<String> columnDefinition;
     private List<ReportRow> reportRows;
     private List<PriceGroup> priceGroups;
@@ -86,5 +88,21 @@ public class Report {
             if (pg.getId() == id) return pg;
         }
         return null;
+    }
+
+    public Date getReportFromDate() {
+        return reportFromDate;
+    }
+
+    public void setReportFromDate(Date reportFromDate) {
+        this.reportFromDate = reportFromDate;
+    }
+
+    public Date getReportToDate() {
+        return reportToDate;
+    }
+
+    public void setReportToDate(Date reportToDate) {
+        this.reportToDate = reportToDate;
     }
 }

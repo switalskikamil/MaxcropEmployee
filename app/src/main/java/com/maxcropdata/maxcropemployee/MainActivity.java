@@ -104,6 +104,16 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == R.id.action_account_settings) {
+            loadFragment(AccountSettingsFragment.getInstance());
+        } else if (item.getItemId() == R.id.action_server_settings) {
+            loadFragment(ServerSettingsFragment.getInstance());
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     public void loadFragment(Fragment f) {
         loadFragment(f, true);

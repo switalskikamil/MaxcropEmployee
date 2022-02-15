@@ -15,8 +15,11 @@ import com.maxcropdata.maxcropemployee.model.report.ReportActionType;
 import com.maxcropdata.maxcropemployee.model.report.ReportColumnType;
 import com.maxcropdata.maxcropemployee.model.report.ReportRow;
 import com.maxcropdata.maxcropemployee.model.report.ReportRowArrayAdapter;
+import com.maxcropdata.maxcropemployee.shared.utils.Helper;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -76,7 +79,30 @@ public class ShowReportFragment extends Fragment {
         ArrayList<ReportRow> data = (ArrayList<ReportRow>) this.report.getReportRows();
         ArrayList<ReportRow> returnData = new ArrayList<>();
 
-        String previousDate = "";
+        //for (String s : ) Log.d("MCM", s);
+        ArrayList<String> daysInScope = listDaysInScope(report);
+
+        for (String date : daysInScope) {
+            //day breaker row
+            returnData.add(genDayBreakRow(date));
+
+            //all day records
+            for (ReportRow rw : data) {
+                if (!(Boolean)rw.getColumn(ReportColumnType.COL_IS_FINAL)
+                && rw.getColumn(ReportColumnType.COL_DATE).equals(date)) {
+                    returnData.add(rw);
+                }
+            }
+        }
+
+        //finals
+        for (ReportRow rw : data) {
+            if ((Boolean)rw.getColumn(ReportColumnType.COL_IS_FINAL)) {
+                returnData.add(rw);
+            }
+        }
+
+      /*  String previousDate = "";
         boolean reachedFinals;
         //insert day-breakers
         for (ReportRow rw : data) {
@@ -85,19 +111,39 @@ public class ShowReportFragment extends Fragment {
             if (!currentDate.equals(previousDate)
                     && !reachedFinals
             ) {
-                ReportRow dayBreaker = new ReportRow(0);
-                dayBreaker.getColumns().put(ReportColumnType.COL_DATE, currentDate);
-                dayBreaker.getColumns().put(ReportColumnType.COL_PAYMENT_FOR, ReportActionType.ACTION_DAY_BREAK);
-                dayBreaker.getColumns().put(ReportColumnType.COL_IS_FINAL, false);
-                dayBreaker.getColumns().put(ReportColumnType.COL_IS_PRICE_GROUP, false);
-                returnData.add(dayBreaker);
-
+                returnData.add(genDayBreakRow(currentDate));
             }
             previousDate = currentDate;
             returnData.add(rw);
 
-        }
+        }*/
 
         return returnData;
+    }
+
+    private ReportRow genDayBreakRow(String date) {
+        ReportRow dayBreaker = new ReportRow(0);
+        dayBreaker.getColumns().put(ReportColumnType.COL_DATE, date);
+        dayBreaker.getColumns().put(ReportColumnType.COL_PAYMENT_FOR, ReportActionType.ACTION_DAY_BREAK);
+        dayBreaker.getColumns().put(ReportColumnType.COL_IS_FINAL, false);
+        dayBreaker.getColumns().put(ReportColumnType.COL_IS_PRICE_GROUP, false);
+
+        return dayBreaker;
+    }
+
+    private ArrayList<String> listDaysInScope(Report report) {
+        ArrayList<String> list = new ArrayList<>();
+        Calendar c = Calendar.getInstance();
+        Date dFrom = Helper.sanitizeDate(report.getReportFromDate());
+        Date dTo = Helper.sanitizeDate(report.getReportToDate());
+
+        while (dFrom.compareTo(dTo) <= 0) {
+            list.add(Helper.DATE_FORMAT.format(dFrom));
+            c.setTime(dFrom);
+            c.add(Calendar.DATE, 1);
+            dFrom = c.getTime();
+        }
+
+        return list;
     }
 }

@@ -1,7 +1,7 @@
 package com.maxcropdata.maxcropemployee.model.reportform;
 
 public class ReportFormController {
-    private static final int MAX_NUM_OF_DAYS_FOR_ONE_REQUEST = 3;
+    private static final int MAX_NUM_OF_DAYS_FOR_ONE_REQUEST = 7;
 
     public static String generateReportRequest(ReportForm reportForm) throws NoSuchFieldException, IllegalAccessException {
         return ReportFormService.getInstance().toJSON(reportForm);

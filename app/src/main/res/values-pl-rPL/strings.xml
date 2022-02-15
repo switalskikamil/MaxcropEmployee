@@ -20,7 +20,7 @@
     <string name="column_label_work_type">Rodzaj pracy</string>
     <string name="data_filter_date_from">Data od:</string>
     <string name="data_filter_date_to">Data do:</string>
-    <string name="data_filter_disclaimer">Wybierz do 3 dni, za które chcesz wygenerować raport.</string>
+    <string name="data_filter_disclaimer">Wybierz do 7 dni, za które chcesz wygenerować raport.</string>
     <string name="date_from_cant_be_older">\'Data do\' nie może być starsza niż \'data od\'.</string>
     <string name="error_account_already_registered">Istnieje już konto dla podanych danych. Spróbuj się zalogować, lub skontaktuj się ze swoim pracodawcą.</string>
     <string name="error_connection_problem">Nie można połączyć z serwerem. Sprawdź swoje połączenie internetowe.</string>
@@ -86,4 +86,18 @@
     <string name="warning_password_too_short">Hasło zbyt krótkie - min. 8 znaków.</string>
     <string name="warning_wrong_birth_date">Musisz być pełnoletni aby założyć konto.</string>
     <string name="welcome_info">"Jeśli posiadasz już konto możesz przejść do logowania. W przeciwnym wypadku możesz zarejestrować nowe konto (rejestracja wymaga podania kodu pracodawcy). "</string>
+    <string name="column_label_price_group">Grupa cenowa</string>
+    <string name="column_label_price_group_avg">Średnia</string>
+    <string name="column_label_price_group_min">Minimum</string>
+    <string name="label_retore_defaults">Przywróć domyślne</string>
+    <string name="price_group_calc_type_0">[R0] za każdy kg</string>
+    <string name="price_group_calc_type_1">[R1] za każdy kg powyżej średniej</string>
+    <string name="price_group_calc_type_2">[R2] za każdy kg powyżej minimum</string>
+    <string name="price_group_calc_type_3">[R3] za każdy kg, jeżeli przekroczy minimum</string>
+    <string name="price_group_calc_type_4">[R4] za każdy kg, jeżeli przekroczy średnią</string>
+    <string name="price_group_calc_type_5">[R5] za każdą sztukę</string>
+    <string name="price_group_calc_type_6">[R6] za każdą szt. powyżej średniej</string>
+    <string name="price_group_calc_type_7">[R7] za każdą szt. powyżej minimum</string>
+    <string name="price_group_calc_type_8">[R8] za każdą szt., jeżeli przekroczy minimum</string>
+    <string name="price_group_calc_type_9">[R9] za każdą szt., jeżeli przekroczy średnią</string>
 </resources>

@@ -7,16 +7,31 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
+        android:orientation="vertical"
+        android:layout_marginTop ="1dp"
+        android:layout_marginLeft="1dp"
+        android:layout_marginRight="1dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/colorBrownishDark"
+            android:id="@+id/report_row_price_group_title"
+            android:visibility="gone">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:id="@+id/report_row_price_group_title_text"
+                android:textAlignment="center"
+                android:textColor="@color/white"/>
+        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:background="@color/colorVioletish"
-            android:layout_marginTop ="1dp"
-            android:layout_marginLeft="1dp"
-            android:layout_marginRight="1dp"
+
             android:id="@+id/action_holder"
             >
             <LinearLayout
@@ -69,7 +84,7 @@
                     android:text="Praca na czas"/>
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="170dp"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
                     android:textColor="@color/colorLight"

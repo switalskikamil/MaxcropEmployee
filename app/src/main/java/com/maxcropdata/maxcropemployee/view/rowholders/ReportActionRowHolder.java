@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import com.maxcropdata.maxcropemployee.MainActivity;
 import com.maxcropdata.maxcropemployee.R;
+import com.maxcropdata.maxcropemployee.model.pricegroup.PriceGroup;
+import com.maxcropdata.maxcropemployee.model.pricegroup.PriceGroupService;
 import com.maxcropdata.maxcropemployee.model.report.Report;
 import com.maxcropdata.maxcropemployee.model.report.ReportActionType;
 import com.maxcropdata.maxcropemployee.model.report.ReportColumnType;
@@ -22,10 +24,12 @@ public class ReportActionRowHolder {
     private TextView actionLabourValue;
     private TextView actionLabourWage;
     private TextView actionMoneyValue;
+    private TextView priceGroupTitleText;
     private LinearLayout actionHolder;
     private LinearLayout actionDateHolder;
     private LinearLayout titleSectionHolder;
     private LinearLayout middleSectionHolder;
+    private LinearLayout priceGroupTitleHolder;
     private ImageView rowTagIcon;
     private MainActivity activity;
     private Report report;
@@ -42,6 +46,8 @@ public class ReportActionRowHolder {
         actionDateHolder  =view.findViewById(R.id.action_date_holder);
         titleSectionHolder  =view.findViewById(R.id.report_row_title_section);
         middleSectionHolder  =view.findViewById(R.id.report_row_midle_section);
+        priceGroupTitleHolder  =view.findViewById(R.id.report_row_price_group_title);
+        priceGroupTitleText  =view.findViewById(R.id.report_row_price_group_title_text);
         rowTagIcon = view.findViewById(R.id.row_tag_icon);
         this.activity = activity;
         this.report = report;
@@ -130,7 +136,7 @@ public class ReportActionRowHolder {
 
     private void populateHarvestRecord(ReportRow reportRow) {
         Object areaColumn = reportRow.getColumn(ReportColumnType.COL_AREA);
-        String actionArea = "";
+        String actionArea ;
         if (areaColumn != null) actionArea = areaColumn.toString();
         else actionArea = "";
 
@@ -157,7 +163,26 @@ public class ReportActionRowHolder {
         int priceGroupParent = (int)reportRow.getColumn(ReportColumnType.COL_PRICE_GROUP_PARENT);
         if (priceGroupParent > 0) {
             String groupName = report.getPriceGroupById(priceGroupParent).getName();
-            actionLabel.setText(actionLabel.getText().toString() + " [" + groupName + "]");
+            actionLabel.setText(actionLabel.getText().toString() + ": " + groupName );
+
+        }
+        if ((boolean)reportRow.getColumn(ReportColumnType.COL_IS_PRICE_GROUP)) {
+            populatePriceGroupRecord(reportRow);
+        }
+    }
+
+    private void populatePriceGroupRecord(ReportRow reportRow) {
+        if (priceGroupTitleHolder != null) priceGroupTitleHolder.setVisibility(View.VISIBLE);
+        if (priceGroupTitleText != null) {
+            PriceGroup priceGroup = report.getPriceGroupById(
+                    (int)reportRow.getColumn(ReportColumnType.COL_PRICE_GROUP_ID)
+            );
+            priceGroupTitleText.setText(
+                    activity.getString(R.string.column_label_price_group)
+                            + ": " + priceGroup.getName());
+
+            actionDetailOne.setText(PriceGroupService.getCalculationTypeDescription(priceGroup.getCalcType(), activity));
+            actionDetailTwo.setText("");
         }
     }
 
@@ -178,6 +203,7 @@ public class ReportActionRowHolder {
         if (middleSectionHolder!=null) middleSectionHolder.setVisibility(View.VISIBLE);
         if (titleSectionHolder!=null) titleSectionHolder.setVisibility(View.VISIBLE);
         if (actionMoneyValue!=null) actionMoneyValue.setVisibility(View.VISIBLE);
+        if (priceGroupTitleHolder!=null) priceGroupTitleHolder.setVisibility(View.GONE);
         actionDateHolder.setLayoutParams(params);
     }
 }
