@@ -67,9 +67,11 @@ public class ShowReportFragment extends Fragment {
 
         list.setOnItemClickListener((parent, view, position, id) -> {
             final ReportRow reportRow = adapter.getItem(position);
-            if (!(Boolean)reportRow.getColumn(ReportColumnType.COL_IS_FINAL)
-                && (int)reportRow.getColumn(ReportColumnType.COL_PAYMENT_FOR) != ReportActionType.ACTION_DAY_BREAK)
-                activity.loadFragment(ShowReportRecordDetailFragment.getInstance(reportRow, report));
+            if (!(boolean)reportRow.getColumn(ReportColumnType.COL_IS_FINAL))
+                if ((int)reportRow.getColumn(ReportColumnType.COL_PAYMENT_FOR) != ReportActionType.ACTION_DAY_BREAK)
+                    activity.loadFragment(ShowReportRecordDetailFragment.getInstance(reportRow, report));
+                else if ((boolean)reportRow.getColumn(ReportColumnType.COL_DAY_IS_EMPTY))
+                    activity.loadFragment(ShowReportRecordDetailFragment.getInstance(reportRow, report));
         });
 
         return root;
@@ -78,8 +80,8 @@ public class ShowReportFragment extends Fragment {
     private ArrayList<ReportRow> prepareDataForTheView() {
         ArrayList<ReportRow> data = (ArrayList<ReportRow>) this.report.getReportRows();
         ArrayList<ReportRow> returnData = new ArrayList<>();
+        int recordsInDay;
 
-        //for (String s : ) Log.d("MCM", s);
         ArrayList<String> daysInScope = listDaysInScope(report);
 
         for (String date : daysInScope) {
@@ -87,12 +89,18 @@ public class ShowReportFragment extends Fragment {
             returnData.add(genDayBreakRow(date));
 
             //all day records
+            recordsInDay = 0;
             for (ReportRow rw : data) {
                 if (!(Boolean)rw.getColumn(ReportColumnType.COL_IS_FINAL)
                 && rw.getColumn(ReportColumnType.COL_DATE).equals(date)) {
                     returnData.add(rw);
+                    recordsInDay++;
                 }
             }
+
+            if (recordsInDay == 0)
+                if (returnData.get(returnData.size()-1) != null)
+                    returnData.get(returnData.size()-1).getColumns().put(ReportColumnType.COL_DAY_IS_EMPTY, true);
         }
 
         //finals
@@ -101,22 +109,6 @@ public class ShowReportFragment extends Fragment {
                 returnData.add(rw);
             }
         }
-
-      /*  String previousDate = "";
-        boolean reachedFinals;
-        //insert day-breakers
-        for (ReportRow rw : data) {
-            String currentDate = rw.getColumnAsString(ReportColumnType.COL_DATE);
-            reachedFinals = (Boolean)rw.getColumn(ReportColumnType.COL_IS_FINAL);
-            if (!currentDate.equals(previousDate)
-                    && !reachedFinals
-            ) {
-                returnData.add(genDayBreakRow(currentDate));
-            }
-            previousDate = currentDate;
-            returnData.add(rw);
-
-        }*/
 
         return returnData;
     }
@@ -127,6 +119,7 @@ public class ShowReportFragment extends Fragment {
         dayBreaker.getColumns().put(ReportColumnType.COL_PAYMENT_FOR, ReportActionType.ACTION_DAY_BREAK);
         dayBreaker.getColumns().put(ReportColumnType.COL_IS_FINAL, false);
         dayBreaker.getColumns().put(ReportColumnType.COL_IS_PRICE_GROUP, false);
+        dayBreaker.getColumns().put(ReportColumnType.COL_DAY_IS_EMPTY, false);
 
         return dayBreaker;
     }

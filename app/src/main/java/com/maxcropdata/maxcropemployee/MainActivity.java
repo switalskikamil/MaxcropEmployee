@@ -12,6 +12,9 @@ import com.maxcropdata.maxcropemployee.model.account.AccountController;
 import com.maxcropdata.maxcropemployee.model.issue.Issue;
 import com.maxcropdata.maxcropemployee.model.issue.IssueController;
 import com.maxcropdata.maxcropemployee.model.report.Report;
+import com.maxcropdata.maxcropemployee.model.report.reportrequest.LatestReportRequests;
+import com.maxcropdata.maxcropemployee.model.report.reportrequest.LatestReportRequestsController;
+import com.maxcropdata.maxcropemployee.model.report.reportrequest.ReportRequest;
 import com.maxcropdata.maxcropemployee.model.server.Server;
 import com.maxcropdata.maxcropemployee.model.server.ServerController;
 import com.maxcropdata.maxcropemployee.model.server.response.AccountAlreadyExistsException;
@@ -55,6 +58,7 @@ public class MainActivity extends AppCompatActivity
     private Server server;
     private List<Issue> savedIssues;
     private List<Report> savedReports;
+    private LatestReportRequests latestReportRequests;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +93,9 @@ public class MainActivity extends AppCompatActivity
 
             //load saved issues
             this.savedIssues = IssueController.readIssuesFromFileSystem(this);
+
+            //load saved latest report requests
+            this.latestReportRequests = LatestReportRequestsController.readLatestReportRequestsFromFileSystem(this);
 
 
         } catch (JSONException | InstantiationException | IllegalAccessException e) {
@@ -269,5 +276,20 @@ public class MainActivity extends AppCompatActivity
 
     public List<Issue> getSavedIssues() {
         return savedIssues;
+    }
+
+    public LatestReportRequests getLatestReportRequests() {
+        return this.latestReportRequests;
+    }
+
+    public void registerLatestReportRequest(ReportRequest reportRequest) {
+        this.latestReportRequests.add(reportRequest);
+
+        try {
+            LatestReportRequestsController.saveLatestReportRequestsToFileSystem(this, this.latestReportRequests);
+        } catch (Exception e) {
+            Log.d("MCM", "Failed to save latest report request. Reason: = " + e.toString());
+        }
+
     }
 }

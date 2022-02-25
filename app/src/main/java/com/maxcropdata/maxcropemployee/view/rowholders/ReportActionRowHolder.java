@@ -96,9 +96,9 @@ public class ReportActionRowHolder {
 
         params.width = ViewGroup.LayoutParams.MATCH_PARENT;
 
-        middleSectionHolder.setVisibility(View.GONE);
-        titleSectionHolder.setVisibility(View.GONE);
-        actionMoneyValue.setVisibility(View.GONE);
+        if (middleSectionHolder != null) middleSectionHolder.setVisibility(View.GONE);
+        if (titleSectionHolder != null) titleSectionHolder.setVisibility(View.GONE);
+        if (actionMoneyValue != null) actionMoneyValue.setVisibility(View.GONE);
         actionDateHolder.setLayoutParams(params);
         actionDetailOne.setText("");
         actionLabourValue.setText("");

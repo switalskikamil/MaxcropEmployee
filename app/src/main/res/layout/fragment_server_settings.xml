@@ -106,31 +106,33 @@
             android:layout_width="match_parent"
             android:layout_height="90dp"
             android:id="@+id/btn_save_server_settings"
-            android:layout_margin="14dp"
+            android:layout_margin="5dp"
             />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginLeft="14dp"
-            android:layout_marginRight="14dp">
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp">
             <Button
                 android:text="@string/label_cancel"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="90dp"
                 android:id="@+id/btn_cancel_settings"
                 android:layout_weight="1"
-                android:layout_marginEnd="5dp"
+                android:layout_marginEnd="2dp"
+
                 android:layout_marginTop="0dp"/>
 
             <Button
                 android:text="@string/label_retore_defaults"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="90dp"
                 android:id="@+id/btn_restore_settings"
                 android:layout_weight="1"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="2dp"
+                android:textSize="18sp"
                 android:layout_marginTop="0dp"/>
         </LinearLayout>
     </LinearLayout>

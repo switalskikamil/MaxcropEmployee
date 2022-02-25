@@ -5,7 +5,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,6 +15,7 @@ import com.maxcropdata.maxcropemployee.MainActivity;
 import com.maxcropdata.maxcropemployee.R;
 import com.maxcropdata.maxcropemployee.model.account.Account;
 import com.maxcropdata.maxcropemployee.model.report.Report;
+import com.maxcropdata.maxcropemployee.model.report.reportrequest.ReportRequest;
 import com.maxcropdata.maxcropemployee.model.reportform.DateFromOlderThanDateToException;
 import com.maxcropdata.maxcropemployee.model.reportform.ReportForm;
 import com.maxcropdata.maxcropemployee.model.reportform.ReportFormController;
@@ -28,11 +31,13 @@ import com.maxcropdata.maxcropemployee.model.server.response.ServerResponse;
 import com.maxcropdata.maxcropemployee.model.server.response.UexpectedResponseStatusException;
 import com.maxcropdata.maxcropemployee.model.token.TokenController;
 import com.maxcropdata.maxcropemployee.shared.utils.Helper;
+import com.maxcropdata.maxcropemployee.view.arrayadapters.ReportRequestArrayAdapter;
 import com.maxcropdata.maxcropemployee.view.dialogs.AppDatePickerDialog;
 import com.maxcropdata.maxcropemployee.view.mctoast.MCToast;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -50,6 +55,7 @@ public class ShowDataFilterFragment extends Fragment {
     private TextView dateToText;
     private Date dateFrom = new Date();
     private Date dateTo = new Date();
+    private ListView latestReportRequests;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -62,6 +68,7 @@ public class ShowDataFilterFragment extends Fragment {
         final Button cancelBtn = root.findViewById(R.id.btn_cancel_data_filter);
         dateFromText = root.findViewById(R.id.data_filter_datefrom);
         dateToText = root.findViewById(R.id.data_filter_dateto);
+        latestReportRequests = root.findViewById(R.id.latest_requests_list);
 
         dateFromText.setOnClickListener(v -> AppDatePickerDialog.popDialog(
                 activity,
@@ -69,7 +76,7 @@ public class ShowDataFilterFragment extends Fragment {
                 (date) -> {
                     dateFromText.setText(Helper.DATE_FORMAT.format(date));
                     dateFrom = date;
-                })
+                }, false)
         );
 
         dateToText.setOnClickListener(v -> AppDatePickerDialog.popDialog(
@@ -78,8 +85,24 @@ public class ShowDataFilterFragment extends Fragment {
                 (date) -> {
                     dateToText.setText(Helper.DATE_FORMAT.format(date));
                     dateTo = date;
-                })
+                }, false)
         );
+
+
+        ReportRequestArrayAdapter adapter = new ReportRequestArrayAdapter(activity, activity.getLatestReportRequests().getAsArrayList());
+        latestReportRequests.setAdapter(adapter);
+        latestReportRequests.setOnItemClickListener((parent, view, position, id) -> {
+            ReportRequest reportRequest = adapter.getItem(position);
+            if (reportRequest != null) {
+                dateFrom = reportRequest.getDateFrom();
+                dateFromText.setText(Helper.DATE_FORMAT.format(dateFrom));
+
+                dateTo = reportRequest.getDateTo();
+                dateToText.setText(Helper.DATE_FORMAT.format(dateTo));
+
+                verifyReportRequest();
+            }
+        });
 
         cancelBtn.setOnClickListener(v -> {
             activity.loadFragment(MainMenuFragment.getInstance());
@@ -100,6 +123,11 @@ public class ShowDataFilterFragment extends Fragment {
 
         try {
             if (ReportFormController.verify(form)) {
+                //add request to list
+                activity.registerLatestReportRequest(new ReportRequest(form.getDateFrom(), form.getDateTo()));
+
+
+                //request the report
                 requestReportsForDates(
                         form,
                         activity.getUserAccount(),

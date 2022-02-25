@@ -85,7 +85,7 @@ public class RegisterFragment extends Fragment {
                 (date) -> {
                     birthDateText.setText(Helper.DATE_FORMAT.format(date));
                     birthDate = date;
-                }
+                }, true
         ));
 
 

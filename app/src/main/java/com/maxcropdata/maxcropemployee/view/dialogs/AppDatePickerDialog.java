@@ -1,8 +1,8 @@
 package com.maxcropdata.maxcropemployee.view.dialogs;
 
-import android.content.Context;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.LinearLayout;
 
 import com.maxcropdata.maxcropemployee.MainActivity;
 import com.maxcropdata.maxcropemployee.R;
@@ -16,6 +16,7 @@ public class AppDatePickerDialog extends AppDialog {
 
     private static final int LAYOUT_ID = R.layout.dialog_data_picker;
     private Date dateToPickTo;
+    private LinearLayout selectYearlayout;
     private DatePicker datePicker;
     private Button cancelbtn;
     private Button okButton;
@@ -29,6 +30,7 @@ public class AppDatePickerDialog extends AppDialog {
 
         cancelbtn = this.findViewById(R.id.btn_cancel_datepicker);
         okButton = this.findViewById(R.id.btn_ok_datepicker);
+        selectYearlayout = this.findViewById(R.id.datepicker_datepicker_year_layout);
         datePicker = this.findViewById(R.id.datepicker_datepicker);
 
         initDatePicker();
@@ -55,11 +57,27 @@ public class AppDatePickerDialog extends AppDialog {
         Calendar c = Calendar.getInstance();
         c.setTime(this.dateToPickTo);
         datePicker.updateDate(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
+
+        selectYearlayout.setOnClickListener(v -> callYearSelect());
+
     }
 
-    public static void popDialog(MainActivity activity, Date dateToPickTo, OnSelectedListener listener) {
+    private void callYearSelect() {
+        if (datePicker != null) datePicker.getTouchables().get(0).performClick();
+    }
+
+    public static void popDialog(
+            MainActivity activity,
+            Date dateToPickTo,
+            OnSelectedListener listener,
+            boolean callYearSelect) {
         if (dateToPickTo == null) dateToPickTo = new Date();
-        new AppDatePickerDialog(activity, dateToPickTo, listener).show();
+
+        final AppDatePickerDialog dialog = new AppDatePickerDialog(activity, dateToPickTo, listener);
+
+        if (callYearSelect) dialog.callYearSelect();
+
+        dialog.show();
     }
 
     public interface OnSelectedListener {

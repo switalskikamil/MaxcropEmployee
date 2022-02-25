@@ -119,6 +119,26 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_latest_report_requests"
+                android:textSize="14sp"
+                android:layout_marginStart="5dp"
+
+                />
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="240dp"
+                android:id="@+id/latest_requests_list"
+                android:layout_marginStart="20dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_margin="5dp">
             <Button

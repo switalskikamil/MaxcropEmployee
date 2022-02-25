@@ -3,10 +3,27 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/datepicker_datepicker_year_layout">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/label_pick_year"
+            android:textSize="18sp"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary"
+            />
+
+    </LinearLayout>
     <DatePicker
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="3dp"
+        android:layout_gravity="center_horizontal"
         android:id="@+id/datepicker_datepicker"
         />
 

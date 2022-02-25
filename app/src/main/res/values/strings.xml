@@ -100,4 +100,11 @@
     <string name="column_label_price_group">Price group</string>
     <string name="column_label_price_group_min">Minimum</string>
     <string name="column_label_price_group_avg">Average</string>
+    <string name="label_pick_year">Select year</string>
+    <string name="label_issue_apply_to">Applies to record:</string>
+    <string name="label_field">Field:</string>
+    <string name="label_field_value">Field value:</string>
+    <string name="issue_reg_date">Filling date</string>
+    <string name="label_latest_report_requests">Latest requests:</string>
+    <string name="issue_missing_data">No data was found for this day. Click on the date field below to report a bug.</string>
 </resources>

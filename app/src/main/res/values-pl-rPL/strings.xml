@@ -100,4 +100,11 @@
     <string name="price_group_calc_type_7">[R7] za każdą szt. powyżej minimum</string>
     <string name="price_group_calc_type_8">[R8] za każdą szt., jeżeli przekroczy minimum</string>
     <string name="price_group_calc_type_9">[R9] za każdą szt., jeżeli przekroczy średnią</string>
+    <string name="issue_reg_date">Data zgłoszenia</string>
+    <string name="label_field">Pole:</string>
+    <string name="label_field_value">Wartość pola:</string>
+    <string name="label_issue_apply_to">Dotyczy rekordu:</string>
+    <string name="label_pick_year">Wybierz rok</string>
+    <string name="issue_missing_data">Nie znaleziono danych za ten dzień. Kliknij w pole daty poniżej aby zgłosić błąd.</string>
+    <string name="label_latest_report_requests">Ostatnie raporty:</string>
 </resources>

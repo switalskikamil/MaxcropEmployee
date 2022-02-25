@@ -13,6 +13,8 @@ import com.maxcropdata.maxcropemployee.model.issue.Issue;
 import com.maxcropdata.maxcropemployee.model.issue.IssueController;
 import com.maxcropdata.maxcropemployee.model.issue.IssueService;
 import com.maxcropdata.maxcropemployee.model.report.Report;
+import com.maxcropdata.maxcropemployee.model.report.ReportColumnType;
+import com.maxcropdata.maxcropemployee.model.report.ReportRow;
 import com.maxcropdata.maxcropemployee.model.report.ReportRowDetail;
 import com.maxcropdata.maxcropemployee.model.server.ServerController;
 import com.maxcropdata.maxcropemployee.model.server.request.IssueRegistrationServerRequest;
@@ -37,13 +39,15 @@ public class ReportIssueDialog extends AppDialog {
     private TextView fieldValue;
     private static  final int MAX_LENGTH = 500;
     private ReportRowDetail detailField;
+    private ReportRow reportRow;
 
-    public ReportIssueDialog(@NonNull MainActivity activity, ReportRowDetail detailField) {
+    public ReportIssueDialog(@NonNull MainActivity activity, ReportRow reportRow, ReportRowDetail detailField) {
         super(activity, LAYOUT_ID);
 
         this.setCancelable(true);
 
         this.detailField = detailField;
+        this.reportRow = reportRow;
 
         registerControls();
     }
@@ -113,6 +117,14 @@ public class ReportIssueDialog extends AppDialog {
     }
 
     private Issue prepareIssue() {
+        String actionTimeSpan = reportRow.getColumnAsString(ReportColumnType.COL_DAY_START)
+                + "-"
+                + reportRow.getColumnAsString(ReportColumnType.COL_DAY_STOP);
+
+        int priceGroupId = 0;
+        if (reportRow.getColumn(ReportColumnType.COL_PRICE_GROUP_ID) != null)
+            priceGroupId = (int)reportRow.getColumn(ReportColumnType.COL_PRICE_GROUP_ID);
+
         return new Issue.Builder()
                 .reportedDay(detailField.getReportRowDate())
                 .fieldCode(detailField.getFieldId())
@@ -121,6 +133,12 @@ public class ReportIssueDialog extends AppDialog {
                 .idAccount(getActivity().getUserAccount().getAccountId())
                 .issueLocalId(new Date().getTime())
                 .issueRegistrationDate(new Date())
+                .reportRowPaymentForInt((int)reportRow.getColumn(ReportColumnType.COL_PAYMENT_FOR))
+                .priceGroupId(priceGroupId)
+                .productClass(reportRow.getColumnAsString(ReportColumnType.COL_PRODUCT_CLASS))
+                .area(reportRow.getColumnAsString(ReportColumnType.COL_AREA))
+                .workType(reportRow.getColumnAsString(ReportColumnType.COL_WORK_TYPE))
+                .timeSpan(actionTimeSpan)
                 .build();
     }
 

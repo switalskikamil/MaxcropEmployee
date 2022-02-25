@@ -15,20 +15,24 @@ public class IssueRowHolder {
     private TextView issueStatusText;
     private TextView issueReportDateText;
     private TextView issueRegistrationDateText;
-    private ReportActionRowDetailHolder fieldDetailHolder;
-    private LinearLayout dateLayout;
-    private LinearLayout statusLayout;
+    private TextView issueApplyToText;
+    private TextView issueDescriptionText;
+    private TextView issueFieldText;
+    private TextView issueFieldValueText;
+    private LinearLayout backgroundLayout;
     private MainActivity activity;
 
     public IssueRowHolder(View view, MainActivity activity) {
         this.activity = activity;
 
         this.issueStatusText = view.findViewById(R.id.issue_registration_status);
+        this.issueApplyToText = view.findViewById(R.id.issue_apply_to);
+        this.issueDescriptionText = view.findViewById(R.id.issue_description);
         this.issueReportDateText = view.findViewById(R.id.action_date);
+        this.issueFieldText = view.findViewById(R.id.action_field_label);
+        this.issueFieldValueText = view.findViewById(R.id.action_field_value);
         this.issueRegistrationDateText = view.findViewById(R.id.issue_registration_time);
-        this.fieldDetailHolder = new ReportActionRowDetailHolder(view, activity);
-        this.dateLayout = view.findViewById(R.id.action_date_holder);
-        this.statusLayout = view.findViewById(R.id.issue_status_bar);
+        this.backgroundLayout = view.findViewById(R.id.issue_background);
     }
 
     public void populate(Issue issue) {
@@ -41,22 +45,22 @@ public class IssueRowHolder {
 
         this.issueReportDateText.setText(Helper.DATE_FORMAT.format(issue.getReportedDay()));
 
-        this.fieldDetailHolder.populate(new ReportRowDetail(
-                ReportColumnType.getLabel(issue.getFieldCode(), activity),
-                issue.getFieldValue(),
-                issue.getFieldCode()
-                ));
+        this.issueFieldText.setText(ReportColumnType.getLabel(issue.getFieldCode(), activity));
+
+        this.issueFieldValueText.setText(issue.getFieldValue());
+
+        this.issueApplyToText.setText(issue.getApplyToRecordDescription(activity));
+
+        this.issueDescriptionText.setText(issue.getIssueDetails());
     }
 
     private void setStatus(boolean status) {
         if (status) {
             issueStatusText.setText(R.string.label_issue_sent);
-            dateLayout.setBackgroundColor(activity.getColor(R.color.colorPrimary));
-            statusLayout.setBackgroundColor(activity.getColor(R.color.colorPrimary));
+            backgroundLayout.setBackgroundColor(activity.getColor(R.color.colorPrimary));
         } else {
             issueStatusText.setText(R.string.label_issue_unsent);
-            dateLayout.setBackgroundColor(activity.getColor(R.color.colorVioletish));
-            statusLayout.setBackgroundColor(activity.getColor(R.color.colorVioletish));
+            backgroundLayout.setBackgroundColor(activity.getColor(R.color.colorVioletish));
         }
     }
 

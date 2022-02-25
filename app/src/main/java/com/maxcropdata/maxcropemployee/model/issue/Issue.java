@@ -1,5 +1,9 @@
 package com.maxcropdata.maxcropemployee.model.issue;
 
+import com.maxcropdata.maxcropemployee.MainActivity;
+import com.maxcropdata.maxcropemployee.R;
+import com.maxcropdata.maxcropemployee.model.report.ReportActionType;
+
 import java.util.Date;
 import java.util.Objects;
 
@@ -12,6 +16,14 @@ public class Issue {
     private Date reportedDay;
     private long issueLocalId;
     private Date issueRegistrationDate;
+
+    //columns that are here to help identify data record
+    private int reportRowPaymentForInt;
+    private long priceGroupId;
+    private String productClass;
+    private String area;
+    private String workType;
+    private String timeSpan;
 
     public Issue() {
 
@@ -27,6 +39,12 @@ public class Issue {
         this.reportedDay = builder.reportedDay;
         this.issueLocalId = builder.issueLocalId;
         this.issueRegistrationDate = builder.issueRegistrationDate;
+        this.reportRowPaymentForInt = builder.reportRowPaymentForInt;
+        this.priceGroupId = builder.priceGroupId;
+        this.productClass = builder.productClass;
+        this.area = builder.area;
+        this.workType = builder.workType;
+        this.timeSpan = builder.timeSpan;
     }
 
 
@@ -105,6 +123,19 @@ public class Issue {
         return fieldValue;
     }
 
+    public String getApplyToRecordDescription(MainActivity activity) {
+
+        if (reportRowPaymentForInt == ReportActionType.ACTION_PIECEWORK_HARVEST) {
+            if (priceGroupId == 0) return ReportActionType.getLabel(reportRowPaymentForInt, activity)+ ", " + productClass + ", " +area;
+            else return activity.getString(R.string.column_label_price_group) +": " + productClass;
+        } else if (reportRowPaymentForInt == ReportActionType.ACTION_PIECEWORK
+                || reportRowPaymentForInt == ReportActionType.ACTION_TIMEWORK
+                || reportRowPaymentForInt == ReportActionType.ACTION_BREAK) {
+            return  ReportActionType.getLabel(reportRowPaymentForInt, activity) + ", " + workType + ", " +area + ", " + timeSpan;
+        } else return "";
+
+    }
+
     public static class Builder {
         private long issueDbId;
         private String fieldCode;
@@ -114,9 +145,45 @@ public class Issue {
         private long issueLocalId;
         private Date issueRegistrationDate;
         private String fieldValue;
+        private int reportRowPaymentForInt;
+        private long priceGroupId;
+        private String productClass;
+        private String area;
+        private String workType;
+        private String timeSpan;
 
         public Builder() {
 
+        }
+
+        public Builder timeSpan(String timeSpan) {
+            this.timeSpan = timeSpan;
+            return this;
+        }
+
+        public Builder workType(String workType) {
+            this.workType = workType;
+            return this;
+        }
+
+        public Builder area(String area) {
+            this.area = area;
+            return this;
+        }
+
+        public Builder productClass(String productClass) {
+            this.productClass = productClass;
+            return this;
+        }
+
+        public Builder reportRowPaymentForInt(int reportRowPaymentForInt) {
+            this.reportRowPaymentForInt = reportRowPaymentForInt;
+            return this;
+        }
+
+        public Builder priceGroupId(long priceGroupId) {
+            this.priceGroupId = priceGroupId;
+            return this;
         }
 
         public Builder issueRegistrationDate(Date issueRegistrationDate) {
