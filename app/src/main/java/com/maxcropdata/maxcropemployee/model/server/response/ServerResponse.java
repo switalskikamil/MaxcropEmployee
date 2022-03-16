@@ -25,7 +25,8 @@ public abstract class ServerResponse {
             UexpectedResponseStatusException,
             ResponseMalformedException,
             AccountAlreadyExistsException,
-            ForbiddenActionException {
+            ForbiddenActionException,
+            IssueRegistrationBlockedException {
 
         if (getResponseCode() == HttpsURLConnection.HTTP_OK) {
             return true;
@@ -35,6 +36,8 @@ public abstract class ServerResponse {
             throw new ResponseMalformedException("Server could not read the request");
         } else if (getResponseCode() == HttpsURLConnection.HTTP_CONFLICT) {
             throw new AccountAlreadyExistsException("Account for this user already exists");
+        } else if (getResponseCode() == HttpsURLConnection.HTTP_UNAVAILABLE) {
+            throw new IssueRegistrationBlockedException("Issue registration blocked.");
         } else if (getResponseCode() == HttpURLConnection.HTTP_FORBIDDEN) {
             throw new ForbiddenActionException(
                     "This action is not allowed by Your employer",
@@ -50,7 +53,8 @@ public abstract class ServerResponse {
      */
     public abstract void readResponse(MainActivity activity)
             throws RequestUnathorizedException, ResponseMalformedException,
-            UexpectedResponseStatusException, AccountAlreadyExistsException, ForbiddenActionException;
+            UexpectedResponseStatusException, AccountAlreadyExistsException,
+            ForbiddenActionException, IssueRegistrationBlockedException;
 
 
     public String getJsonResponse() {

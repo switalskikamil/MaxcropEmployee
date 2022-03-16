@@ -20,7 +20,7 @@ public class AccountLoginServerResponse extends ServerResponse {
     public void readResponse(MainActivity activity)
             throws RequestUnathorizedException, ResponseMalformedException,
             UexpectedResponseStatusException, AccountAlreadyExistsException,
-            ForbiddenActionException {
+            ForbiddenActionException, IssueRegistrationBlockedException {
 
         if (super.processResponse()) {
             this.account = new Account();

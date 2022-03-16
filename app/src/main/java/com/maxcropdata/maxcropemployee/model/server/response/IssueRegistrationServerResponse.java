@@ -20,7 +20,7 @@ public class IssueRegistrationServerResponse extends ServerResponse {
             RequestUnathorizedException,
             ResponseMalformedException,
             UexpectedResponseStatusException,
-            AccountAlreadyExistsException, ForbiddenActionException {
+            AccountAlreadyExistsException, ForbiddenActionException, IssueRegistrationBlockedException {
         if (super.processResponse()) {
             this.receivedIssueRegistration = new Issue();
 
