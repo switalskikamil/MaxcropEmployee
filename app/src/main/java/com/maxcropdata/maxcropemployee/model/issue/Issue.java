@@ -13,7 +13,7 @@ public class Issue {
     private String fieldValue;
     private String issueDetails;
     private long idAccount;
-    private Date reportedDay;
+    private String reportedDay;
     private long issueLocalId;
     private Date issueRegistrationDate;
 
@@ -99,11 +99,11 @@ public class Issue {
         this.idAccount = idAccount;
     }
 
-    public Date getReportedDay() {
+    public String getReportedDay() {
         return reportedDay;
     }
 
-    public void setReportedDay(Date reportedDay) {
+    public void setReportedDay(String reportedDay) {
         this.reportedDay = reportedDay;
     }
 
@@ -141,7 +141,7 @@ public class Issue {
         private String fieldCode;
         private String issueDetails;
         private long idAccount;
-        private Date reportedDay;
+        private String reportedDay;
         private long issueLocalId;
         private Date issueRegistrationDate;
         private String fieldValue;
@@ -221,7 +221,7 @@ public class Issue {
             return this;
         }
 
-        public Builder reportedDay(Date reportedDay) {
+        public Builder reportedDay(String reportedDay) {
             this.reportedDay = reportedDay;
             return this;
         }

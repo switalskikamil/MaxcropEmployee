@@ -20,14 +20,14 @@ public class IssueControllerTest {
             .fieldCode("GODZ_OD")
             .idAccount(23823)
             .issueDetails("Coś tu jest nie tak jak być powinno!")
-            .reportedDay(new Date(1638891908720L))
+            .reportedDay("2021-12-07")
             .build();
 
     final Issue issueB = new Issue.Builder()
             .fieldCode("WARTOSC_BRUTTO")
             .idAccount(23823)
             .issueDetails("Za niska kwota!")
-            .reportedDay(new Date(1638891908721L))
+            .reportedDay("2021-12-07")
             .build();
 
     @Test

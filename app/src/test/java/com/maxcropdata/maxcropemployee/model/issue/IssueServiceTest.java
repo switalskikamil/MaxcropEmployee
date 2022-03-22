@@ -19,18 +19,31 @@ public class IssueServiceTest {
             .fieldCode("GODZ_OD")
             .idAccount(23823)
             .issueDetails("Coś tu jest nie tak jak być powinno!")
-            .reportedDay(new Date(1638891908720L))
+            .reportedDay("2021-12-07")
+            .fieldValue("20:00")
+            .issueRegistrationDate(new Date(1638891908721L))
+            .priceGroupId(0)
+            .area("")
+            .timeSpan("")
+            .productClass("")
+            .workType("")
             .build();
 
     final Issue issueB = new Issue.Builder()
             .fieldCode("WARTOSC_BRUTTO")
             .idAccount(23823)
             .issueDetails("Za niska kwota!")
-            .reportedDay(new Date(1638891908721L))
+            .reportedDay("2021-12-07")
+            .fieldValue("200")
+            .issueRegistrationDate(new Date(1638891908721L))
+            .priceGroupId(0)
+            .area("")
+            .timeSpan("")
+            .productClass("")
+            .workType("")
             .build();
 
-    final String expectedJson = "[{\"issueDbId\":0,\"fieldCode\":\"GODZ_OD\",\"issueDetails\":\"Coś tu jest nie tak jak być powinno!\",\"idAccount\":23823,\"reportedDay\":1638891908720},{\"issueDbId\":0,\"fieldCode\":\"WARTOSC_BRUTTO\",\"issueDetails\":\"Za niska kwota!\",\"idAccount\":23823,\"reportedDay\":1638891908721}]";
-
+    final String expectedJson = "[{\"issueDbId\":0,\"fieldCode\":\"GODZ_OD\",\"fieldValue\":\"20:00\",\"issueDetails\":\"Coś tu jest nie tak jak być powinno!\",\"idAccount\":23823,\"reportedDay\":\"2021-12-07\",\"issueLocalId\":0,\"issueRegistrationDate\":1638891908721,\"reportRowPaymentForInt\":0,\"priceGroupId\":0,\"productClass\":\"\",\"area\":\"\",\"workType\":\"\",\"timeSpan\":\"\"},{\"issueDbId\":0,\"fieldCode\":\"WARTOSC_BRUTTO\",\"fieldValue\":\"200\",\"issueDetails\":\"Za niska kwota!\",\"idAccount\":23823,\"reportedDay\":\"2021-12-07\",\"issueLocalId\":0,\"issueRegistrationDate\":1638891908721,\"reportRowPaymentForInt\":0,\"priceGroupId\":0,\"productClass\":\"\",\"area\":\"\",\"workType\":\"\",\"timeSpan\":\"\"}]";
 
     @Test
     public void isProducingProperJSONFile() {

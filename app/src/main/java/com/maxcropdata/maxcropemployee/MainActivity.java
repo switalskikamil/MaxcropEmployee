@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity
 
             //load saved latest report requests
             this.latestReportRequests = LatestReportRequestsController.readLatestReportRequestsFromFileSystem(this);
+            Log.d("MCE", "is latestReportRequests a null? " + latestReportRequests==null?"T":"N");
 
 
         } catch (JSONException | InstantiationException | IllegalAccessException e) {

@@ -43,7 +43,7 @@ public class IssueRowHolder {
                 Helper.DATE_TIME_FORMAT.format(issue.getIssueRegistrationDate())
         );
 
-        this.issueReportDateText.setText(Helper.DATE_FORMAT.format(issue.getReportedDay()));
+        this.issueReportDateText.setText(issue.getReportedDay());
 
         this.issueFieldText.setText(ReportColumnType.getLabel(issue.getFieldCode(), activity));
 

@@ -126,7 +126,7 @@ public class ReportIssueDialog extends AppDialog {
             priceGroupId = (int)reportRow.getColumn(ReportColumnType.COL_PRICE_GROUP_ID);
 
         return new Issue.Builder()
-                .reportedDay(detailField.getReportRowDate())
+                .reportedDay(Helper.DATE_FORMAT.format(detailField.getReportRowDate()))
                 .fieldCode(detailField.getFieldId())
                 .fieldValue(detailField.getFieldValue())
                 .issueDetails(issueDetails.getText().toString())

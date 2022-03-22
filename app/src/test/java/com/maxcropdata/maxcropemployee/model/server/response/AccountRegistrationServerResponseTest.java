@@ -42,7 +42,7 @@ public class AccountRegistrationServerResponseTest {
             ResponseMalformedException,
             UexpectedResponseStatusException,
             AccountAlreadyExistsException,
-            ForbiddenActionException {
+            ForbiddenActionException, IssueRegistrationBlockedException {
         // given
         underTest = new AccountRegistrationServerResponse(HttpURLConnection.HTTP_UNAUTHORIZED, testResponse);
         MainActivity activity = new MainActivity();
@@ -59,7 +59,7 @@ public class AccountRegistrationServerResponseTest {
             throws UexpectedResponseStatusException,
             ResponseMalformedException,
             RequestUnathorizedException,
-            AccountAlreadyExistsException, ForbiddenActionException {
+            AccountAlreadyExistsException, ForbiddenActionException, IssueRegistrationBlockedException {
         // given
         underTest = new AccountRegistrationServerResponse(HttpURLConnection.HTTP_BAD_GATEWAY, testResponse);
         MainActivity activity = new MainActivity();

@@ -31,9 +31,12 @@ public class LatestReportRequestsController {
                 LatestReportRequestsService.toJSON(latestReportRequests));
     }
 
-    public static LatestReportRequests readLatestReportRequestsFromFileSystem(Context context)
-            throws JSONException, IllegalAccessException {
-        return readLatestReportRequestsFromFileSystem(context, FILE_NAME);
+    public static LatestReportRequests readLatestReportRequestsFromFileSystem(Context context)  {
+        try {
+            return readLatestReportRequestsFromFileSystem(context, FILE_NAME);
+        } catch (Exception e) {
+            return new LatestReportRequests();
+        }
     }
 
     public static LatestReportRequests readLatestReportRequestsFromFileSystem(
