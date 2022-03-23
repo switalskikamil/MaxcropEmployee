@@ -108,4 +108,5 @@
     <string name="label_latest_report_requests">Latest requests:</string>
     <string name="issue_missing_data">No data was found for this day. Click on the date field below to report a bug.</string>
     <string name="error_issue_registration_blocked">Issue registration has been blocked.</string>
+    <string name="error_limit_exceeded_exception">Daily limit exceeded.</string>
 </resources>

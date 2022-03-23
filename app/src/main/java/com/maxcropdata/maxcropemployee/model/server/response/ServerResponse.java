@@ -26,7 +26,8 @@ public abstract class ServerResponse {
             ResponseMalformedException,
             AccountAlreadyExistsException,
             ForbiddenActionException,
-            IssueRegistrationBlockedException {
+            IssueRegistrationBlockedException,
+            LimitExceededException {
 
         if (getResponseCode() == HttpsURLConnection.HTTP_OK) {
             return true;
@@ -41,8 +42,10 @@ public abstract class ServerResponse {
         } else if (getResponseCode() == HttpURLConnection.HTTP_FORBIDDEN) {
             throw new ForbiddenActionException(
                     "This action is not allowed by Your employer",
-                    this instanceof  AccountRegistrationServerResponse
+                    this instanceof AccountRegistrationServerResponse
             );
+        } else if (getResponseCode() == 799) {
+            throw new LimitExceededException();
         } else {
             throw new UexpectedResponseStatusException("Unexpected response status code: " + getResponseCode(), getResponseCode());
         }
@@ -54,7 +57,7 @@ public abstract class ServerResponse {
     public abstract void readResponse(MainActivity activity)
             throws RequestUnathorizedException, ResponseMalformedException,
             UexpectedResponseStatusException, AccountAlreadyExistsException,
-            ForbiddenActionException, IssueRegistrationBlockedException;
+            ForbiddenActionException, IssueRegistrationBlockedException, LimitExceededException;
 
 
     public String getJsonResponse() {

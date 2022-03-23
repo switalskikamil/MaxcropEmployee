@@ -23,6 +23,7 @@ import com.maxcropdata.maxcropemployee.model.server.response.AccountRegistration
 import com.maxcropdata.maxcropemployee.model.server.response.ForbiddenActionException;
 import com.maxcropdata.maxcropemployee.model.server.response.IssueRegistrationBlockedException;
 import com.maxcropdata.maxcropemployee.model.server.response.IssueRegistrationServerResponse;
+import com.maxcropdata.maxcropemployee.model.server.response.LimitExceededException;
 import com.maxcropdata.maxcropemployee.model.server.response.ReportsForDatesServerResponse;
 import com.maxcropdata.maxcropemployee.model.server.response.RequestUnathorizedException;
 import com.maxcropdata.maxcropemployee.model.server.response.ResponseMalformedException;
@@ -205,6 +206,8 @@ public class MainActivity extends AppCompatActivity
                 MCToast.displayText(this, Toast.LENGTH_LONG, getString(R.string.error_response_unknown) + e.getMessage());
         } catch (IllegalAccessException e) {
             MCToast.displayText(this, Toast.LENGTH_LONG, getString(R.string.error_illegal_access_exception));
+        } catch (LimitExceededException le) {
+            MCToast.displayText(this, Toast.LENGTH_LONG, getString(R.string.error_limit_exceeded_exception));
         }
     }
 
@@ -212,7 +215,11 @@ public class MainActivity extends AppCompatActivity
             throws RequestUnathorizedException,
             ResponseMalformedException,
             UexpectedResponseStatusException,
-            AccountAlreadyExistsException, IllegalAccessException, ForbiddenActionException, IssueRegistrationBlockedException {
+            AccountAlreadyExistsException,
+            IllegalAccessException,
+            ForbiddenActionException,
+            IssueRegistrationBlockedException,
+            LimitExceededException {
 
         response.readResponse(this);
 
@@ -226,7 +233,10 @@ public class MainActivity extends AppCompatActivity
             ResponseMalformedException,
             UexpectedResponseStatusException,
             AccountAlreadyExistsException,
-            IllegalAccessException, ForbiddenActionException, IssueRegistrationBlockedException {
+            IllegalAccessException,
+            ForbiddenActionException,
+            IssueRegistrationBlockedException,
+            LimitExceededException {
         response.readResponse(this);
 
         AccountController.mergeWithLoginResponse(userAccount, response);
@@ -240,7 +250,10 @@ public class MainActivity extends AppCompatActivity
             throws UexpectedResponseStatusException,
             ResponseMalformedException,
             RequestUnathorizedException,
-            AccountAlreadyExistsException, ForbiddenActionException, IssueRegistrationBlockedException {
+            AccountAlreadyExistsException,
+            ForbiddenActionException,
+            IssueRegistrationBlockedException,
+            LimitExceededException {
         response.readResponse(this);
 
         Report report = response.getReport();
@@ -256,7 +269,10 @@ public class MainActivity extends AppCompatActivity
             ResponseMalformedException,
             RequestUnathorizedException,
             AccountAlreadyExistsException,
-            IllegalAccessException, ForbiddenActionException, IssueRegistrationBlockedException {
+            IllegalAccessException,
+            ForbiddenActionException,
+            IssueRegistrationBlockedException,
+            LimitExceededException {
         response.readResponse(this);
 
         if (userAccount == null) userAccount = new Account();
